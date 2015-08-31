@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:kiwisapling" },
+		"age=0": { "model": "cookingplus:kiwisapling" },
+		"age=1": { "model": "cookingplus:kiwisapling" },
+		"age=2": { "model": "cookingplus:kiwisapling" },
+		"age=3": { "model": "cookingplus:kiwisapling" },
+		"age=4": { "model": "cookingplus:kiwisapling" },
+		"age=5": { "model": "cookingplus:kiwisapling" },
+		"age=6": { "model": "cookingplus:kiwisapling" },
+		"age=7": { "model": "cookingplus:kiwisapling" },
+		"inventory": { "model": "cookingplus:kiwisapling" }
+	}
+}

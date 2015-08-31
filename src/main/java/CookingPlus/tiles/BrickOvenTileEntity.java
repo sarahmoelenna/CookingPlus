@@ -413,6 +413,9 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 		 else if(myStack.getItem().equals(CookingPlusMain.dough)){
 			 return new ItemStack(CookingPlusMain.breadtin);
 		 }
+		 else if(myStack.getItem().equals(CookingPlusMain.bananadough)){
+			 return new ItemStack(CookingPlusMain.breadtin);
+		 }
 		 else if(myStack.getItem().equals(CookingPlusMain.cookiebatter)){
 			 return new ItemStack(Items.bowl);
 		 }else if(myStack.getItem().equals(CookingPlusMain.pancakemix)){

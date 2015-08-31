@@ -21,14 +21,10 @@ public class CookingPlusCoralReefBiome extends BiomeGenBase {
         super(i);
         
         BiomeGenBase.Height CoralReefHeight = new BiomeGenBase.Height(-1.2F, 0.1F);
-        
         setBiomeName("Coral Reef");
         topBlock = CookingPlusMain.blockCoralRock.getDefaultState();
         fillerBlock = CookingPlusMain.blockCoralRock.getDefaultState();
-        enableRain = true;
         this.setHeight(CoralReefHeight);
-        this.theBiomeDecorator.treesPerChunk = 0;
-        this.theBiomeDecorator.gravelAsSandGen = null;
         this.setColor(113);
         
     }

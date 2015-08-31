@@ -106,6 +106,7 @@ import CookingPlus.blocks.leaves.CookingPlusBambooLeaves;
 import CookingPlus.blocks.leaves.CookingPlusBananaLeaves;
 import CookingPlus.blocks.leaves.CookingPlusCherryLeaves;
 import CookingPlus.blocks.leaves.CookingPlusCoconutLeaves;
+import CookingPlus.blocks.leaves.CookingPlusEasyLeaf;
 import CookingPlus.blocks.leaves.CookingPlusLemonLeaves;
 import CookingPlus.blocks.leaves.CookingPlusLimeLeaves;
 import CookingPlus.blocks.leaves.CookingPlusOrangeLeaves;
@@ -116,6 +117,7 @@ import CookingPlus.blocks.saplings.CookingPlusBambooSprout;
 import CookingPlus.blocks.saplings.CookingPlusBananaSapling;
 import CookingPlus.blocks.saplings.CookingPlusCherrySapling;
 import CookingPlus.blocks.saplings.CookingPlusCoconutSapling;
+import CookingPlus.blocks.saplings.CookingPlusEasySapling;
 import CookingPlus.blocks.saplings.CookingPlusLemonSapling;
 import CookingPlus.blocks.saplings.CookingPlusLimeSapling;
 import CookingPlus.blocks.saplings.CookingPlusOrangeSapling;
@@ -208,6 +210,7 @@ import CookingPlus.items.Drinks.CookingPlusBlueBerryJuice;
 import CookingPlus.items.Drinks.CookingPlusBuchuTea;
 import CookingPlus.items.Drinks.CookingPlusChamomileTea;
 import CookingPlus.items.Drinks.CookingPlusCider;
+import CookingPlus.items.Drinks.CookingPlusEasyJuice;
 import CookingPlus.items.Drinks.CookingPlusGooseBerryJuice;
 import CookingPlus.items.Drinks.CookingPlusGrapeJuice;
 import CookingPlus.items.Drinks.CookingPlusLemonJuice;
@@ -229,6 +232,7 @@ import CookingPlus.items.Harvest.CookingPlusChamomileFlower;
 import CookingPlus.items.Harvest.CookingPlusCherry;
 import CookingPlus.items.Harvest.CookingPlusChilli;
 import CookingPlus.items.Harvest.CookingPlusCottonBud;
+import CookingPlus.items.Harvest.CookingPlusEasyHarvest;
 import CookingPlus.items.Harvest.CookingPlusGooseBerry;
 import CookingPlus.items.Harvest.CookingPlusGrape;
 import CookingPlus.items.Harvest.CookingPlusHop;
@@ -632,6 +636,10 @@ public class CookingPlusMain {
     public final static Block blockWhiteCoralBlock = new CookingPlusWhiteCoralBlock();
     public final static Block blockOrangeCoralBlock = new CookingPlusOrangeCoralBlock();
     public final static Block blockIceBox = new CookingPlusIceBoxBlock();
+    public final static Block blockMangoLeaf = new CookingPlusEasyLeaf("mangoleaves");
+    public final static Block blockKiwiLeaf = new CookingPlusEasyLeaf("kiwileaves");
+    public final static Block blockMangoSapling = new CookingPlusEasySapling("mangosapling");
+    public final static Block blockKiwiSapling = new CookingPlusEasySapling("kiwisapling");
     
     public final static Item zombiejerky = new CookingPlusZombieJerky();
     public final static Item saucepanguide = new CookingPlusPotteryGuideSaucepan();
@@ -666,6 +674,13 @@ public class CookingPlusMain {
     public final static Item giftofthesoil = new CookingPlusSingleStackItem("giftofthesoil");
     public final static Item giftofthesun = new CookingPlusSingleStackItem("giftofthesun");
     public final static Item giftofthesky = new CookingPlusSingleStackItem("giftofthesky");
+    public final static Item mango = new CookingPlusEasyHarvest("mango");
+    public final static Item kiwi = new CookingPlusEasyHarvest("kiwi");
+    public final static Item mangojuice = new CookingPlusEasyJuice("mangojuice");
+    public final static Item kiwijuice = new CookingPlusEasyJuice("kiwijuice");
+    public final static Item bananaslice = new CookingPlusEasyHarvest("bananaslice");
+    public final static Item bananabread = new CookingPlusEasyHarvest("bananabread");
+    public final static Item bananadough = new CookingPlusSingleStackItem("bananadough");
     
     //1.9 stuff
     public final static Block blockBeetrootCrop = new CookingPlusBeetrootPlant();
@@ -721,28 +736,7 @@ public class CookingPlusMain {
         coralBiome = new CookingPlusCoralReefBiome(CookingPlusConfig.CoralReefID);
         tropicalBiome = new CookingPlusTropicalBiome(CookingPlusConfig.TropicalID);
         deepreefbiome = new CookingPlusDeepReefBiome(CookingPlusConfig.DeepReefID);
-        
-        //biomes
-      	BiomeDictionary.registerBiomeType(orchardBiome, Type.FOREST, Type.LUSH);
-      	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(orchardBiome,CookingPlusConfig.OrchardSpawnWeight));
-      	     	
-      	BiomeDictionary.registerBiomeType(bambooBiome, Type.FOREST, Type.LUSH);
-      	BiomeManager.addSpawnBiome(bambooBiome);
-      	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(bambooBiome,CookingPlusConfig.BambooGroveSpawnWeight));
-      	
-      	BiomeDictionary.registerBiomeType(tropicalBiome, Type.HOT, Type.DRY);
-      	BiomeManager.addSpawnBiome(tropicalBiome);
-      	BiomeManager.addBiome(BiomeType.DESERT, new BiomeEntry(tropicalBiome,250));
-      	
-      	BiomeDictionary.registerBiomeType(kelpBiome, Type.OCEAN);
-      	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(kelpBiome,CookingPlusConfig.KelpForestSpawnWeight));
-      	
-      	BiomeDictionary.registerBiomeType(coralBiome, Type.OCEAN);
-      	BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(coralBiome,CookingPlusConfig.CoralReefSpawnWeight));
-      	
-      	BiomeDictionary.registerBiomeType(deepreefbiome, Type.OCEAN);
-      	BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(deepreefbiome, 250));
-      	
+
       	GameRegistry.registerBlock(blockGrapeCrop, null, "grapecrop");
       	GameRegistry.registerBlock(blockHopCrop, null, "hopcrop");
       	GameRegistry.registerBlock(blockVanillaCrop, null, "vanillacrop");
@@ -780,6 +774,29 @@ public class CookingPlusMain {
 	public void init(FMLInitializationEvent e) {
 		System.out.println("Cooking Plus Intialised");
 		
+		//biomes
+      	BiomeDictionary.registerBiomeType(orchardBiome, Type.FOREST, Type.LUSH);
+      	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(orchardBiome,CookingPlusConfig.OrchardSpawnWeight));
+      	     	
+      	BiomeDictionary.registerBiomeType(bambooBiome, Type.FOREST, Type.LUSH);
+      	BiomeManager.addSpawnBiome(bambooBiome);
+      	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(bambooBiome,CookingPlusConfig.BambooGroveSpawnWeight));
+      	
+      	BiomeDictionary.registerBiomeType(tropicalBiome, Type.HOT, Type.DRY);
+      	BiomeManager.addSpawnBiome(tropicalBiome);
+      	BiomeManager.addBiome(BiomeType.DESERT, new BiomeEntry(tropicalBiome,CookingPlusConfig.TropicalSpawnWeight));
+      	
+      	BiomeDictionary.registerBiomeType(kelpBiome, Type.WET);
+      	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(kelpBiome,CookingPlusConfig.KelpForestSpawnWeight));
+      	
+      	BiomeDictionary.registerBiomeType(coralBiome, Type.WET);
+      	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(coralBiome,CookingPlusConfig.CoralReefSpawnWeight));
+      	
+      	BiomeDictionary.registerBiomeType(deepreefbiome, Type.WET);
+      	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(deepreefbiome, CookingPlusConfig.DeepReefSpawnWeight));
+		
+		AddExtraBlockData();
+		
 		if(CookingPlusConfig.vanillarecipes == true){
 			removeCraftingRecipe(Items.bread);
 			removeCraftingRecipe(Items.cake);
@@ -810,12 +827,14 @@ public class CookingPlusMain {
 		GameRegistry.addShapelessRecipe(new ItemStack(rawcrab), new Object[] {new ItemStack(shelledcrab)});
 		GameRegistry.addShapelessRecipe(new ItemStack(rawlobster), new Object[] {new ItemStack(shelledlobster)});
 		GameRegistry.addShapelessRecipe(new ItemStack(Item.getItemFromBlock(blockPalmPlanks), 4), new Object[] {new ItemStack(Item.getItemFromBlock(blockPalmLog))});
+		GameRegistry.addShapelessRecipe(new ItemStack(bananadough), new Object[] {new ItemStack(breadtin), new ItemStack(Items.egg), new ItemStack(bananaslice), new ItemStack(flour), new ItemStack(Items.sugar), new ItemStack(butternugget)});
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(vanillaicecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(vanillaessence), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(minticecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(mintessence), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(strawberryicecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(strawberryjuice), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(chocolateicecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(chocolate), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(lemonicecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(lemonjuice), new ItemStack(Items.sugar)});
+		GameRegistry.addShapelessRecipe(new ItemStack(bananaslice, 3), new Object[] {new ItemStack(knife), new ItemStack(banana)});
 		
 		
 		//juices
@@ -907,6 +926,7 @@ public class CookingPlusMain {
 		GameRegistry.addRecipe(new ItemStack(blockBasaltSmooth, 4), new Object[] {"##", "##", '#', new ItemStack(Item.getItemFromBlock(blockBasalt))});
 		GameRegistry.addRecipe(new ItemStack(unfiredbreadtinmold), new Object[] {"#~#", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(breadtinguide)});
 		GameRegistry.addRecipe(new ItemStack(unfiredcaketinmold), new Object[] {"#~#", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(caketinguide)});
+		GameRegistry.addRecipe(new ItemStack(blockIceBox), new Object[] {"~~~", "~#~", "~~~", '#', new ItemStack(Item.getItemFromBlock(Blocks.chest)), '~', new ItemStack(Item.getItemFromBlock(Blocks.snow))});
 		
 		
 		//oven recipes
@@ -925,6 +945,8 @@ public class CookingPlusMain {
 		CookingPlusOvenRecipes.instance().addOvenRecipe(new ItemStack(rawcrab), new ItemStack(cookedcrab, 1), 0.7f);
 		CookingPlusOvenRecipes.instance().addOvenRecipe(new ItemStack(rawlobster), new ItemStack(cookedlobster, 1), 0.7f);
 		CookingPlusOvenRecipes.instance().addOvenRecipe(new ItemStack(rawoyster), new ItemStack(cookedoyster, 1), 0.7f);
+		CookingPlusOvenRecipes.instance().addOvenRecipe(new ItemStack(bananadough), new ItemStack(bananabread), 0.7f);
+		
 
 		//frying pan recipe
 		CookingPlusFryingPanRecipes.instance().addFryingPanRecipe(new ItemStack(pancakemix), new ItemStack(pancake), 0.7f);
@@ -1575,6 +1597,13 @@ public class CookingPlusMain {
     	Additem(event, caketinmold);
     	Additem(event, unfiredbreadtinmold);
     	Additem(event, unfiredcaketinmold);
+    	Additem(event, kiwi);
+    	Additem(event, mango);
+    	Additem(event, kiwijuice);
+    	Additem(event, mangojuice);
+    	Additem(event, bananaslice);
+    	Additem(event, bananadough);
+    	Additem(event, bananabread);
     	
     	Additem(event, mysteriousorb);
     	Additem(event, giftofthesea);
@@ -1605,6 +1634,10 @@ public class CookingPlusMain {
     	Addblock(event, blockWhiteCoralBlock);
     	Addblock(event, blockPalmPlanks);
     	Addblock(event, blockIceBox);
+    	Addblock(event, blockMangoLeaf);
+    	Addblock(event, blockKiwiLeaf);
+    	Addblock(event, blockMangoSapling);
+    	Addblock(event, blockKiwiSapling);
     	
     }
 
@@ -1690,5 +1723,13 @@ public class CookingPlusMain {
     	
     	CookingPlusLootHelper.instance().AddPotteryGuide(caketinguide, true);
     	CookingPlusLootHelper.instance().AddPotteryGuide(largecuptrayguide, true);
+    }
+
+    private void AddExtraBlockData(){
+    	((CookingPlusEasyLeaf)blockMangoLeaf).SetDrops(blockMangoLeaf, blockMangoSapling, mango);
+    	((CookingPlusEasyLeaf)blockKiwiLeaf).SetDrops(blockKiwiLeaf, blockKiwiSapling, kiwi);
+    	
+    	((CookingPlusEasySapling)blockMangoSapling).SetBlocks(blockMangoLeaf, blockMangoSapling, Blocks.log);
+    	((CookingPlusEasySapling)blockKiwiSapling).SetBlocks(blockKiwiLeaf, blockKiwiSapling, Blocks.log);
     }
 }

@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:mangosapling" },
+		"age=0": { "model": "cookingplus:mangosapling" },
+		"age=1": { "model": "cookingplus:mangosapling" },
+		"age=2": { "model": "cookingplus:mangosapling" },
+		"age=3": { "model": "cookingplus:mangosapling" },
+		"age=4": { "model": "cookingplus:mangosapling" },
+		"age=5": { "model": "cookingplus:mangosapling" },
+		"age=6": { "model": "cookingplus:mangosapling" },
+		"age=7": { "model": "cookingplus:mangosapling" },
+		"inventory": { "model": "cookingplus:mangosapling" }
+	}
+}

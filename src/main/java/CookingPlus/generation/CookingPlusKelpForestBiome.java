@@ -16,9 +16,7 @@ public class CookingPlusKelpForestBiome extends BiomeGenOcean {
         setBiomeName("Kelp Forest");
         topBlock = Blocks.sand.getDefaultState();
         fillerBlock = Blocks.sand.getDefaultState();
-        enableRain = true;
-        this.setHeight(height_ShallowWaters);
-        this.theBiomeDecorator.treesPerChunk = 0;
+        this.setHeight(height_Oceans);
         this.setColor(113);
     }
    

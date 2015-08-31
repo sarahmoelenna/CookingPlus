@@ -17,8 +17,7 @@ public class CookingPlusBambooBiome extends BiomeGenBase {
         fillerBlock = Blocks.dirt.getDefaultState();
         enableRain = true;
         this.setHeight(height_MidHills);
-        temperature = 0.5f;
-        rainfall = 0.5f;
+        this.setTemperatureRainfall(0.6F, 0.6F);
         this.theBiomeDecorator.treesPerChunk = 20;
         this.setColor(2250013);
     }

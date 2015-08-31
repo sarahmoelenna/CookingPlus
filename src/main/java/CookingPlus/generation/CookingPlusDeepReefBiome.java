@@ -20,11 +20,8 @@ public class CookingPlusDeepReefBiome extends BiomeGenBase {
     public CookingPlusDeepReefBiome(int i) {
         super(i);
         setBiomeName("Deep Reef");
-        enableRain = true;
         BiomeGenBase.Height height_oceanfloor = new BiomeGenBase.Height(-1.97F, 0.01F);
         this.setHeight(height_oceanfloor);
-        this.theBiomeDecorator.treesPerChunk = 0;
-        this.theBiomeDecorator.gravelAsSandGen = null;
         this.setColor(113);
         
     }

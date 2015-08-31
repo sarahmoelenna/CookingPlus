@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:kiwileaves" },
+		"check_decay=false,decayable=false": { "model": "cookingplus:kiwileaves" },
+		"check_decay=true,decayable=false": { "model": "cookingplus:kiwileaves" },
+		"check_decay=true,decayable=true": { "model": "cookingplus:kiwileaves" },
+		"check_decay=false,decayable=true": { "model": "cookingplus:kiwileaves" }
+	}
+}
