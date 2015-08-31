@@ -1,0 +1,21 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:bluecoral" },
+		"level=0": { "model": "cookingplus:bluecoral" },
+		"level=1": { "model": "cookingplus:bluecoral" },
+		"level=2": { "model": "cookingplus:bluecoral" },
+		"level=3": { "model": "cookingplus:bluecoral" },
+		"level=4": { "model": "cookingplus:bluecoral" },
+		"level=5": { "model": "cookingplus:bluecoral" },
+		"level=6": { "model": "cookingplus:bluecoral" },
+		"level=7": { "model": "cookingplus:bluecoral" },
+		"level=8": { "model": "cookingplus:bluecoral" },
+		"level=9": { "model": "cookingplus:bluecoral" },
+		"level=10": { "model": "cookingplus:bluecoral" },
+		"level=11": { "model": "cookingplus:bluecoral" },
+		"level=12": { "model": "cookingplus:bluecoral" },
+		"level=13": { "model": "cookingplus:bluecoral" },
+		"level=14": { "model": "cookingplus:bluecoral" },
+		"level=15": { "model": "cookingplus:bluecoral" }
+	}
+}

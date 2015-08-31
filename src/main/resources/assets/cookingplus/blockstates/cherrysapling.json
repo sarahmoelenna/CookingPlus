@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:cherrysapling" },
+		"age=0": { "model": "cookingplus:cherrysapling" },
+		"age=1": { "model": "cookingplus:cherrysapling" },
+		"age=2": { "model": "cookingplus:cherrysapling" },
+		"age=3": { "model": "cookingplus:cherrysapling" },
+		"age=4": { "model": "cookingplus:cherrysapling" },
+		"age=5": { "model": "cookingplus:cherrysapling" },
+		"age=6": { "model": "cookingplus:cherrysapling" },
+		"age=7": { "model": "cookingplus:cherrysapling" },
+		"inventory": { "model": "cookingplus:cherrysapling" }
+	}
+}

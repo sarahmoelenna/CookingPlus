@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:cottoncrop" },
+		"age=0": { "model": "cookingplus:cottoncrop" },
+		"age=1": { "model": "cookingplus:cottoncrop" },
+		"age=2": { "model": "cookingplus:cottoncrop_1" },
+		"age=3": { "model": "cookingplus:cottoncrop_1" },
+		"age=4": { "model": "cookingplus:cottoncrop_2" },
+		"age=5": { "model": "cookingplus:cottoncrop_2" },
+		"age=6": { "model": "cookingplus:cottoncrop_2" },
+		"age=7": { "model": "cookingplus:cottoncrop_3" }
+	}
+}

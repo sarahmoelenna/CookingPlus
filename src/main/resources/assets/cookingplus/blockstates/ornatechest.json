@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:ornatechest" },
+		"facing=west": { "model": "cookingplus:ornatechest" },
+		"facing=north": { "model": "cookingplus:ornatechest" },
+		"facing=south": { "model": "cookingplus:ornatechest" },
+		"facing=east": { "model": "cookingplus:ornatechest" },
+		"inventory": { "model": "cookingplus:ornatechest" }
+	}
+}

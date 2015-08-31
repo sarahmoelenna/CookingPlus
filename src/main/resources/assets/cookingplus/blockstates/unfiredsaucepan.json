@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:unfiredsaucepan" },
+		"facing=west": { "model": "cookingplus:unfiredsaucepan" },
+		"facing=north": { "model": "cookingplus:unfiredsaucepan" },
+		"facing=south": { "model": "cookingplus:unfiredsaucepan" },
+		"facing=east": { "model": "cookingplus:unfiredsaucepan" },
+		"inventory": { "model": "cookingplus:unfiredsaucepan" }
+	}
+}

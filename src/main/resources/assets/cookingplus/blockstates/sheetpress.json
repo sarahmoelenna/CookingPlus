@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:sheetpress" },
+		"facing=west": { "model": "cookingplus:sheetpress" },
+		"facing=north": { "model": "cookingplus:sheetpress" },
+		"facing=south": { "model": "cookingplus:sheetpress" },
+		"facing=east": { "model": "cookingplus:sheetpress" },
+		"inventory": { "model": "cookingplus:sheetpress" }
+	}
+}

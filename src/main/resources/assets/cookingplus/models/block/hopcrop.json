@@ -1,0 +1,6 @@
+{
+	"parent": "block/builtin/mymodel",
+	"textures": {
+		"all": "cookingplus:blocks/bushleaves"
+	}
+}

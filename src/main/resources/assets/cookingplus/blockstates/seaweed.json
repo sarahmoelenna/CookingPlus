@@ -1,0 +1,21 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:seaweed" },
+		"level=0": { "model": "cookingplus:seaweed" },
+		"level=1": { "model": "cookingplus:seaweed" },
+		"level=2": { "model": "cookingplus:seaweed" },
+		"level=3": { "model": "cookingplus:seaweed" },
+		"level=4": { "model": "cookingplus:seaweed" },
+		"level=5": { "model": "cookingplus:seaweed" },
+		"level=6": { "model": "cookingplus:seaweed" },
+		"level=7": { "model": "cookingplus:seaweed" },
+		"level=8": { "model": "cookingplus:seaweed" },
+		"level=9": { "model": "cookingplus:seaweed" },
+		"level=10": { "model": "cookingplus:seaweed" },
+		"level=11": { "model": "cookingplus:seaweed" },
+		"level=12": { "model": "cookingplus:seaweed" },
+		"level=13": { "model": "cookingplus:seaweed" },
+		"level=14": { "model": "cookingplus:seaweed" },
+		"level=15": { "model": "cookingplus:seaweed" }
+	}
+}

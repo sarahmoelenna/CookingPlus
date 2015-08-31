@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:palmleaves" },
+		"check_decay=false,decayable=false": { "model": "cookingplus:palmleaves" },
+		"check_decay=true,decayable=false": { "model": "cookingplus:palmleaves" },
+		"check_decay=true,decayable=true": { "model": "cookingplus:palmleaves" },
+		"check_decay=false,decayable=true": { "model": "cookingplus:palmleaves" },
+		"inventory": { "model": "cookingplus:palmleaves" }
+	}
+}

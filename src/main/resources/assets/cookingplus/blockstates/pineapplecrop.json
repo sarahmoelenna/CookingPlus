@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:pineapplecrop" },
+		"age=0": { "model": "cookingplus:pineapplecrop" },
+		"age=1": { "model": "cookingplus:pineapplecrop" },
+		"age=2": { "model": "cookingplus:pineapplecrop_1" },
+		"age=3": { "model": "cookingplus:pineapplecrop_1" },
+		"age=4": { "model": "cookingplus:pineapplecrop_2" },
+		"age=5": { "model": "cookingplus:pineapplecrop_2" },
+		"age=6": { "model": "cookingplus:pineapplecrop_2" },
+		"age=7": { "model": "cookingplus:pineapplecrop_3" }
+	}
+}

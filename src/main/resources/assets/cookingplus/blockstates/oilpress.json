@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:oilpress" },
+		"inventory": { "model": "cookingplus:oilpress" }
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:fermenter" },
+		"facing=west": { "model": "cookingplus:fermenter" },
+		"facing=north": { "model": "cookingplus:fermenter" },
+		"facing=south": { "model": "cookingplus:fermenter" },
+		"facing=east": { "model": "cookingplus:fermenter" },
+		"inventory": { "model": "cookingplus:fermenter" }
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:unfiredplate" },
+		"facing=west": { "model": "cookingplus:unfiredplate" },
+		"facing=north": { "model": "cookingplus:unfiredplate" },
+		"facing=south": { "model": "cookingplus:unfiredplate" },
+		"facing=east": { "model": "cookingplus:unfiredplate" },
+		"inventory": { "model": "cookingplus:unfiredplate" }
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:icebox" },
+		"facing=west": { "model": "cookingplus:icebox" },
+		"facing=north": { "model": "cookingplus:icebox" },
+		"facing=south": { "model": "cookingplus:icebox" },
+		"facing=east": { "model": "cookingplus:icebox" },
+		"inventory": { "model": "cookingplus:icebox" }
+	}
+}

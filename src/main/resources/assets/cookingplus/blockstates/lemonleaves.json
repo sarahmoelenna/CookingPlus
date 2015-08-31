@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:lemonleaves" },
+		"check_decay=false,decayable=false": { "model": "cookingplus:lemonleaves" },
+		"check_decay=true,decayable=false": { "model": "cookingplus:lemonleaves" },
+		"check_decay=true,decayable=true": { "model": "cookingplus:lemonleaves" },
+		"check_decay=false,decayable=true": { "model": "cookingplus:lemonleaves" }
+	}
+}

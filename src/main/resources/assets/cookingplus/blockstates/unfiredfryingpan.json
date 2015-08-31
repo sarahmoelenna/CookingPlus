@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:unfiredfryingpan" },
+		"facing=west": { "model": "cookingplus:unfiredfryingpan" },
+		"facing=north": { "model": "cookingplus:unfiredfryingpan" },
+		"facing=south": { "model": "cookingplus:unfiredfryingpan" },
+		"facing=east": { "model": "cookingplus:unfiredfryingpan" },
+		"inventory": { "model": "cookingplus:unfiredfryingpan" }
+	}
+}

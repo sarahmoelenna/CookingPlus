@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:bananasapling" },
+		"age=0": { "model": "cookingplus:bananasapling" },
+		"age=1": { "model": "cookingplus:bananasapling" },
+		"age=2": { "model": "cookingplus:bananasapling" },
+		"age=3": { "model": "cookingplus:bananasapling" },
+		"age=4": { "model": "cookingplus:bananasapling" },
+		"age=5": { "model": "cookingplus:bananasapling" },
+		"age=6": { "model": "cookingplus:bananasapling" },
+		"age=7": { "model": "cookingplus:bananasapling" },
+		"inventory": { "model": "cookingplus:bananasapling" }
+	}
+}

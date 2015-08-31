@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:heater" },
+		"inventory": { "model": "cookingplus:heater" }
+	}
+}

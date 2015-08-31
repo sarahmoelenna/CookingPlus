@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:beetrootcrop" },
+		"age=0": { "model": "cookingplus:beetrootcrop" },
+		"age=1": { "model": "cookingplus:beetrootcrop" },
+		"age=2": { "model": "cookingplus:beetrootcrop_1" },
+		"age=3": { "model": "cookingplus:beetrootcrop_1" },
+		"age=4": { "model": "cookingplus:beetrootcrop_2" },
+		"age=5": { "model": "cookingplus:beetrootcrop_2" },
+		"age=6": { "model": "cookingplus:beetrootcrop_2" },
+		"age=7": { "model": "cookingplus:beetrootcrop_3" }
+	}
+}

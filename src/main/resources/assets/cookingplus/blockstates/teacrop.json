@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:teacrop" },
+		"age=0": { "model": "cookingplus:teacrop" },
+		"age=1": { "model": "cookingplus:teacrop" },
+		"age=2": { "model": "cookingplus:teacrop_1" },
+		"age=3": { "model": "cookingplus:teacrop_1" },
+		"age=4": { "model": "cookingplus:teacrop_2" },
+		"age=5": { "model": "cookingplus:teacrop_2" },
+		"age=6": { "model": "cookingplus:teacrop_2" },
+		"age=7": { "model": "cookingplus:teacrop_3" }
+	}
+}

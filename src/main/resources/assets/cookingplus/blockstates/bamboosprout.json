@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:bamboosprout" },
+		"age=0": { "model": "cookingplus:bamboosprout" },
+		"age=1": { "model": "cookingplus:bamboosprout" },
+		"age=2": { "model": "cookingplus:bamboosprout" },
+		"age=3": { "model": "cookingplus:bamboosprout" },
+		"age=4": { "model": "cookingplus:bamboosprout" },
+		"age=5": { "model": "cookingplus:bamboosprout" },
+		"age=6": { "model": "cookingplus:bamboosprout" },
+		"age=7": { "model": "cookingplus:bamboosprout" },
+		"inventory": { "model": "cookingplus:bamboosprout" }
+	}
+}

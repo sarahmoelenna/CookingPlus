@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:rope" },
+		"type=0": { "model": "cookingplus:rope" },
+		"type=1": { "model": "cookingplus:rope_straight" },
+		"type=2": { "model": "cookingplus:rope_bottom" },
+		"type=3": { "model": "cookingplus:rope_top" },
+		"inventory": { "model": "cookingplus:rope" }
+	}
+}

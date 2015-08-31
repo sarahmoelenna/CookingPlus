@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:bush" },
+		"age=0": { "model": "cookingplus:bush" },
+		"age=1": { "model": "cookingplus:bush" },
+		"age=2": { "model": "cookingplus:bush" },
+		"age=3": { "model": "cookingplus:bush" },
+		"age=4": { "model": "cookingplus:bush" },
+		"age=5": { "model": "cookingplus:bush" },
+		"age=6": { "model": "cookingplus:blueberrybush" },
+		"age=7": { "model": "cookingplus:blueberrybush" },
+		"inventory": { "model": "cookingplus:bush" }
+	}
+}

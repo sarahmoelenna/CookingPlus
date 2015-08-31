@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:teapot" },
+		"facing=west": { "model": "cookingplus:teapot" },
+		"facing=north": { "model": "cookingplus:teapot" },
+		"facing=south": { "model": "cookingplus:teapot" },
+		"facing=east": { "model": "cookingplus:teapot" },
+		"inventory": { "model": "cookingplus:teapot" }
+	}
+}

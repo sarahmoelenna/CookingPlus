@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:brickoven" },
+		"facing=west": { "model": "cookingplus:brickoven" },
+		"facing=north": { "model": "cookingplus:brickoven" },
+		"facing=south": { "model": "cookingplus:brickoven" },
+		"facing=east": { "model": "cookingplus:brickoven" },
+		"inventory": { "model": "cookingplus:brickoven" }
+	}
+}

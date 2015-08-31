@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:dryingrack" },
+		"facing=west": { "model": "cookingplus:dryingrack" },
+		"facing=north": { "model": "cookingplus:dryingrack" },
+		"facing=south": { "model": "cookingplus:dryingrack" },
+		"facing=east": { "model": "cookingplus:dryingrack" },
+		"inventory": { "model": "cookingplus:dryingrack" }
+	}
+}

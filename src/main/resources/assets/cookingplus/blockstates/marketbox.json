@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:marketbox" },
+		"facing=west": { "model": "cookingplus:marketbox" },
+		"facing=north": { "model": "cookingplus:marketbox" },
+		"facing=south": { "model": "cookingplus:marketbox" },
+		"facing=east": { "model": "cookingplus:marketbox" },
+		"inventory": { "model": "cookingplus:marketbox" }
+	}
+}

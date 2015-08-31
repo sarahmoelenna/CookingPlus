@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "cookingplus:blocks/cottoncrop_stage_0"
+    }
+}

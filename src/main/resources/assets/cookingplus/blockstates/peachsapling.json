@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:peachsapling" },
+		"age=0": { "model": "cookingplus:peachsapling" },
+		"age=1": { "model": "cookingplus:peachsapling" },
+		"age=2": { "model": "cookingplus:peachsapling" },
+		"age=3": { "model": "cookingplus:peachsapling" },
+		"age=4": { "model": "cookingplus:peachsapling" },
+		"age=5": { "model": "cookingplus:peachsapling" },
+		"age=6": { "model": "cookingplus:peachsapling" },
+		"age=7": { "model": "cookingplus:peachsapling" },
+		"inventory": { "model": "cookingplus:peachsapling" }
+	}
+}
