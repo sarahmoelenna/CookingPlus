@@ -17,6 +17,7 @@ import CookingPlus.Renderers.CookingPlusRender;
 import CookingPlus.Renderers.DryingRackRenderer;
 import CookingPlus.Renderers.FryingPanRenderer;
 import CookingPlus.Renderers.HeaterRenderer;
+import CookingPlus.Renderers.HydrophonicRenderer;
 import CookingPlus.Renderers.IceBoxRenderer;
 import CookingPlus.Renderers.LiquidBarrelRenderer;
 import CookingPlus.Renderers.MarketBoxRender;
@@ -33,12 +34,14 @@ import CookingPlus.Renderers.UnfiredPlateRenderer;
 import CookingPlus.Renderers.UnfiredSaucepanRenderer;
 import CookingPlus.Renderers.UnfiredTeapotRenderer;
 import CookingPlus.Renderers.VanillaRenderer;
+import CookingPlus.Renderers.VatRenderer;
 import CookingPlus.tiles.BrickOvenTileEntity;
 import CookingPlus.tiles.ButterChurnTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
+import CookingPlus.tiles.HydrophonicTileEntity;
 import CookingPlus.tiles.IceBoxTileEntity;
 import CookingPlus.tiles.LiquidBarrelTileEntity;
 import CookingPlus.tiles.MarketBoxTileEntity;
@@ -55,6 +58,7 @@ import CookingPlus.tiles.UnfiredPlateTileEntity;
 import CookingPlus.tiles.UnfiredSaucepanTileEntity;
 import CookingPlus.tiles.UnfiredTeapotTileEntity;
 import CookingPlus.tiles.VanillaTileEntity;
+import CookingPlus.tiles.VatTileEntity;
 
 public class ClientProxy extends CommonProxy {
 
@@ -103,6 +107,8 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(SaucepanTileEntity.class, new SaucepanRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(UnfiredSaucepanTileEntity.class, new UnfiredSaucepanRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(IceBoxTileEntity.class, new IceBoxRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(HydrophonicTileEntity.class, new HydrophonicRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(VatTileEntity.class, new VatRenderer());
 		
 	}
 

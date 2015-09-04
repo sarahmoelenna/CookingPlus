@@ -76,12 +76,6 @@ public class CookingPlusCustomEdibleSeed extends ItemFood implements IPlantable
         return GetCropBlock().getDefaultState();
     }
 
-    //@Override
-    //public int getPlantMetadata(IBlockAccess world, BlockPos myPos)
-    //{
-    //    return 0;
-    //}
-
     public Block getSoilId() 
     {
         return soilId;

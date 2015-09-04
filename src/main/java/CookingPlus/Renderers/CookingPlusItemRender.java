@@ -14,6 +14,7 @@ import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
+import CookingPlus.tiles.HydrophonicTileEntity;
 import CookingPlus.tiles.IceBoxTileEntity;
 import CookingPlus.tiles.LiquidBarrelTileEntity;
 import CookingPlus.tiles.MarketBoxTileEntity;
@@ -30,6 +31,7 @@ import CookingPlus.tiles.UnfiredPlateTileEntity;
 import CookingPlus.tiles.UnfiredSaucepanTileEntity;
 import CookingPlus.tiles.UnfiredTeapotTileEntity;
 import CookingPlus.tiles.VanillaTileEntity;
+import CookingPlus.tiles.VatTileEntity;
 
 public class CookingPlusItemRender extends TileEntityItemStackRenderer {
 	
@@ -56,6 +58,8 @@ public class CookingPlusItemRender extends TileEntityItemStackRenderer {
     private SaucepanTileEntity saucepanRender = new SaucepanTileEntity();
     private UnfiredSaucepanTileEntity unfiredsaucepanRender = new UnfiredSaucepanTileEntity();
     private IceBoxTileEntity iceboxRender = new IceBoxTileEntity();
+    private HydrophonicTileEntity hydrophonicRender = new HydrophonicTileEntity();
+    private VatTileEntity vatRender = new VatTileEntity();
     
     @Override
     public void renderByItem(ItemStack itemStack) {
@@ -125,6 +129,13 @@ public class CookingPlusItemRender extends TileEntityItemStackRenderer {
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.unfiredsaucepanRender, 0.0D, 0.0D, 0.0D, 0.0F);
         }else if (block == CookingPlusMain.blockIceBox) {
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.iceboxRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockHydrophonic) {
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.hydrophonicRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockVat) {
+        	//System.out.println("B");
+        	GL11.glTranslatef(0.2f, -0.25f, 0);
+			GL11.glScalef(0.65f,  0.65f,  0.65f);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.vatRender, 0.0D, 0.0D, 0.0D, 0.0F);
         }else {
             super.renderByItem(itemStack);
         }

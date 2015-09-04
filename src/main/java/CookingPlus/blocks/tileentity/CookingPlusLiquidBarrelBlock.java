@@ -6,6 +6,7 @@ import CookingPlus.tiles.LiquidBarrelTileEntity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -41,6 +42,11 @@ public class CookingPlusLiquidBarrelBlock extends CookingPlusCustomTileEntityBlo
         {
                 LiquidBarrelTileEntity t = (LiquidBarrelTileEntity) worldIn.getTileEntity(pos);
                 t.processActivate(playerIn);
+                
+                if(playerIn.getCurrentEquippedItem().getItem() == CookingPlusMain.dirtyneedle){
+					playerIn.setCurrentItemOrArmor(0, new ItemStack(CookingPlusMain.needle, 1));
+				}
+                
         }
 		return true;
 		

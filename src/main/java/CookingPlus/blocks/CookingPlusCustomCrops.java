@@ -142,7 +142,7 @@ public class CookingPlusCustomCrops extends BlockCrops implements IGrowable
 		return stillOnFarm(world, myPos.getX(), myPos.getY(), myPos.getZ());
     }
     
-    private Block GetWorldBlock(World myWorld, int x, int y, int z){
+    protected Block GetWorldBlock(World myWorld, int x, int y, int z){
 		return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
 	}
 

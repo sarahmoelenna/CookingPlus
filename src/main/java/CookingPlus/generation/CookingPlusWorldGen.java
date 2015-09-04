@@ -123,9 +123,9 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 	private void generateEnd(World world, Random rand, int chunkX, int chunkZ) {}
 
 	private void generateSurface(World world, Random rand, int chunkX, int chunkZ) {
-        for(int k = 0; k < 10; k++){
+        for(int k = 0; k < 2; k++){
         	int firstBlockXCoord = chunkX + rand.nextInt(16);
-        	int firstBlockYCoord = rand.nextInt(64);
+        	int firstBlockYCoord = rand.nextInt(32 + 32);
         	int firstBlockZCoord = chunkZ + rand.nextInt(16);
         	
         	(new WorldGenMinable(CookingPlusMain.blockSalt.getDefaultState(), 22)).generate(world, rand, new BlockPos(new Vec3(firstBlockXCoord, firstBlockYCoord, firstBlockZCoord)));

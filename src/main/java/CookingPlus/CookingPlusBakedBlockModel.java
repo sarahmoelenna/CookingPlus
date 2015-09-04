@@ -9,11 +9,13 @@ import CookingPlus.blocks.CookingPlusCustomRopeCrop;
 import com.google.common.base.Function;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.SimpleBakedModel.Builder;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModel;
@@ -54,6 +56,7 @@ public class CookingPlusBakedBlockModel extends CookingPlusSmartBlockModel {
 		        		for (BakedQuad bq : list) {
 		        			b.addGeneralQuad(bq);
 		        		}
+		        		
 					}
 					else if(rope == 1){
 						model = ModelLoaderRegistry.getModel(CookingPlusBlockModel.MB);
@@ -62,6 +65,7 @@ public class CookingPlusBakedBlockModel extends CookingPlusSmartBlockModel {
 		        		for (BakedQuad bq : list) {
 		        			b.addGeneralQuad(bq);
 		        		}
+		        		
 					}
 					else if(rope == 2){
 						model = ModelLoaderRegistry.getModel(CookingPlusBlockModel.MF);
@@ -70,6 +74,7 @@ public class CookingPlusBakedBlockModel extends CookingPlusSmartBlockModel {
 		        		for (BakedQuad bq : list) {
 		        			b.addGeneralQuad(bq);
 		        		}
+		        		
 					}
 					else if(rope == 3){
 						model = ModelLoaderRegistry.getModel(CookingPlusBlockModel.MG);
@@ -78,6 +83,7 @@ public class CookingPlusBakedBlockModel extends CookingPlusSmartBlockModel {
 		        		for (BakedQuad bq : list) {
 		        			b.addGeneralQuad(bq);
 		        		}
+
 					}
 					
 					//crop

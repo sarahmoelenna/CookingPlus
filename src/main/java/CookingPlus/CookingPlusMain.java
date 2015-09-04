@@ -84,6 +84,7 @@ import CookingPlus.blocks.crops.CookingPlusBuchuPlant;
 import CookingPlus.blocks.crops.CookingPlusChamomilePlant;
 import CookingPlus.blocks.crops.CookingPlusChilliPlant;
 import CookingPlus.blocks.crops.CookingPlusCottonPlant;
+import CookingPlus.blocks.crops.CookingPlusEasyCrop;
 import CookingPlus.blocks.crops.CookingPlusGrapeCrop;
 import CookingPlus.blocks.crops.CookingPlusGreenCoral;
 import CookingPlus.blocks.crops.CookingPlusHopsCrop;
@@ -130,6 +131,7 @@ import CookingPlus.blocks.tileentity.CookingPlusDryingRackBlock;
 import CookingPlus.blocks.tileentity.CookingPlusFermenterBlock;
 import CookingPlus.blocks.tileentity.CookingPlusFryingPanBlock;
 import CookingPlus.blocks.tileentity.CookingPlusHeaterBlock;
+import CookingPlus.blocks.tileentity.CookingPlusHydrophonicBlock;
 import CookingPlus.blocks.tileentity.CookingPlusIceBoxBlock;
 import CookingPlus.blocks.tileentity.CookingPlusLiquidBarrelBlock;
 import CookingPlus.blocks.tileentity.CookingPlusMarketBoxBlock;
@@ -146,6 +148,7 @@ import CookingPlus.blocks.tileentity.CookingPlusUnfiredPlateBlock;
 import CookingPlus.blocks.tileentity.CookingPlusUnfiredSaucepanBlock;
 import CookingPlus.blocks.tileentity.CookingPlusUnfiredTeapotBlock;
 import CookingPlus.blocks.tileentity.CookingPlusVanillaBlock;
+import CookingPlus.blocks.tileentity.CookingPlusVatBlock;
 import CookingPlus.generation.CookingPlusBambooBiome;
 import CookingPlus.generation.CookingPlusCoralReefBiome;
 import CookingPlus.generation.CookingPlusDeepReefBiome;
@@ -171,6 +174,7 @@ import CookingPlus.items.CookingPlusCustomEdibleFood;
 import CookingPlus.items.CookingPlusCustomEdibleRopeCropSeed;
 import CookingPlus.items.CookingPlusCustomEdibleSeed;
 import CookingPlus.items.CookingPlusCustomItem;
+import CookingPlus.items.CookingPlusCustomScythe;
 import CookingPlus.items.CookingPlusDriedSeaweed;
 import CookingPlus.items.CookingPlusFishingNet;
 import CookingPlus.items.CookingPlusFlour;
@@ -185,6 +189,7 @@ import CookingPlus.items.CookingPlusLargeCupcakeTraySponge;
 import CookingPlus.items.CookingPlusMintEssence;
 import CookingPlus.items.CookingPlusMoonCutter;
 import CookingPlus.items.CookingPlusMoonUncooked;
+import CookingPlus.items.CookingPlusNeedle;
 import CookingPlus.items.CookingPlusPancakeMix;
 import CookingPlus.items.CookingPlusPestle;
 import CookingPlus.items.CookingPlusRack;
@@ -275,6 +280,7 @@ import CookingPlus.items.Seeds.CookingPlusGrapeSeed;
 import CookingPlus.items.Seeds.CookingPlusHopSeed;
 import CookingPlus.items.Seeds.CookingPlusOnionSeed;
 import CookingPlus.items.Seeds.CookingPlusPineappleSeed;
+import CookingPlus.items.Seeds.CookingPlusRiceSeed;
 import CookingPlus.items.Seeds.CookingPlusTeaSeed;
 import CookingPlus.items.Seeds.CookingPlusVanillaSeed;
 import CookingPlus.items.foods.CookingPlusBeefJerky;
@@ -331,6 +337,7 @@ import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
+import CookingPlus.tiles.HydrophonicTileEntity;
 import CookingPlus.tiles.IceBoxTileEntity;
 import CookingPlus.tiles.LiquidBarrelTileEntity;
 import CookingPlus.tiles.MarketBoxTileEntity;
@@ -347,6 +354,7 @@ import CookingPlus.tiles.UnfiredPlateTileEntity;
 import CookingPlus.tiles.UnfiredSaucepanTileEntity;
 import CookingPlus.tiles.UnfiredTeapotTileEntity;
 import CookingPlus.tiles.VanillaTileEntity;
+import CookingPlus.tiles.VatTileEntity;
 
 @Mod(modid = CookingPlusMain.MODID, name = CookingPlusMain.MODNAME, version = CookingPlusMain.VERSION)
 
@@ -682,6 +690,26 @@ public class CookingPlusMain {
     public final static Item bananabread = new CookingPlusEasyHarvest("bananabread");
     public final static Item bananadough = new CookingPlusSingleStackItem("bananadough");
     
+    public final static Block blockHydrophonic = new CookingPlusHydrophonicBlock();
+    public final static Block blockRiceCrop = new CookingPlusEasyCrop("ricecrop");
+    public final static Block blockVat = new CookingPlusVatBlock();
+    
+    public final static Item riceSeed = new CookingPlusRiceSeed();
+    public final static Item rice = new CookingPlusEasyHarvest("rice");
+    public final static Item woodenscythe = new CookingPlusCustomScythe("wooden_scythe", 59);
+    public final static Item stonescythe = new CookingPlusCustomScythe("stone_scythe", 131);
+    public final static Item ironscythe = new CookingPlusCustomScythe("iron_scythe", 250);
+    public final static Item goldscythe = new CookingPlusCustomScythe("gold_scythe", 131);
+    public final static Item diamondscythe = new CookingPlusCustomScythe("diamond_scythe", 1561);
+    
+    public final static Item sheepneedle = new CookingPlusSingleStackItem("sheepneedle");
+    public final static Item pigneedle = new CookingPlusSingleStackItem("pigneedle");
+    public final static Item chickenneedle = new CookingPlusSingleStackItem("chickenneedle");
+    public final static Item cowneedle = new CookingPlusSingleStackItem("cowneedle");
+    public final static Item rabbitneedle = new CookingPlusSingleStackItem("rabbitneedle");
+    public final static Item needle = new CookingPlusNeedle();
+    public final static Item dirtyneedle = new CookingPlusSingleStackItem("dirtyneedle");
+    
     //1.9 stuff
     public final static Block blockBeetrootCrop = new CookingPlusBeetrootPlant();
     public final static Item beetroot = new CookingPlusBeetroot();
@@ -764,6 +792,8 @@ public class CookingPlusMain {
     	GameRegistry.registerTileEntity(SaucepanTileEntity.class, "saucepan");
     	GameRegistry.registerTileEntity(UnfiredSaucepanTileEntity.class, "unfiredsaucepan");
     	GameRegistry.registerTileEntity(IceBoxTileEntity.class, "icebox");
+    	GameRegistry.registerTileEntity(HydrophonicTileEntity.class, "hydrophonic");
+    	GameRegistry.registerTileEntity(VatTileEntity.class, "vat");
 		
     	addPotions();
 		
@@ -880,7 +910,6 @@ public class CookingPlusMain {
 		GameRegistry.addShapelessRecipe(new ItemStack(breadcrumbs), new Object[] {new ItemStack(pestle), new ItemStack(Items.bread)});
 		GameRegistry.addShapelessRecipe(new ItemStack(uncookedcrabcake), new Object[] {new ItemStack(cookedcrab), new ItemStack(Items.egg), new ItemStack(breadcrumbs)});
 		
-		
 		//salted
 		GameRegistry.addShapelessRecipe(new ItemStack(saltedpork, 1), new Object[] {new ItemStack(Items.cooked_porkchop), new ItemStack(saltpile)});
 		GameRegistry.addShapelessRecipe(new ItemStack(saltedbeef, 1), new Object[] {new ItemStack(Items.cooked_beef), new ItemStack(saltpile)});
@@ -892,7 +921,6 @@ public class CookingPlusMain {
 		GameRegistry.addShapelessRecipe(new ItemStack(saltedoyster, 1), new Object[] {new ItemStack(cookedoyster), new ItemStack(saltpile)});
 		GameRegistry.addShapelessRecipe(new ItemStack(saltedcrab, 1), new Object[] {new ItemStack(cookedcrab), new ItemStack(saltpile)});
 		GameRegistry.addShapelessRecipe(new ItemStack(saltedlobster, 1), new Object[] {new ItemStack(cookedlobster), new ItemStack(saltpile)});
-		
 		
 		GameRegistry.addRecipe(new ItemStack(fishingnet), new Object[] {"~#~", "###", "~#~", '#', new ItemStack(Items.string), '~', new ItemStack(Items.stick)});
 		GameRegistry.addRecipe(new ItemStack(blockSalt), new Object[] {"##", "##", '#', new ItemStack(saltpile)});
@@ -927,6 +955,17 @@ public class CookingPlusMain {
 		GameRegistry.addRecipe(new ItemStack(unfiredbreadtinmold), new Object[] {"#~#", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(breadtinguide)});
 		GameRegistry.addRecipe(new ItemStack(unfiredcaketinmold), new Object[] {"#~#", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(caketinguide)});
 		GameRegistry.addRecipe(new ItemStack(blockIceBox), new Object[] {"~~~", "~#~", "~~~", '#', new ItemStack(Item.getItemFromBlock(Blocks.chest)), '~', new ItemStack(Item.getItemFromBlock(Blocks.snow))});
+		
+		GameRegistry.addRecipe(new ItemStack(woodenscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Item.getItemFromBlock(Blocks.planks))});
+		GameRegistry.addRecipe(new ItemStack(stonescythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Item.getItemFromBlock(Blocks.cobblestone))});
+		GameRegistry.addRecipe(new ItemStack(ironscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.iron_ingot)});
+		GameRegistry.addRecipe(new ItemStack(goldscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.gold_ingot)});
+		GameRegistry.addRecipe(new ItemStack(diamondscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.diamond)});
+		
+		GameRegistry.addRecipe(new ItemStack(blockHydrophonic), new Object[] {"ABA", "CDC", "CEC", 'B', new ItemStack(Items.iron_hoe), 'A', new ItemStack(Item.getItemFromBlock(Blocks.redstone_lamp)), 'C', new ItemStack(ironsheet), 'D', new ItemStack(ironscythe), 'E', new ItemStack(Item.getItemFromBlock(Blocks.dirt))});
+		
+		//magic recipes
+		GameRegistry.addRecipe(new ItemStack(giftofthesea), new Object[] {"ABA", "CDC", "EFE", 'A', new ItemStack(seafoodplatter), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(cookedcrabcake), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(Items.cooked_fish), 'F', new ItemStack(Items.water_bucket)});
 		
 		
 		//oven recipes
@@ -1639,6 +1678,25 @@ public class CookingPlusMain {
     	Addblock(event, blockMangoSapling);
     	Addblock(event, blockKiwiSapling);
     	
+    	Additem(event, riceSeed);
+    	Additem(event, rice);
+    	Additem(event, woodenscythe);
+    	Additem(event, stonescythe);
+    	Additem(event, ironscythe);
+    	Additem(event, goldscythe);
+    	Additem(event, diamondscythe);
+    	Additem(event, needle);
+    	Additem(event, pigneedle);
+    	Additem(event, cowneedle);
+    	Additem(event, sheepneedle);
+    	Additem(event, chickenneedle);
+    	Additem(event, rabbitneedle);
+    	Additem(event, dirtyneedle);
+    	
+    	Addblock(event, blockRiceCrop);
+    	Addblock(event, blockHydrophonic);
+    	Addblock(event, blockVat);
+    	
     }
 
     private void AddBambooRecipes(){
@@ -1731,5 +1789,7 @@ public class CookingPlusMain {
     	
     	((CookingPlusEasySapling)blockMangoSapling).SetBlocks(blockMangoLeaf, blockMangoSapling, Blocks.log);
     	((CookingPlusEasySapling)blockKiwiSapling).SetBlocks(blockKiwiLeaf, blockKiwiSapling, Blocks.log);
+    	
+    	((CookingPlusEasyCrop)blockRiceCrop).SetData(Blocks.water, rice, riceSeed);
     }
 }

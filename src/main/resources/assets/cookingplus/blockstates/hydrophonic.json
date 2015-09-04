@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:hydrophonic" },
+		"facing=west": { "model": "cookingplus:hydrophonic" },
+		"facing=north": { "model": "cookingplus:hydrophonic" },
+		"facing=south": { "model": "cookingplus:hydrophonic" },
+		"facing=east": { "model": "cookingplus:hydrophonic" },
+		"inventory": { "model": "cookingplus:hydrophonic" }
+	}
+}
