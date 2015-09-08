@@ -305,12 +305,15 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 		if(inv[0] != null && inv[1] != null){
 			if(CookingPlusSheetPressRecipes.instance().getPressSheetResult(inv[1]) != null){
 				ItemStack resultItemStack = CookingPlusSheetPressRecipes.instance().getPressSheetResult(inv[1]);
-				//System.out.println(CookingPlusSheetPressRecipes.instance().getPressSheetResult(inv[1]).getItem().getUnlocalizedName());
 				if(CookingPlusSheetPressRecipes.instance().getPressSheetItem(resultItemStack) != null){
-					//System.out.println(CookingPlusSheetPressRecipes.instance().getPressSheetItem(resultItemStack).getItem().getUnlocalizedName());
-					//System.out.println("yo");
 					ItemStack SheetItem = CookingPlusSheetPressRecipes.instance().getPressSheetItem(resultItemStack);
-					FillSlot(new ItemStack(resultItemStack.getItem(), 1), 0);
+					if(CookingPlusSheetPressRecipes.instance().getGrindingExperience(resultItemStack) == 0.5f){
+						FillSlot(new ItemStack(resultItemStack.getItem(), 1), 1);
+						FillSlot(null, 0);
+					}
+					else{
+						FillSlot(new ItemStack(resultItemStack.getItem(), 1), 0);
+					}
 				}
 			}
 		}

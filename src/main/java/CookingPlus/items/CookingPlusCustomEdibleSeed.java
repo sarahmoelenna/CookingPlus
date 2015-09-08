@@ -86,7 +86,7 @@ public class CookingPlusCustomEdibleSeed extends ItemFood implements IPlantable
     	return null;
     }
     
-    private void setBlock(World myWorld, BlockPos myPos){
+    protected void setBlock(World myWorld, BlockPos myPos){
     	myWorld.setBlockState(myPos, theBlockPlant.getDefaultState()); 
     }
 

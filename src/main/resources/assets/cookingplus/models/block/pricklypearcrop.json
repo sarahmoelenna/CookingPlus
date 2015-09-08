@@ -1,0 +1,6 @@
+{
+	"parent": "block/cross",
+	"textures": {
+		"cross": "cookingplus:blocks/pricklypearcrop_stage_0"
+	}
+}

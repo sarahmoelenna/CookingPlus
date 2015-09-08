@@ -288,7 +288,28 @@ public class HydrophonicTileEntity extends TileEntity implements IInventory, IUp
 			this.worldObj.markBlockForUpdate(this.getPos());
 	}
 
-	
+	public void processAutoActivate(Item myItem){
+				if(myItem != null){
+					if(myBlock == null){
+					if(myItem instanceof IPlantable){
+						if(((IPlantable)myItem).getPlant(null, null) != null){
+							Block TempBlock = ((IPlantable)myItem).getPlant(null, null).getBlock();
+							if(TempBlock instanceof CookingPlusCustomCrops || TempBlock == Blocks.wheat || TempBlock == Blocks.potatoes || TempBlock == Blocks.carrots){
+								myBlock = TempBlock;
+								UpdateBlock();
+								SetAge(0);
+							}
+						}
+					}
+					}
+				}
+				else{
+					myBlock = null;
+					UpdateBlock();
+					SetAge(0);
+				}
+	}
+	 
 	 public void processActivate(EntityPlayer playerIn) {
 		if(playerIn.getCurrentEquippedItem() != null){
 			Item myItem = playerIn.getCurrentEquippedItem().getItem();
@@ -350,5 +371,19 @@ public class HydrophonicTileEntity extends TileEntity implements IInventory, IUp
 
 	public int GetAge(){
 		return myAge;
+	}
+	
+	public static boolean isItemAcceptableInput(Item myItem){
+		if(myItem != null){
+			if(myItem instanceof IPlantable){
+				if(((IPlantable)myItem).getPlant(null, null) != null){
+					Block TempBlock = ((IPlantable)myItem).getPlant(null, null).getBlock();
+					if(TempBlock instanceof CookingPlusCustomCrops || TempBlock == Blocks.wheat || TempBlock == Blocks.potatoes || TempBlock == Blocks.carrots){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

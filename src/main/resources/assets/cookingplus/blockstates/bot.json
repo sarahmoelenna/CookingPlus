@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:bot" },
+		"facing=west": { "model": "cookingplus:bot" },
+		"facing=north": { "model": "cookingplus:bot" },
+		"facing=south": { "model": "cookingplus:bot" },
+		"facing=east": { "model": "cookingplus:bot" },
+		"inventory": { "model": "cookingplus:bot" }
+	}
+}

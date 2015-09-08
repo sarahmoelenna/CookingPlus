@@ -52,7 +52,6 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 		//System.out.println(EntityDirection  + " set");
 	}
 
-	@SideOnly(Side.CLIENT)
 	public int getDirection() {
 		//System.out.println(EntityDirection + " get");
 		return EntityDirection;

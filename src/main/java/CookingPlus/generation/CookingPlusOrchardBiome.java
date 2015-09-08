@@ -25,20 +25,16 @@ public class CookingPlusOrchardBiome extends BiomeGenBase {
     @Override
 	public WorldGenAbstractTree genBigTreeChance(Random random)
 	{
-    	int treeType = random.nextInt(8);
+    	int treeType = random.nextInt(9);
     	switch(treeType){
         case 0:
         	return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockLemonLeaves, 0, 0, 3);
-            //break;
         case 1:
         	return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockAppleLeaves, 0, 0, 3);
-	    	//break;
         case 2:
         	return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockPeachLeaves, 0, 0, 3);
-        	//break;
 		case 3:
 			return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockLimeLeaves, 0, 0, 3);
-			//break;
 		case 4:
 			return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockOrangeLeaves, 0, 0, 3);
 		case 5:
@@ -47,6 +43,8 @@ public class CookingPlusOrchardBiome extends BiomeGenBase {
 			return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockMangoLeaf, 0, 0, 3);
 		case 7:
 			return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockKiwiLeaf, 0, 0, 3);
+		case 8:
+			return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockAvocadoLeaf, 0, 0, 3);
 		}
         return new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockAppleLeaves, 0, 0, 3);
 	}

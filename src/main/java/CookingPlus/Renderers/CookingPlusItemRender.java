@@ -8,8 +8,11 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
 import CookingPlus.CookingPlusMain;
+import CookingPlus.tiles.BotTileEntity;
 import CookingPlus.tiles.BrickOvenTileEntity;
 import CookingPlus.tiles.ButterChurnTileEntity;
+import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
@@ -60,6 +63,9 @@ public class CookingPlusItemRender extends TileEntityItemStackRenderer {
     private IceBoxTileEntity iceboxRender = new IceBoxTileEntity();
     private HydrophonicTileEntity hydrophonicRender = new HydrophonicTileEntity();
     private VatTileEntity vatRender = new VatTileEntity();
+    private BotTileEntity botRender = new BotTileEntity();
+    private CookingPlusGrowthCrystalTileEntity growthcrystalRender = new CookingPlusGrowthCrystalTileEntity();
+    private CookingPlusWaterCrystalTileEntity watercrystalRender = new CookingPlusWaterCrystalTileEntity();
     
     @Override
     public void renderByItem(ItemStack itemStack) {
@@ -136,6 +142,16 @@ public class CookingPlusItemRender extends TileEntityItemStackRenderer {
         	GL11.glTranslatef(0.2f, -0.25f, 0);
 			GL11.glScalef(0.65f,  0.65f,  0.65f);
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.vatRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockBot) {
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.botRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockGrowthCrystal) {
+        	GL11.glTranslatef(0.2f, -0.25f, 0);
+			GL11.glScalef(0.65f,  0.65f,  0.65f);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.growthcrystalRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockWaterCrystal) {
+        	GL11.glTranslatef(0.2f, -0.25f, 0);
+			GL11.glScalef(0.65f,  0.65f,  0.65f);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.watercrystalRender, 0.0D, 0.0D, 0.0D, 0.0F);
         }else {
             super.renderByItem(itemStack);
         }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityChest;
 import CookingPlus.recipes.CookingPlusDryingRackRecipe;
 
 public class CookingPlusLootHelper {
@@ -49,6 +51,138 @@ public class CookingPlusLootHelper {
 	public Item GetRandomGuide(Random myRand){
 		int which = myRand.nextInt(PotteryGuideList.size());
 		return PotteryGuideList.get(which);
+	}
+	
+	public ItemStack GetRandomProcessor(Random myRand){
+		int which = myRand.nextInt(10);
+		if(which <= 4){
+			return new ItemStack(CookingPlusMain.redstoneprocessor, myRand.nextInt(5) + 1);
+		}
+		else if(which > 4 && which < 8){
+			return new ItemStack(CookingPlusMain.ironprocessor, myRand.nextInt(3) + 1);
+		}
+		else{
+			return new ItemStack(CookingPlusMain.diamondprocessor, myRand.nextInt(2) + 1);
+		}
+	}
+	
+	public ItemStack PutItemStackInChest(TileEntityChest myChest, ItemStack myStack){
+		boolean done = false;
+		 if(myStack.stackSize == 0 || myStack == null){
+			 done = true;
+		 }
+		 for(int i = 0; i < 27 && done == false; i++){
+			 if(myChest.getStackInSlot(i) != null && myChest.getStackInSlot(i).getItem() != null){
+				 if(myChest.getStackInSlot(i).getItem() == myStack.getItem()){
+				 	if(myChest.getStackInSlot(i).stackSize < myChest.getStackInSlot(i).getItem().getItemStackLimit() - myStack.stackSize){
+					 	myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myChest.getStackInSlot(i).stackSize + myStack.stackSize));
+					 	done = true;
+				 	}
+				 	else if(myChest.getStackInSlot(i).stackSize < myChest.getStackInSlot(i).getItem().getItemStackLimit()){
+				 		myStack.stackSize -=  (myChest.getStackInSlot(i).getItem().getItemStackLimit() - myChest.getStackInSlot(i).stackSize);
+				 		myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myChest.getStackInSlot(i).getItem().getItemStackLimit()));
+				 		ItemStack TempStack = PutItemStackInChest(myChest, myStack);
+				 		if(TempStack == null){
+				 			done = true;
+				 		}
+				 		else{
+				 			myStack = TempStack;
+				 		}
+				 	}
+			 	}
+			 }
+		 }
+		 for(int i = 0; i < 27 && done == false; i++){
+			 if(myChest.getStackInSlot(i) == null){
+				myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myStack.stackSize));
+				done = true;
+			 }
+		 }
+		 if(done == true){
+			 return null;
+		 }
+		 else{
+			 
+			 if(myChest.adjacentChestXNeg != null && !myChest.adjacentChestXNeg.isInvalid()){
+				 ItemStack TempStack = PutItemStackInSecondChest(myChest.adjacentChestXNeg, myStack);
+				 if(TempStack != null){
+					 myStack = TempStack;
+				 }
+				 else{
+					 return null;
+				 }
+			 }
+			 if(myChest.adjacentChestXPos != null && !myChest.adjacentChestXPos.isInvalid()){
+				 ItemStack TempStack = PutItemStackInSecondChest(myChest.adjacentChestXPos, myStack);
+				 if(TempStack != null){
+					 myStack = TempStack;
+				 }
+				 else{
+					 return null;
+				 }
+			 }
+			 if(myChest.adjacentChestZNeg != null && !myChest.adjacentChestZNeg.isInvalid()){
+				 ItemStack TempStack = PutItemStackInSecondChest(myChest.adjacentChestZNeg, myStack);
+				 if(TempStack != null){
+					 myStack = TempStack;
+				 }
+				 else{
+					 return null;
+				 }
+			 }
+			 if(myChest.adjacentChestZPos != null && !myChest.adjacentChestZPos.isInvalid()){
+				 ItemStack TempStack = PutItemStackInSecondChest(myChest.adjacentChestZPos, myStack);
+				 if(TempStack != null){
+					 myStack = TempStack;
+				 }
+				 else{
+					 return null;
+				 }
+			 }
+			 
+			 return myStack;
+		 }
+	}
+	
+	private ItemStack PutItemStackInSecondChest(TileEntityChest myChest, ItemStack myStack){
+		boolean done = false;
+		 if(myStack.stackSize == 0 || myStack == null){
+			 done = true;
+		 }
+		 for(int i = 0; i < 27 && done == false; i++){
+			 if(myChest.getStackInSlot(i) != null && myChest.getStackInSlot(i).getItem() != null){
+				 if(myChest.getStackInSlot(i).getItem() == myStack.getItem()){
+				 	if(myChest.getStackInSlot(i).stackSize < myChest.getStackInSlot(i).getItem().getItemStackLimit() - myStack.stackSize){
+					 	myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myChest.getStackInSlot(i).stackSize + myStack.stackSize));
+					 	done = true;
+				 	}
+				 	else if(myChest.getStackInSlot(i).stackSize < myChest.getStackInSlot(i).getItem().getItemStackLimit()){
+				 		myStack.stackSize -=  (myChest.getStackInSlot(i).getItem().getItemStackLimit() - myChest.getStackInSlot(i).stackSize);
+				 		myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myChest.getStackInSlot(i).getItem().getItemStackLimit()));
+				 		ItemStack TempStack = PutItemStackInChest(myChest, myStack);
+				 		if(TempStack == null){
+				 			done = true;
+				 		}
+				 		else{
+				 			myStack = TempStack;
+				 		}
+				 	}
+			 	}
+			 }
+		 }
+		 for(int i = 0; i < 27 && done == false; i++){
+			 if(myChest.getStackInSlot(i) == null){
+				myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myStack.stackSize));
+				done = true;
+			 }
+		 }
+		 if(done == true){
+			 return null;
+		 }
+		 else{
+			 
+			 return myStack;
+		 }
 	}
 	
 }

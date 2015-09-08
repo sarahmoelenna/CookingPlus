@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:avocadoleaves" },
+		"check_decay=false,decayable=false": { "model": "cookingplus:avocadoleaves" },
+		"check_decay=true,decayable=false": { "model": "cookingplus:avocadoleaves" },
+		"check_decay=true,decayable=true": { "model": "cookingplus:avocadoleaves" },
+		"check_decay=false,decayable=true": { "model": "cookingplus:avocadoleaves" }
+	}
+}

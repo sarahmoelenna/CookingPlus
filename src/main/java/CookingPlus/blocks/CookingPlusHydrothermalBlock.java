@@ -38,6 +38,9 @@ public class CookingPlusHydrothermalBlock extends CookingPlusCustomBlock{
 	    else if(which > 77 && which <= 97){
 	    	return Items.redstone;
 	    }
+	    else if(which > 57 && which <= 77){
+	    	return CookingPlusMain.silicondust;
+	    }
 	    else{
 	    	if(random.nextInt(2) == 0){
 	    		return Items.coal;

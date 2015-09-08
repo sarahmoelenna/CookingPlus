@@ -34,6 +34,8 @@ public class CookingPlusConfig {
 	public static boolean vanillarecipes;
 	public static boolean HerbSpreading;
 	public static boolean CoralSpreading;
+	public static boolean SjinBot;
+	public static boolean OverwriteMushroomBiomes;
 	
 	public static int FruitDropRate;
 	public static int CoralSpreadRate;
@@ -75,6 +77,8 @@ public class CookingPlusConfig {
 		vanillarecipes = config.getBoolean("DisableVanillaFoodRecipes", "Options", true, "");
 		HerbSpreading = config.getBoolean("HerbSpreading", "Options", true, "");
 		CoralSpreading = config.getBoolean("CoralSpreading", "Options", true, "");
+		SjinBot = config.getBoolean("SjinBot", "Options", false, "");
+		OverwriteMushroomBiomes = config.getBoolean("OverwriteMushroomBiomes", "Options", true, "");
 		
 		FruitDropRate = config.getInt("FruitDropRate", "GrowthRate", 50, 0, 100, "The rate is a percentage");
 		CoralSpreadRate = config.getInt("CoralSpreadRate", "GrowthRate", 25, 0, 100, "The rate is a percentage");

@@ -412,7 +412,7 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 		ItemStack myStack = new ItemStack(CookingPlusMain.onionseed);
 		int which = (int) (random.nextFloat() * 100);
 		int amount = 1 + (int)(random.nextFloat() * 4);
-		int SeedVariations = 9;
+		int SeedVariations = 11;
 		if(which <= 100/SeedVariations){
 			myStack = new ItemStack(CookingPlusMain.onionseed, amount);
 		}
@@ -440,17 +440,23 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 		else if(which > (100/SeedVariations) * 8 && which <= (100/SeedVariations) * 9){
 			myStack = new ItemStack(CookingPlusMain.pineappleseed, amount);
 		}
+		else if(which > (100/SeedVariations) * 9 && which <= (100/SeedVariations) * 10){
+			myStack = new ItemStack(CookingPlusMain.riceSeed, amount);
+		}
+		else if(which > (100/SeedVariations) * 10 && which <= (100/SeedVariations) * 11){
+			myStack = new ItemStack(CookingPlusMain.pricklypearseeds, amount);
+		}
 		
 		return myStack;
 	}
 	
 	private static ItemStack GetRandomGenericItem(Random random){
 		ItemStack myStack = new ItemStack(CookingPlusMain.onionseed);
-		int SeedVariations = 10;
+		int SeedVariations = 12;
 		int which = random.nextInt(SeedVariations);
 		int amount = 1;
 		if(which == 0){
-			myStack = new ItemStack(Items.wooden_hoe, amount);
+			myStack = new ItemStack(CookingPlusMain.woodenscythe, amount);
 		}
 		else if(which == 1){
 			myStack = new ItemStack(CookingPlusMain.fishingnet, amount);
@@ -479,6 +485,17 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 		else if(which == 9){
 			myStack = new ItemStack(CookingPlusLootHelper.instance().GetRandomCommonGuide(random), amount);
 		}
+		else if(which == 10){
+			myStack = CookingPlusLootHelper.instance().GetRandomProcessor(random);
+		}
+		else if(which == 11){
+			if(random.nextInt(2) == 0){
+				myStack = new ItemStack(CookingPlusMain.mysteriousorb, amount);
+			}
+			else{
+				myStack = new ItemStack(CookingPlusMain.chipmold, amount);
+			}
+		}
 		
 		
 		return myStack;
@@ -486,7 +503,7 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 	
 	private static ItemStack GetRandomRareItem(Random random){
 		ItemStack myStack = new ItemStack(CookingPlusMain.onionseed);
-		int SeedVariations = 8;
+		int SeedVariations = 7;
 		int which = random.nextInt(SeedVariations);
 		int amount = 1;
 		if(which == 0){
@@ -510,9 +527,7 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 		else if(which == 6){
 			myStack = new ItemStack(CookingPlusLootHelper.instance().GetRandomRareGuide(random), amount);
 		}
-		else if(which == 7){
-			myStack = new ItemStack(CookingPlusMain.mysteriousorb, amount);
-		}
+		
 		
 		return myStack;
 	}

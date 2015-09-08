@@ -20,6 +20,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.Potion;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
@@ -124,12 +125,14 @@ import CookingPlus.blocks.saplings.CookingPlusLimeSapling;
 import CookingPlus.blocks.saplings.CookingPlusOrangeSapling;
 import CookingPlus.blocks.saplings.CookingPlusPalmSapling;
 import CookingPlus.blocks.saplings.CookingPlusPeachSapling;
+import CookingPlus.blocks.tileentity.CookingPlusBotBlock;
 import CookingPlus.blocks.tileentity.CookingPlusBrickOvenBlock;
 import CookingPlus.blocks.tileentity.CookingPlusButterChurnBlock;
 import CookingPlus.blocks.tileentity.CookingPlusCustomTileEntityBlock;
 import CookingPlus.blocks.tileentity.CookingPlusDryingRackBlock;
 import CookingPlus.blocks.tileentity.CookingPlusFermenterBlock;
 import CookingPlus.blocks.tileentity.CookingPlusFryingPanBlock;
+import CookingPlus.blocks.tileentity.CookingPlusGrowthCrystalTileEntityBlock;
 import CookingPlus.blocks.tileentity.CookingPlusHeaterBlock;
 import CookingPlus.blocks.tileentity.CookingPlusHydrophonicBlock;
 import CookingPlus.blocks.tileentity.CookingPlusIceBoxBlock;
@@ -149,6 +152,7 @@ import CookingPlus.blocks.tileentity.CookingPlusUnfiredSaucepanBlock;
 import CookingPlus.blocks.tileentity.CookingPlusUnfiredTeapotBlock;
 import CookingPlus.blocks.tileentity.CookingPlusVanillaBlock;
 import CookingPlus.blocks.tileentity.CookingPlusVatBlock;
+import CookingPlus.blocks.tileentity.CookingPlusWaterCrystalBlock;
 import CookingPlus.generation.CookingPlusBambooBiome;
 import CookingPlus.generation.CookingPlusCoralReefBiome;
 import CookingPlus.generation.CookingPlusDeepReefBiome;
@@ -176,6 +180,8 @@ import CookingPlus.items.CookingPlusCustomEdibleSeed;
 import CookingPlus.items.CookingPlusCustomItem;
 import CookingPlus.items.CookingPlusCustomScythe;
 import CookingPlus.items.CookingPlusDriedSeaweed;
+import CookingPlus.items.CookingPlusEasyStageThreeFood;
+import CookingPlus.items.CookingPlusEasyStageTwoFood;
 import CookingPlus.items.CookingPlusFishingNet;
 import CookingPlus.items.CookingPlusFlour;
 import CookingPlus.items.CookingPlusHeartCutter;
@@ -189,6 +195,7 @@ import CookingPlus.items.CookingPlusLargeCupcakeTraySponge;
 import CookingPlus.items.CookingPlusMintEssence;
 import CookingPlus.items.CookingPlusMoonCutter;
 import CookingPlus.items.CookingPlusMoonUncooked;
+import CookingPlus.items.CookingPlusMultiStackItem;
 import CookingPlus.items.CookingPlusNeedle;
 import CookingPlus.items.CookingPlusPancakeMix;
 import CookingPlus.items.CookingPlusPestle;
@@ -209,6 +216,7 @@ import CookingPlus.items.CookingPlusUncookedCrabCake;
 import CookingPlus.items.CookingPlusVanillaButterCream;
 import CookingPlus.items.CookingPlusVanillaEssence;
 import CookingPlus.items.CookingPlusVegetableOil;
+import CookingPlus.items.CookingPlusWaterOrb;
 import CookingPlus.items.Drinks.CookingPlusAppleJuice;
 import CookingPlus.items.Drinks.CookingPlusBeer;
 import CookingPlus.items.Drinks.CookingPlusBlueBerryJuice;
@@ -276,6 +284,7 @@ import CookingPlus.items.PotteryStuff.CookingPlusUnfiredMug;
 import CookingPlus.items.Seeds.CookingPlusBeetrootSeed;
 import CookingPlus.items.Seeds.CookingPlusChilliSeed;
 import CookingPlus.items.Seeds.CookingPlusCottonSeed;
+import CookingPlus.items.Seeds.CookingPlusEasySeed;
 import CookingPlus.items.Seeds.CookingPlusGrapeSeed;
 import CookingPlus.items.Seeds.CookingPlusHopSeed;
 import CookingPlus.items.Seeds.CookingPlusOnionSeed;
@@ -331,8 +340,11 @@ import CookingPlus.recipes.CookingPlusIceBoxRecipes;
 import CookingPlus.recipes.CookingPlusOvenRecipes;
 import CookingPlus.recipes.CookingPlusSaucePanRecipe;
 import CookingPlus.recipes.CookingPlusSheetPressRecipes;
+import CookingPlus.tiles.BotTileEntity;
 import CookingPlus.tiles.BrickOvenTileEntity;
 import CookingPlus.tiles.ButterChurnTileEntity;
+import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
@@ -363,7 +375,7 @@ public class CookingPlusMain {
 	
 	public static final String MODID = "CookingPlus";
     public static final String MODNAME = "CookingPlus";
-    public static final String VERSION = "0.5";
+    public static final String VERSION = "0.6";
     
     //recipe declarations
     public final static CookingPlusOvenRecipes OvenRecipes = new CookingPlusOvenRecipes();
@@ -692,10 +704,20 @@ public class CookingPlusMain {
     
     public final static Block blockHydrophonic = new CookingPlusHydrophonicBlock();
     public final static Block blockRiceCrop = new CookingPlusEasyCrop("ricecrop");
+    public final static Block blockPricklyPearCrop = new CookingPlusEasyCrop("pricklypearcrop");
     public final static Block blockVat = new CookingPlusVatBlock();
+    public final static Block blockBot = new CookingPlusBotBlock();
+    public final static Block blockAvocadoLeaf = new CookingPlusEasyLeaf("avocadoleaves");
+    public final static Block blockAvocadoSapling = new CookingPlusEasySapling("avocadosapling");
+    
+    public final static Block blockGrowthCrystal = new CookingPlusGrowthCrystalTileEntityBlock();
+    public final static Block blockWaterCrystal = new CookingPlusWaterCrystalBlock();
     
     public final static Item riceSeed = new CookingPlusRiceSeed();
     public final static Item rice = new CookingPlusEasyHarvest("rice");
+    public final static Item pricklypearseeds = new CookingPlusEasySeed("pricklypearseeds", blockPricklyPearCrop, Blocks.sand);
+    public final static Item pricklypearpeeled = new CookingPlusEasyHarvest("pricklypearpeeled");
+    public final static Item pricklypear = new CookingPlusMultiStackItem("pricklypear");
     public final static Item woodenscythe = new CookingPlusCustomScythe("wooden_scythe", 59);
     public final static Item stonescythe = new CookingPlusCustomScythe("stone_scythe", 131);
     public final static Item ironscythe = new CookingPlusCustomScythe("iron_scythe", 250);
@@ -709,6 +731,26 @@ public class CookingPlusMain {
     public final static Item rabbitneedle = new CookingPlusSingleStackItem("rabbitneedle");
     public final static Item needle = new CookingPlusNeedle();
     public final static Item dirtyneedle = new CookingPlusSingleStackItem("dirtyneedle");
+    public final static Item avocado = new CookingPlusEasyHarvest("avocado");
+    public final static Item redstoneprocessor = new CookingPlusMultiStackItem("redstoneprocessor");
+    public final static Item ironprocessor = new CookingPlusMultiStackItem("ironprocessor");
+    public final static Item diamondprocessor = new CookingPlusMultiStackItem("diamondprocessor");
+    public final static Item onigiri = new CookingPlusEasyStageTwoFood("onigiri");
+    public final static Item prawnsushi = new CookingPlusEasyStageThreeFood("prawnsushi");
+    public final static Item sushiroll = new CookingPlusEasyStageThreeFood("sushiroll");
+    public final static Item californiaroll = new CookingPlusEasyStageTwoFood("californiaroll");
+    
+    public final static Item silicondust = new CookingPlusMultiStackItem("silicondust");
+    public final static Item siliconsheet = new CookingPlusMultiStackItem("siliconsheet");
+    public final static Item redstonesheet = new CookingPlusMultiStackItem("redstonesheet");
+    public final static Item diamondsheet = new CookingPlusMultiStackItem("diamondsheet");
+    public final static Item goldwire = new CookingPlusMultiStackItem("goldwire");
+    public final static Item siliconchip = new CookingPlusMultiStackItem("siliconchip");
+    public final static Item chipmold = new CookingPlusMultiStackItem("chipmold");
+    public final static Item uncasedchip = new CookingPlusMultiStackItem("uncasedchip");
+    
+    public final static Item crystalcore = new CookingPlusSingleStackItem("crystalcore");
+    public final static Item waterorb = new CookingPlusWaterOrb();
     
     //1.9 stuff
     public final static Block blockBeetrootCrop = new CookingPlusBeetrootPlant();
@@ -730,6 +772,9 @@ public class CookingPlusMain {
     public static BiomeGenBase coralBiome;
     public static BiomeGenBase tropicalBiome;
     public static BiomeGenBase deepreefbiome;
+    
+    public static BiomeGenBase myOceanA;
+    public static BiomeGenBase myOceanB;
     
   //Use a custom item as an icon (assuming it is instantiated in a class called ModItems)
     public static CreativeTabs tabCustom = new CreativeTabs("tabCookingPlus") {
@@ -764,7 +809,11 @@ public class CookingPlusMain {
         coralBiome = new CookingPlusCoralReefBiome(CookingPlusConfig.CoralReefID);
         tropicalBiome = new CookingPlusTropicalBiome(CookingPlusConfig.TropicalID);
         deepreefbiome = new CookingPlusDeepReefBiome(CookingPlusConfig.DeepReefID);
-
+        
+        if(CookingPlusConfig.OverwriteMushroomBiomes){
+        	myOceanA = (new BiomeGenOcean(14)).setColor(112).setBiomeName("Ocean").setHeight(new BiomeGenBase.Height(-1.0F, 0.1F));
+        	myOceanB = (new BiomeGenOcean(15)).setColor(112).setBiomeName("Ocean").setHeight(new BiomeGenBase.Height(-1.0F, 0.1F));
+        }
       	GameRegistry.registerBlock(blockGrapeCrop, null, "grapecrop");
       	GameRegistry.registerBlock(blockHopCrop, null, "hopcrop");
       	GameRegistry.registerBlock(blockVanillaCrop, null, "vanillacrop");
@@ -794,6 +843,9 @@ public class CookingPlusMain {
     	GameRegistry.registerTileEntity(IceBoxTileEntity.class, "icebox");
     	GameRegistry.registerTileEntity(HydrophonicTileEntity.class, "hydrophonic");
     	GameRegistry.registerTileEntity(VatTileEntity.class, "vat");
+    	GameRegistry.registerTileEntity(BotTileEntity.class, "bot");
+    	GameRegistry.registerTileEntity(CookingPlusGrowthCrystalTileEntity.class, "growthcrystal");
+    	GameRegistry.registerTileEntity(CookingPlusWaterCrystalTileEntity.class, "watercrystal");
 		
     	addPotions();
 		
@@ -816,14 +868,16 @@ public class CookingPlusMain {
       	BiomeManager.addSpawnBiome(tropicalBiome);
       	BiomeManager.addBiome(BiomeType.DESERT, new BiomeEntry(tropicalBiome,CookingPlusConfig.TropicalSpawnWeight));
       	
-      	BiomeDictionary.registerBiomeType(kelpBiome, Type.WET);
+      	BiomeDictionary.registerBiomeType(kelpBiome, Type.OCEAN);
       	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(kelpBiome,CookingPlusConfig.KelpForestSpawnWeight));
       	
-      	BiomeDictionary.registerBiomeType(coralBiome, Type.WET);
+      	BiomeDictionary.registerBiomeType(coralBiome, Type.OCEAN);
       	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(coralBiome,CookingPlusConfig.CoralReefSpawnWeight));
       	
-      	BiomeDictionary.registerBiomeType(deepreefbiome, Type.WET);
+      	BiomeDictionary.registerBiomeType(deepreefbiome, Type.OCEAN);
       	BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(deepreefbiome, CookingPlusConfig.DeepReefSpawnWeight));
+      	
+      	
 		
 		AddExtraBlockData();
 		
@@ -961,12 +1015,31 @@ public class CookingPlusMain {
 		GameRegistry.addRecipe(new ItemStack(ironscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.iron_ingot)});
 		GameRegistry.addRecipe(new ItemStack(goldscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.gold_ingot)});
 		GameRegistry.addRecipe(new ItemStack(diamondscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.diamond)});
+		GameRegistry.addShapelessRecipe(new ItemStack(pricklypearpeeled), new Object[] {new ItemStack(pricklypear)});
+		GameRegistry.addShapelessRecipe(new ItemStack(onigiri), new Object[] {new ItemStack(rice), new ItemStack(driedseaweed)});
+		GameRegistry.addRecipe(new ItemStack(sushiroll), new Object[] {"A", "B", "C", 'A', new ItemStack(Items.cooked_fish), 'B', new ItemStack(rice), 'C', new ItemStack(driedseaweed)});
+		GameRegistry.addRecipe(new ItemStack(prawnsushi), new Object[] {"A", "B", 'A', new ItemStack(cookedprawn), 'B', new ItemStack(rice)});
+		GameRegistry.addRecipe(new ItemStack(californiaroll), new Object[] {"A", "B", 'A', new ItemStack(avocado), 'B', new ItemStack(rice)});
 		
-		GameRegistry.addRecipe(new ItemStack(blockHydrophonic), new Object[] {"ABA", "CDC", "CEC", 'B', new ItemStack(Items.iron_hoe), 'A', new ItemStack(Item.getItemFromBlock(Blocks.redstone_lamp)), 'C', new ItemStack(ironsheet), 'D', new ItemStack(ironscythe), 'E', new ItemStack(Item.getItemFromBlock(Blocks.dirt))});
+		//science
+		GameRegistry.addRecipe(new ItemStack(blockHydrophonic), new Object[] {"ABA", "CDC", "CEC", 'B', new ItemStack(Item.getItemFromBlock(Blocks.daylight_detector)), 'A', new ItemStack(Item.getItemFromBlock(Blocks.redstone_lamp)), 'C', new ItemStack(ironsheet), 'D', new ItemStack(redstoneprocessor), 'E', new ItemStack(Item.getItemFromBlock(Blocks.dirt))});
+		GameRegistry.addRecipe(new ItemStack(blockBot), new Object[] {"ABA", "CDC", "AEA", 'B', new ItemStack(Item.getItemFromBlock(Blocks.redstone_lamp)), 'A', new ItemStack(ironsheet), 'C', new ItemStack(redstoneprocessor), 'D', new ItemStack(diamondprocessor), 'E', new ItemStack(ironprocessor)});
+		GameRegistry.addRecipe(new ItemStack(blockVat), new Object[] {"ABA", "CDC", "AEA", 'B', new ItemStack(Item.getItemFromBlock(Blocks.glass)), 'A', new ItemStack(ironsheet), 'C', new ItemStack(redstoneprocessor), 'D', new ItemStack(ironprocessor), 'E', new ItemStack(Item.getItemFromBlock(Blocks.iron_block))});
+		GameRegistry.addRecipe(new ItemStack(redstonesheet, 2), new Object[] {"##", "##", '#', new ItemStack(Items.redstone)});
+		GameRegistry.addRecipe(new ItemStack(siliconsheet, 2), new Object[] {"##", "##", '#', new ItemStack(silicondust)});
+		GameRegistry.addRecipe(new ItemStack(diamondsheet, 2), new Object[] {"##", "##", '#', new ItemStack(Items.diamond)});
+		GameRegistry.addRecipe(new ItemStack(goldwire, 4), new Object[] {"##", '#', new ItemStack(Items.gold_ingot)});
+		GameRegistry.addRecipe(new ItemStack(uncasedchip, 1), new Object[] {"#~", '#', new ItemStack(goldwire), '~', new ItemStack(siliconchip)});
+		GameRegistry.addRecipe(new ItemStack(needle), new Object[] {"  C", " B ", "A  ", 'C', new ItemStack(Items.iron_ingot), 'A', new ItemStack(Items.stick), 'B', new ItemStack(Item.getItemFromBlock(Blocks.glass))});
 		
 		//magic recipes
 		GameRegistry.addRecipe(new ItemStack(giftofthesea), new Object[] {"ABA", "CDC", "EFE", 'A', new ItemStack(seafoodplatter), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(cookedcrabcake), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(Items.cooked_fish), 'F', new ItemStack(Items.water_bucket)});
 		
+		GameRegistry.addRecipe(new ItemStack(giftofthesoil), new Object[] {"ABA", "CDC", "EFE", 'A', new ItemStack(Item.getItemFromBlock(blockVanilla)), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(Items.cake), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(Items.bread), 'F', new ItemStack(Item.getItemFromBlock(Blocks.grass))});
+		
+		GameRegistry.addRecipe(new ItemStack(crystalcore), new Object[] {"ABA", "BCB", "ABA", 'A', new ItemStack(Items.gold_nugget), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(Items.quartz)});
+		GameRegistry.addRecipe(new ItemStack(blockGrowthCrystal), new Object[] {"ABA", "ACA", "ABA", 'B', new ItemStack(giftofthesoil), 'A', new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), 'C', new ItemStack(crystalcore)});
+		GameRegistry.addRecipe(new ItemStack(blockWaterCrystal), new Object[] {"ABA", "ACA", "ABA", 'B', new ItemStack(giftofthesea), 'A', new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), 'C', new ItemStack(crystalcore)});
 		
 		//oven recipes
 		CookingPlusOvenRecipes.instance().addOvenRecipe(new ItemStack(rawprawn), new ItemStack(cookedprawn), 0.7f);
@@ -996,6 +1069,11 @@ public class CookingPlusMain {
 		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(largecupcaketraymold), new ItemStack(ironsheet), new ItemStack(largecupcaketray), 0.7f);
 		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(breadtinmold), new ItemStack(ironsheet), new ItemStack(breadtin), 0.7f);
 		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(caketinmold), new ItemStack(ironsheet), new ItemStack(caketin), 0.7f);
+		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(chipmold), new ItemStack(siliconsheet), new ItemStack(siliconchip), 0.7f);
+		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(diamondsheet), new ItemStack(uncasedchip), new ItemStack(diamondprocessor), 0.5f);
+		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(ironsheet), new ItemStack(uncasedchip), new ItemStack(ironprocessor), 0.5f);
+		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(redstonesheet), new ItemStack(uncasedchip), new ItemStack(redstoneprocessor), 0.5f);
+		
 		//drying rack recipe
 		CookingPlusDryingRackRecipe.instance().addDryingRackRecipe(new ItemStack(Item.getItemFromBlock(blockSeaweedCrop)), new ItemStack(driedseaweed), 0.7f);
 		CookingPlusDryingRackRecipe.instance().addDryingRackRecipe(new ItemStack(Items.beef), new ItemStack(beefjerky), 0.7f);
@@ -1259,7 +1337,8 @@ public class CookingPlusMain {
 
 					potionTypes = (Potion[]) f.get(null);
 					final Potion[] newPotionTypes = new Potion[256];
-					System.arraycopy(potionTypes, 0, newPotionTypes, 0,potionTypes.length);f.set(null, newPotionTypes);
+					System.arraycopy(potionTypes, 0, newPotionTypes, 0,potionTypes.length);
+					f.set(null, newPotionTypes);
 				}
 			} catch (Exception e) {
 				System.err
@@ -1692,10 +1771,37 @@ public class CookingPlusMain {
     	Additem(event, chickenneedle);
     	Additem(event, rabbitneedle);
     	Additem(event, dirtyneedle);
+    	Additem(event, avocado);
+    	Additem(event, onigiri);
+    	Additem(event, redstoneprocessor);
+    	Additem(event, ironprocessor);
+    	Additem(event, diamondprocessor);
+    	Additem(event, diamondsheet);
+    	Additem(event, redstonesheet);
+    	Additem(event, siliconsheet);
+    	Additem(event, silicondust);
+    	Additem(event, siliconchip);
+    	Additem(event, goldwire);
+    	Additem(event, uncasedchip);
+    	Additem(event, chipmold);
+    	Additem(event, pricklypearseeds);
+    	Additem(event, pricklypear);
+    	Additem(event, pricklypearpeeled);
+    	Additem(event, crystalcore);
+    	Additem(event, waterorb);
+    	Additem(event, californiaroll);
+    	Additem(event, sushiroll);
+    	Additem(event, prawnsushi);
     	
     	Addblock(event, blockRiceCrop);
+    	Addblock(event, blockPricklyPearCrop);
     	Addblock(event, blockHydrophonic);
     	Addblock(event, blockVat);
+    	Addblock(event, blockBot);
+    	Addblock(event, blockAvocadoSapling);
+    	Addblock(event, blockAvocadoLeaf);
+    	Addblock(event, blockGrowthCrystal);
+    	Addblock(event, blockWaterCrystal);
     	
     }
 
@@ -1786,10 +1892,13 @@ public class CookingPlusMain {
     private void AddExtraBlockData(){
     	((CookingPlusEasyLeaf)blockMangoLeaf).SetDrops(blockMangoLeaf, blockMangoSapling, mango);
     	((CookingPlusEasyLeaf)blockKiwiLeaf).SetDrops(blockKiwiLeaf, blockKiwiSapling, kiwi);
+    	((CookingPlusEasyLeaf)blockAvocadoLeaf).SetDrops(blockAvocadoLeaf, blockAvocadoSapling, avocado);
     	
     	((CookingPlusEasySapling)blockMangoSapling).SetBlocks(blockMangoLeaf, blockMangoSapling, Blocks.log);
     	((CookingPlusEasySapling)blockKiwiSapling).SetBlocks(blockKiwiLeaf, blockKiwiSapling, Blocks.log);
+    	((CookingPlusEasySapling)blockAvocadoSapling).SetBlocks(blockAvocadoLeaf, blockAvocadoSapling, Blocks.log);
     	
     	((CookingPlusEasyCrop)blockRiceCrop).SetData(Blocks.water, rice, riceSeed);
+    	((CookingPlusEasyCrop)blockPricklyPearCrop).SetData(Blocks.sand, pricklypear, pricklypearseeds);
     }
 }

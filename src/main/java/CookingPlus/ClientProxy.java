@@ -3,6 +3,7 @@ package CookingPlus;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -10,10 +11,12 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import CookingPlus.Renderers.BotRenderer;
 import CookingPlus.Renderers.ButterChurnRenderer;
 import CookingPlus.Renderers.CookingPlusFermenterRenderer;
 import CookingPlus.Renderers.CookingPlusItemRender;
 import CookingPlus.Renderers.CookingPlusRender;
+import CookingPlus.Renderers.CrystalRenderer;
 import CookingPlus.Renderers.DryingRackRenderer;
 import CookingPlus.Renderers.FryingPanRenderer;
 import CookingPlus.Renderers.HeaterRenderer;
@@ -35,8 +38,11 @@ import CookingPlus.Renderers.UnfiredSaucepanRenderer;
 import CookingPlus.Renderers.UnfiredTeapotRenderer;
 import CookingPlus.Renderers.VanillaRenderer;
 import CookingPlus.Renderers.VatRenderer;
+import CookingPlus.tiles.BotTileEntity;
 import CookingPlus.tiles.BrickOvenTileEntity;
 import CookingPlus.tiles.ButterChurnTileEntity;
+import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
@@ -109,6 +115,10 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(IceBoxTileEntity.class, new IceBoxRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(HydrophonicTileEntity.class, new HydrophonicRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(VatTileEntity.class, new VatRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(BotTileEntity.class, new BotRenderer());
+		TileEntitySpecialRenderer myCrystalRender = new CrystalRenderer();
+		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusGrowthCrystalTileEntity.class, myCrystalRender);
+		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusWaterCrystalTileEntity.class, myCrystalRender);
 		
 	}
 

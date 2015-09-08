@@ -30,7 +30,7 @@ public class CookingPlusButterChurnBlock extends BlockContainer {
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
         		this.setHardness(2.0F);
         		this.setResistance(6.0F);
-        		this.setHarvestLevel("pickaxe", 0);
+        		this.setHarvestLevel("axe", 0);
         		this.setStepSound(soundTypeWood);
         		//this.setBlockTextureName("cookingplus:salt");
         		this.setTickRandomly(false);
