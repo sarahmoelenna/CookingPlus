@@ -106,7 +106,7 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
     	return null;
     }
     
-    protected void growBush(World parWorld, Random parRand, int parX, int parY, int parZ, IBlockState state){
+    public void growBush(World parWorld, Random parRand, int parX, int parY, int parZ, IBlockState state){
     	//System.out.println("A");
     	if(parRand.nextInt(10) > 2){
     		//System.out.println("B");

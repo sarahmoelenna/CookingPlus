@@ -27,7 +27,7 @@ public class CookingPlusVanillaCrop extends CookingPlusCustomRopeCrop {
 	}
 	
 	@Override
-	protected Item GetCropItem(){
+	public Item GetCropItem(){
 		return CookingPlusMain.vanillapod;
 	}
 	
@@ -37,7 +37,7 @@ public class CookingPlusVanillaCrop extends CookingPlusCustomRopeCrop {
     }
 	
 	@Override
-	protected Item GetSeedItem(){
+	public Item GetSeedItem(){
 		return CookingPlusMain.vanillaseed;
 	}
 	

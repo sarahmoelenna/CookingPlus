@@ -376,11 +376,9 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 	}
 
 	public static void FillFarmerChest(TileEntityChest MyChest, Random random){
-		int chance = 90;
+		int chance = 80;
 		for(int i = 0; i < 27; i++){
-			//ItemStack itemstack = new ItemStack(CookingPlusMain.onionseed, 2);
 			int mychance = (int) (random.nextFloat() * 100);
-			//System.out.println(mychance + " " + chance);
 			if(mychance > chance){
 				chance = 90;
 				MyChest.setInventorySlotContents(i, GenChestItem(random));
@@ -412,7 +410,7 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 		ItemStack myStack = new ItemStack(CookingPlusMain.onionseed);
 		int which = (int) (random.nextFloat() * 100);
 		int amount = 1 + (int)(random.nextFloat() * 4);
-		int SeedVariations = 11;
+		int SeedVariations = 16;
 		if(which <= 100/SeedVariations){
 			myStack = new ItemStack(CookingPlusMain.onionseed, amount);
 		}
@@ -446,13 +444,16 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 		else if(which > (100/SeedVariations) * 10 && which <= (100/SeedVariations) * 11){
 			myStack = new ItemStack(CookingPlusMain.pricklypearseeds, amount);
 		}
+		else if(which > (100/SeedVariations) * 11 && which <= (100/SeedVariations) * 17){
+			myStack = new ItemStack(CookingPlusMain.basicschematic, amount * 3);
+		}
 		
 		return myStack;
 	}
 	
 	private static ItemStack GetRandomGenericItem(Random random){
 		ItemStack myStack = new ItemStack(CookingPlusMain.onionseed);
-		int SeedVariations = 12;
+		int SeedVariations = 11;
 		int which = random.nextInt(SeedVariations);
 		int amount = 1;
 		if(which == 0){
@@ -483,12 +484,9 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 			myStack = new ItemStack(CookingPlusMain.mooncutter, amount);
 		}
 		else if(which == 9){
-			myStack = new ItemStack(CookingPlusLootHelper.instance().GetRandomCommonGuide(random), amount);
-		}
-		else if(which == 10){
 			myStack = CookingPlusLootHelper.instance().GetRandomProcessor(random);
 		}
-		else if(which == 11){
+		else if(which == 10){
 			if(random.nextInt(2) == 0){
 				myStack = new ItemStack(CookingPlusMain.mysteriousorb, amount);
 			}
@@ -525,7 +523,12 @@ public class CookingPlusWorldGen implements IWorldGenerator {
 			myStack = new ItemStack(CookingPlusMain.blockFryingPan, amount);
 		}
 		else if(which == 6){
-			myStack = new ItemStack(CookingPlusLootHelper.instance().GetRandomRareGuide(random), amount);
+			if(random.nextInt(4) > 1){
+				myStack = new ItemStack(CookingPlusLootHelper.instance().GetRandomCommonGuide(random), amount);
+			}
+			else{
+				myStack = new ItemStack(CookingPlusLootHelper.instance().GetRandomRareGuide(random), amount);
+			}
 		}
 		
 		

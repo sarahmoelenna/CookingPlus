@@ -19,6 +19,7 @@ import CookingPlus.Renderers.CookingPlusRender;
 import CookingPlus.Renderers.CrystalRenderer;
 import CookingPlus.Renderers.DryingRackRenderer;
 import CookingPlus.Renderers.FryingPanRenderer;
+import CookingPlus.Renderers.GrabberRenderer;
 import CookingPlus.Renderers.HeaterRenderer;
 import CookingPlus.Renderers.HydrophonicRenderer;
 import CookingPlus.Renderers.IceBoxRenderer;
@@ -46,6 +47,7 @@ import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
+import CookingPlus.tiles.GrabberTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
 import CookingPlus.tiles.HydrophonicTileEntity;
 import CookingPlus.tiles.IceBoxTileEntity;
@@ -119,6 +121,7 @@ public class ClientProxy extends CommonProxy {
 		TileEntitySpecialRenderer myCrystalRender = new CrystalRenderer();
 		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusGrowthCrystalTileEntity.class, myCrystalRender);
 		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusWaterCrystalTileEntity.class, myCrystalRender);
+		ClientRegistry.bindTileEntitySpecialRenderer(GrabberTileEntity.class, new GrabberRenderer());
 		
 	}
 

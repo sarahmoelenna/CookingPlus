@@ -24,7 +24,6 @@ public class CookingPlusCustomSapling extends BlockBush implements IGrowable {
 	
 		public CookingPlusCustomSapling(String name){
 			this.setUnlocalizedName(name);
-			//this.setBlockTextureName("cookingplus:" + Texture);
 			this.setStepSound(soundTypeGrass);
 		}
 	
@@ -80,19 +79,13 @@ public class CookingPlusCustomSapling extends BlockBush implements IGrowable {
 
 	    public void growTree(World myWorld, int parX, int parY, int parZ, IBlockState myState, Random myRand)
 	    {
-	        //int meta = myWorld.getBlockMetadata(parX, parY, parZ);
-	        //myWorld.getBlockState(new BlockPos(new Vec3(parX, parY, parZ))).
-	    	//System.out.println(((Integer)myState.getValue(AGE)).intValue() +" hi");
 	        int i = ((Integer)myState.getValue(AGE)).intValue() + MathHelper.getRandomIntegerInRange(myWorld.rand, 2, 5);
 	        if ((i & 8) == 0)
 	        {
-	        	//System.out.println(i);
 	        	myWorld.setBlockState(new BlockPos(new Vec3(parX, parY, parZ)), myState.withProperty(AGE, Integer.valueOf(i)), 2);
 	        }
 	        else
 	        {
-	        	//System.out.println(i);
-	        	//System.out.println("trying to grow");
 	        	SetWorldBlock(myWorld, parX, parY, parZ, Blocks.air, 0, 2);
 	            this.GenTree(myWorld, parX, parY, parZ, myRand);
 	        }

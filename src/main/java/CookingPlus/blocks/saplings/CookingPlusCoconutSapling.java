@@ -2,6 +2,7 @@ package CookingPlus.blocks.saplings;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -45,6 +46,15 @@ public class CookingPlusCoconutSapling extends CookingPlusCustomSapling {
 	@Override
 	 public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
 	 {
+		
 		return worldIn.getBlockState(pos.down()).getBlock() == Blocks.sand;
 	 }
+	
+	@Override
+	public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state)
+   {
+       BlockPos down = pos.down();
+       Block soil = worldIn.getBlockState(down).getBlock();
+      return soil.getDefaultState() == Blocks.sand.getDefaultState();
+   }
 }

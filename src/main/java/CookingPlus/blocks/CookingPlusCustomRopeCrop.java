@@ -259,7 +259,7 @@ public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock im
         
     }
 
-    private void growCropUp(World myWorld, BlockPos myPos){
+    public void growCropUp(World myWorld, BlockPos myPos){
     	if(myWorld.getBlockState(myPos).getBlock()!= null){
     		if(myWorld.getBlockState(myPos).getBlock().equals(CookingPlusMain.blockRope)){
     			int myRope = ((Integer)myWorld.getBlockState(myPos).getValue(CookingPlusRopeBlock.ROPETYPE)).intValue();
@@ -269,11 +269,11 @@ public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock im
     	//System.out.println(((Integer)myWorld.getBlockState(myPos).getValue(AGE)).intValue() + " Grow");
     }
 
-    protected Item GetCropItem(){
+    public Item GetCropItem(){
     	return null;
     }
     
-    protected Item GetSeedItem(){
+    public Item GetSeedItem(){
     	return null;
     }
     

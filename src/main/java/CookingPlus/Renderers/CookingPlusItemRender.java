@@ -16,6 +16,7 @@ import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
+import CookingPlus.tiles.GrabberTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
 import CookingPlus.tiles.HydrophonicTileEntity;
 import CookingPlus.tiles.IceBoxTileEntity;
@@ -64,6 +65,7 @@ public class CookingPlusItemRender extends TileEntityItemStackRenderer {
     private HydrophonicTileEntity hydrophonicRender = new HydrophonicTileEntity();
     private VatTileEntity vatRender = new VatTileEntity();
     private BotTileEntity botRender = new BotTileEntity();
+    private GrabberTileEntity grabberRender = new GrabberTileEntity();
     private CookingPlusGrowthCrystalTileEntity growthcrystalRender = new CookingPlusGrowthCrystalTileEntity();
     private CookingPlusWaterCrystalTileEntity watercrystalRender = new CookingPlusWaterCrystalTileEntity();
     
@@ -152,6 +154,8 @@ public class CookingPlusItemRender extends TileEntityItemStackRenderer {
         	GL11.glTranslatef(0.2f, -0.25f, 0);
 			GL11.glScalef(0.65f,  0.65f,  0.65f);
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.watercrystalRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockGrabber) {
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.grabberRender, 0.0D, 0.0D, 0.0D, 0.0F);
         }else {
             super.renderByItem(itemStack);
         }

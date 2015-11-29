@@ -1,12 +1,18 @@
 package CookingPlus.tiles;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import CookingPlus.CookingPlusLootHelper;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.blocks.CookingPlusCustomCrops;
+import CookingPlus.blocks.CookingPlusCustomGrowingBush;
+import CookingPlus.blocks.CookingPlusCustomRopeCrop;
+import CookingPlus.blocks.bushes.CookingPlusPlainBush;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,30 +70,12 @@ public class BotTileEntity extends TileEntity implements IInventory, IUpdatePlay
 
 	@Override
     public void update(){
-		prevFace = myFace;
-		HarvestTimer++;
-		
-		if(hasChest()){
-			if(hasWorkable()){
-				if(HarvestTimer > 30){
-					if(ChestProblems == false){
-						SetFace(0);
-					}
-					if(WorkBlocks()){
-						HarvestTimer = 0;
-					}
-				}
-			}
-			else{
-				SetFace(1);
-			}
+		int myMode = GetMode();
+		if(myMode == 0){
+			DefaultMode();
 		}
-		else{
-			SetFace(2);
-		}
-		
-		if(prevFace != myFace){
-			UpdateBlock();
+		else if(myMode == 1){
+			PickerMode();
 		}
 	}
 	
@@ -309,7 +297,6 @@ public class BotTileEntity extends TileEntity implements IInventory, IUpdatePlay
 		}
 	 
 	 public boolean hasChest(){
-			
 			if(this.getDirection() == 2){
 				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() == Blocks.chest){
 					return true;
@@ -327,6 +314,44 @@ public class BotTileEntity extends TileEntity implements IInventory, IUpdatePlay
 			}
 			else if(this.getDirection() == 5){
 				if(this.getWorld().getBlockState(this.getPos().west()).getBlock() == Blocks.chest){
+					return true;
+				}
+			}
+			
+			return false;
+	}
+	 
+	 public boolean hasSideChest(){
+			
+			if(this.getDirection() == 2){
+				if(this.getWorld().getBlockState(this.getPos().east()).getBlock() == Blocks.chest){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().west()).getBlock() == Blocks.chest){
+					return true;
+				}
+			}
+			else if(this.getDirection() == 3){
+				if(this.getWorld().getBlockState(this.getPos().east()).getBlock() == Blocks.chest){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().west()).getBlock() == Blocks.chest){
+					return true;
+				}
+			}
+			else if(this.getDirection() == 4){
+				if(this.getWorld().getBlockState(this.getPos().north()).getBlock() == Blocks.chest){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() == Blocks.chest){
+					return true;
+				}
+			}
+			else if(this.getDirection() == 5){
+				if(this.getWorld().getBlockState(this.getPos().north()).getBlock() == Blocks.chest){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() == Blocks.chest){
 					return true;
 				}
 			}
@@ -536,6 +561,414 @@ public class BotTileEntity extends TileEntity implements IInventory, IUpdatePlay
 		 
 	 }
 	 
+	 public boolean WorkVines(){
+		 
+		 ArrayList<BlockPos> PosList;
+		 PosList = ContrustVineList();
+		 //System.out.println(PosList.size());
+		 boolean harvest = false;
+		 
+		 for(int i = 0; i < PosList.size() && harvest == false; i++){
+			 if(this.getWorld().getBlockState(PosList.get(i)).getBlock() instanceof CookingPlusCustomRopeCrop){
+				 if(WorkVine(PosList.get(i))){
+					 harvest = true;
+			 	}
+			 }
+			 else if(this.getWorld().getBlockState(PosList.get(i)).getBlock() instanceof CookingPlusCustomGrowingBush && !(this.getWorld().getBlockState(PosList.get(i)).getBlock() instanceof CookingPlusPlainBush)){
+				 if(WorkBush(PosList.get(i))){
+					 harvest = true;
+			 	}
+			 }
+		 }
+		 
+		 return true;
+	 }
+	 
+	 private boolean WorkVine(BlockPos MyPos){
+		 IBlockState myBlock = this.getWorld().getBlockState(MyPos);
+		 int MyAge = (Integer) myBlock.getValue(CookingPlusCustomRopeCrop.AGE);
+		 if(MyAge == 3){
+			((CookingPlusCustomRopeCrop) myBlock.getBlock()).growCropUp(this.getWorld(), MyPos.up());
+			 
+			List<ItemStack> myItemList = new java.util.ArrayList<ItemStack>();
+			myItemList.add(new ItemStack(((CookingPlusCustomRopeCrop) myBlock.getBlock()).GetCropItem()));
+			Random myRand = new Random();
+			if(myRand.nextFloat() > 0.8f){
+				myItemList.add(new ItemStack(((CookingPlusCustomRopeCrop) myBlock.getBlock()).GetSeedItem()));
+			}
+			 ArrayList<BlockPos> PosList;
+			 PosList = GetSideChestPosList();
+			 
+			 for(int i = 0; i < PosList.size() && myItemList.size() > 0; i++){
+				 for(int y = 0; y < myItemList.size(); y++){
+					 if(myItemList.get(y).stackSize > 0){
+					 ItemStack TempStack = CookingPlusLootHelper.instance().PutItemStackInChest((TileEntityChest)this.worldObj.getTileEntity(PosList.get(i)), myItemList.get(y));
+					 	if(TempStack != null){
+					 		myItemList.get(y).stackSize = TempStack.stackSize;
+					 	}
+					 	else{
+					 		myItemList.get(y).stackSize = 0;
+					 	}
+					 }
+				 }
+			 }
+			 ChestProblems = false;
+			 
+			 for(int y = 0; y < myItemList.size(); y++){
+				 if(myItemList.get(y).stackSize > 0){
+					 Block.spawnAsEntity(this.getWorld(), pos, myItemList.get(y));
+				 	SetFace(2);
+				 	ChestProblems = true;
+				 }
+			 }		 
+			 
+			 
+			this.getWorld().setBlockState(MyPos, myBlock.withProperty(CookingPlusCustomRopeCrop.AGE, 2));
+			return true;
+		 }
+		 
+		 return false;
+	 }
+	 
+	 private boolean WorkBush(BlockPos MyPos){
+		 IBlockState myBlock = this.getWorld().getBlockState(MyPos);
+		 int MyAge = (Integer) myBlock.getValue(CookingPlusCustomGrowingBush.AGE);
+		 if(MyAge >= 6){
+			 Random myRand = new Random();
+			((CookingPlusCustomGrowingBush) myBlock.getBlock()).growBush(this.getWorld(), myRand, MyPos.getX(), MyPos.getY(), MyPos.getZ(), this.getWorld().getBlockState(MyPos));
+			 
+			List<ItemStack> myItemList = new java.util.ArrayList<ItemStack>();
+			myItemList.add(new ItemStack(((CookingPlusCustomGrowingBush) myBlock.getBlock()).getBushDrop()));
+			 ArrayList<BlockPos> PosList;
+			 PosList = GetSideChestPosList();
+			 
+			 for(int i = 0; i < PosList.size() && myItemList.size() > 0; i++){
+				 for(int y = 0; y < myItemList.size(); y++){
+					 if(myItemList.get(y).stackSize > 0){
+					 ItemStack TempStack = CookingPlusLootHelper.instance().PutItemStackInChest((TileEntityChest)this.worldObj.getTileEntity(PosList.get(i)), myItemList.get(y));
+					 	if(TempStack != null){
+					 		myItemList.get(y).stackSize = TempStack.stackSize;
+					 	}
+					 	else{
+					 		myItemList.get(y).stackSize = 0;
+					 	}
+					 }
+				 }
+			 }
+			 ChestProblems = false;
+			 
+			 for(int y = 0; y < myItemList.size(); y++){
+				 if(myItemList.get(y).stackSize > 0){
+					 Block.spawnAsEntity(this.getWorld(), pos, myItemList.get(y));
+				 	SetFace(2);
+				 	ChestProblems = true;
+				 }
+			 }		 
+			 
+		 
+			this.getWorld().setBlockState(MyPos, myBlock.withProperty(CookingPlusCustomGrowingBush.AGE, 5));
+			return true;
+		 }
+		 
+		 return false;
+	 }
+	 
+	 public ArrayList<BlockPos> ContrustVineList(){
+		
+		 ArrayList<BlockPos> PosList = new ArrayList<BlockPos>();
+		 
+		 if(this.getDirection() == 2){
+				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().east()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south().east());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().west()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south().west());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().south().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().east().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south().east().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().west().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south().west().up());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().south().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().east().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south().east().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().west().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().south().west().up().up());
+				}
+			}
+			else if(this.getDirection() == 3){
+				if(this.getWorld().getBlockState(this.getPos().north()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().east()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north().east());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().west()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north().west());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().north().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().east().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north().east().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().west().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north().west().up());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().north().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().east().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north().east().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().west().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().north().west().up().up());
+				}
+			}
+			else if(this.getDirection() == 4){
+				if(this.getWorld().getBlockState(this.getPos().east()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().north()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east().north());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().south()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east().south());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().east().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().north().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east().north().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().south().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east().south().up());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().east().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().north().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east().north().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().south().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().east().south().up().up());
+				}
+			}
+			else if(this.getDirection() == 5){
+				if(this.getWorld().getBlockState(this.getPos().west()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().north()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west().north());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().south()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west().south());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().west().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().north().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west().north().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().south().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west().south().up());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().west().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().north().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west().north().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().south().up().up()).getBlock() instanceof CookingPlusCustomRopeCrop){
+					PosList.add(this.getPos().west().south().up().up());
+				}
+			}
+		 
+		 
+		 
+		 if(this.getDirection() == 2){
+				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().east()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south().east());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().west()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south().west());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().south().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().east().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south().east().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().west().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south().west().up());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().south().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().east().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south().east().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().west().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().south().west().up().up());
+				}
+			}
+			else if(this.getDirection() == 3){
+				if(this.getWorld().getBlockState(this.getPos().north()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().east()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north().east());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().west()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north().west());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().north().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().east().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north().east().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().west().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north().west().up());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().north().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().east().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north().east().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().west().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().north().west().up().up());
+				}
+			}
+			else if(this.getDirection() == 4){
+				if(this.getWorld().getBlockState(this.getPos().east()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().north()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east().north());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().south()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east().south());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().east().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().north().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east().north().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().south().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east().south().up());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().east().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().north().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east().north().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().south().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().east().south().up().up());
+				}
+			}
+			else if(this.getDirection() == 5){
+				if(this.getWorld().getBlockState(this.getPos().west()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().north()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west().north());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().south()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west().south());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().west().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().north().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west().north().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().south().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west().south().up());
+				}
+				
+				if(this.getWorld().getBlockState(this.getPos().west().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().north().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west().north().up().up());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().south().up().up()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					PosList.add(this.getPos().west().south().up().up());
+				}
+			}
+		 
+		 return PosList; 
+	 }
+	 
+	 public ArrayList<BlockPos> GetSideChestPosList(){
+		 ArrayList<BlockPos> PosList = new ArrayList<BlockPos>();
+		 if(this.getDirection() == 2){
+				if(this.getWorld().getBlockState(this.getPos().east()).getBlock() == Blocks.chest){
+					PosList.add(this.getPos().east());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west()).getBlock() == Blocks.chest){
+					PosList.add(this.getPos().west());
+				}
+			}
+			else if(this.getDirection() == 3){
+				if(this.getWorld().getBlockState(this.getPos().east()).getBlock() == Blocks.chest){
+					PosList.add(this.getPos().east());
+				}
+				if(this.getWorld().getBlockState(this.getPos().west()).getBlock() == Blocks.chest){
+					PosList.add(this.getPos().west());
+				}
+			}
+			else if(this.getDirection() == 4){
+				if(this.getWorld().getBlockState(this.getPos().north()).getBlock() == Blocks.chest){
+					PosList.add(this.getPos().north());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() == Blocks.chest){
+					PosList.add(this.getPos().south());
+				}
+			}
+			else if(this.getDirection() == 5){
+				if(this.getWorld().getBlockState(this.getPos().north()).getBlock() == Blocks.chest){
+					PosList.add(this.getPos().north());
+				}
+				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() == Blocks.chest){
+					PosList.add(this.getPos().south());
+				}
+			}
+		 return PosList;
+	 }
+	 
 	 public BlockPos getChestPos(){
 		 	if(this.getDirection() == 2){
 				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() == Blocks.chest){
@@ -559,7 +992,57 @@ public class BotTileEntity extends TileEntity implements IInventory, IUpdatePlay
 			}
 			return null;
 	 }
-
+	
+	 public boolean hasWorkableVines(){
+		 
+		 if(this.getDirection() == 2){
+				if(this.getWorld().getBlockState(this.getPos().south()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().south()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().east()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().south().east()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().south().west()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().south().west()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+			}
+			else if(this.getDirection() == 3){
+				if(this.getWorld().getBlockState(this.getPos().north()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().north()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().east()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().north().east()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().north().west()).getBlock() instanceof CookingPlusCustomRopeCrop  || this.getWorld().getBlockState(this.getPos().north().west()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+			}
+			else if(this.getDirection() == 4){
+				if(this.getWorld().getBlockState(this.getPos().east()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().east()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().north()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().east().north()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().east().south()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().east().south()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+			}
+			else if(this.getDirection() == 5){
+				if(this.getWorld().getBlockState(this.getPos().west()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().west()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().north()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().west().north()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+				if(this.getWorld().getBlockState(this.getPos().west().south()).getBlock() instanceof CookingPlusCustomRopeCrop || this.getWorld().getBlockState(this.getPos().west().south()).getBlock() instanceof CookingPlusCustomGrowingBush){
+					return true;
+				}
+			}
+		 
+		 return false;
+	 }
+	 
 	public void processActivate(EntityPlayer playerIn) {
 		if(myFace == 2){
 			playerIn.addChatMessage(new ChatComponentTranslation("msg.botchest.txt"));
@@ -573,5 +1056,65 @@ public class BotTileEntity extends TileEntity implements IInventory, IUpdatePlay
 		
 	}
 
+	private int GetMode(){
+		if(this.getWorld().getBlockState(this.getPos().up()).getBlock() == CookingPlusMain.blockGrabber){
+			return 1;
+		}
+		else return 0;
+	}
 	
+	public void DefaultMode(){
+		prevFace = myFace;
+		HarvestTimer++;
+		if(hasChest()){
+			if(hasWorkable()){
+				if(HarvestTimer > 30){
+					if(ChestProblems == false){
+						SetFace(0);
+					}
+					if(WorkBlocks()){
+						HarvestTimer = 0;
+					}
+				}
+			}
+			else{
+				SetFace(1);
+			}
+		}
+		else{
+			SetFace(2);
+		}
+		
+		if(prevFace != myFace){
+			UpdateBlock();
+		}
+	}
+	
+	public void PickerMode(){
+		prevFace = myFace;
+		HarvestTimer++;
+		
+		if(hasSideChest()){
+			if(hasWorkableVines()){
+				if(HarvestTimer > 30){
+					if(ChestProblems == false){
+						SetFace(0);
+					}
+					if(WorkVines()){
+						HarvestTimer = 0;
+					}
+				}
+			}
+			else{
+				SetFace(1);
+			}
+		}
+		else{
+			SetFace(2);
+		}
+		
+		if(prevFace != myFace){
+			UpdateBlock();
+		}
+	}
 }

@@ -132,6 +132,7 @@ import CookingPlus.blocks.tileentity.CookingPlusCustomTileEntityBlock;
 import CookingPlus.blocks.tileentity.CookingPlusDryingRackBlock;
 import CookingPlus.blocks.tileentity.CookingPlusFermenterBlock;
 import CookingPlus.blocks.tileentity.CookingPlusFryingPanBlock;
+import CookingPlus.blocks.tileentity.CookingPlusGrabberBlock;
 import CookingPlus.blocks.tileentity.CookingPlusGrowthCrystalTileEntityBlock;
 import CookingPlus.blocks.tileentity.CookingPlusHeaterBlock;
 import CookingPlus.blocks.tileentity.CookingPlusHydrophonicBlock;
@@ -348,6 +349,7 @@ import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
+import CookingPlus.tiles.GrabberTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
 import CookingPlus.tiles.HydrophonicTileEntity;
 import CookingPlus.tiles.IceBoxTileEntity;
@@ -375,7 +377,7 @@ public class CookingPlusMain {
 	
 	public static final String MODID = "CookingPlus";
     public static final String MODNAME = "CookingPlus";
-    public static final String VERSION = "0.6";
+    public static final String VERSION = "0.7.0";
     
     //recipe declarations
     public final static CookingPlusOvenRecipes OvenRecipes = new CookingPlusOvenRecipes();
@@ -713,6 +715,8 @@ public class CookingPlusMain {
     public final static Block blockGrowthCrystal = new CookingPlusGrowthCrystalTileEntityBlock();
     public final static Block blockWaterCrystal = new CookingPlusWaterCrystalBlock();
     
+    public final static Block blockGrabber = new CookingPlusGrabberBlock();
+    
     public final static Item riceSeed = new CookingPlusRiceSeed();
     public final static Item rice = new CookingPlusEasyHarvest("rice");
     public final static Item pricklypearseeds = new CookingPlusEasySeed("pricklypearseeds", blockPricklyPearCrop, Blocks.sand);
@@ -751,6 +755,10 @@ public class CookingPlusMain {
     
     public final static Item crystalcore = new CookingPlusSingleStackItem("crystalcore");
     public final static Item waterorb = new CookingPlusWaterOrb();
+    
+    public final static Item basicschematic = new CookingPlusMultiStackItem("basicschematic");
+    public final static Item advancedschematic = new CookingPlusMultiStackItem("advancedschematic");
+    public final static Item complexschematic = new CookingPlusMultiStackItem("complexschematic");
     
     //1.9 stuff
     public final static Block blockBeetrootCrop = new CookingPlusBeetrootPlant();
@@ -846,6 +854,7 @@ public class CookingPlusMain {
     	GameRegistry.registerTileEntity(BotTileEntity.class, "bot");
     	GameRegistry.registerTileEntity(CookingPlusGrowthCrystalTileEntity.class, "growthcrystal");
     	GameRegistry.registerTileEntity(CookingPlusWaterCrystalTileEntity.class, "watercrystal");
+    	GameRegistry.registerTileEntity(GrabberTileEntity.class, "grabber");
 		
     	addPotions();
 		
@@ -933,6 +942,8 @@ public class CookingPlusMain {
 		GameRegistry.addShapelessRecipe(new ItemStack(grapejuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(grape), new ItemStack(Items.glass_bottle)});
 		GameRegistry.addShapelessRecipe(new ItemStack(vanillaessence, 1), new Object[] {new ItemStack(pestle), new ItemStack(vanillapod), new ItemStack(Items.glass_bottle)});
 		GameRegistry.addShapelessRecipe(new ItemStack(pineapplejuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(pineapple), new ItemStack(Items.glass_bottle)});
+		GameRegistry.addShapelessRecipe(new ItemStack(kiwijuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(kiwi), new ItemStack(Items.glass_bottle)});
+		GameRegistry.addShapelessRecipe(new ItemStack(mangojuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(mango), new ItemStack(Items.glass_bottle)});
 		GameRegistry.addShapelessRecipe(new ItemStack(mintessence, 1), new Object[] {new ItemStack(pestle), new ItemStack(mintleaf), new ItemStack(Items.glass_bottle)});
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(unfiredjuicer, 1), new Object[] {new ItemStack(juicerguide), new ItemStack(Items.clay_ball)});
@@ -1034,12 +1045,24 @@ public class CookingPlusMain {
 		
 		//magic recipes
 		GameRegistry.addRecipe(new ItemStack(giftofthesea), new Object[] {"ABA", "CDC", "EFE", 'A', new ItemStack(seafoodplatter), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(cookedcrabcake), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(Items.cooked_fish), 'F', new ItemStack(Items.water_bucket)});
-		
 		GameRegistry.addRecipe(new ItemStack(giftofthesoil), new Object[] {"ABA", "CDC", "EFE", 'A', new ItemStack(Item.getItemFromBlock(blockVanilla)), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(Items.cake), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(Items.bread), 'F', new ItemStack(Item.getItemFromBlock(Blocks.grass))});
-		
 		GameRegistry.addRecipe(new ItemStack(crystalcore), new Object[] {"ABA", "BCB", "ABA", 'A', new ItemStack(Items.gold_nugget), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(Items.quartz)});
 		GameRegistry.addRecipe(new ItemStack(blockGrowthCrystal), new Object[] {"ABA", "ACA", "ABA", 'B', new ItemStack(giftofthesoil), 'A', new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), 'C', new ItemStack(crystalcore)});
 		GameRegistry.addRecipe(new ItemStack(blockWaterCrystal), new Object[] {"ABA", "ACA", "ABA", 'B', new ItemStack(giftofthesea), 'A', new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), 'C', new ItemStack(crystalcore)});
+		
+		//pottery guide recipe
+		GameRegistry.addRecipe(new ItemStack(advancedschematic), new Object[] {"AA", "AA", 'A', new ItemStack(basicschematic)});
+		GameRegistry.addRecipe(new ItemStack(complexschematic), new Object[] {"AA", "AA", 'A', new ItemStack(advancedschematic)});
+		GameRegistry.addRecipe(new ItemStack(mugguide), new Object[] {" C ", "ABA", " C ", 'A', new ItemStack(basicschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(plateguide), new Object[] {" C ", " B ", "ACA", 'A', new ItemStack(basicschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(juicerguide), new Object[] {"ACA", "ABA", "ACA", 'A', new ItemStack(basicschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(fryingpanguide), new Object[] {"C C", "ABA", "AAA", 'A', new ItemStack(advancedschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(saucepanguide), new Object[] {"ACA", "ABA", "ACA", 'A', new ItemStack(advancedschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(cuptrayguide), new Object[] {" C ", " B ", "ACA", 'A', new ItemStack(advancedschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(breadtinguide), new Object[] {" C ", "ABA", "ACA", 'A', new ItemStack(advancedschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(largecuptrayguide), new Object[] {" C ", " B ", "ACA", 'A', new ItemStack(complexschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(caketinguide), new Object[] {" C ", "ABA", "ACA", 'A', new ItemStack(complexschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(teapotguide), new Object[] {"ACA", "ABA", "ACA", 'A', new ItemStack(complexschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
 		
 		//oven recipes
 		CookingPlusOvenRecipes.instance().addOvenRecipe(new ItemStack(rawprawn), new ItemStack(cookedprawn), 0.7f);
@@ -1803,6 +1826,12 @@ public class CookingPlusMain {
     	Addblock(event, blockGrowthCrystal);
     	Addblock(event, blockWaterCrystal);
     	
+    	Additem(event, basicschematic);
+    	Additem(event, advancedschematic);
+    	Additem(event, complexschematic);
+    	
+    	Addblock(event, blockGrabber);
+    	
     }
 
     private void AddBambooRecipes(){
@@ -1876,17 +1905,17 @@ public class CookingPlusMain {
     }
 
     private void AddLoot(){
-    	CookingPlusLootHelper.instance().AddPotteryGuide(cuptrayguide, false);
-    	CookingPlusLootHelper.instance().AddPotteryGuide(mugguide, false);
-    	CookingPlusLootHelper.instance().AddPotteryGuide(teapotguide, false);
-    	CookingPlusLootHelper.instance().AddPotteryGuide(plateguide, false);
-    	CookingPlusLootHelper.instance().AddPotteryGuide(fryingpanguide, false);
-    	CookingPlusLootHelper.instance().AddPotteryGuide(juicerguide, false);
-    	CookingPlusLootHelper.instance().AddPotteryGuide(saucepanguide, false);
-    	CookingPlusLootHelper.instance().AddPotteryGuide(breadtinguide, false);
+    	CookingPlusLootHelper.instance().AddPotteryGuide(cuptrayguide, false); //advanced
+    	CookingPlusLootHelper.instance().AddPotteryGuide(mugguide, false); //basic
+    	CookingPlusLootHelper.instance().AddPotteryGuide(teapotguide, false); //complex
+    	CookingPlusLootHelper.instance().AddPotteryGuide(plateguide, false); //basic
+    	CookingPlusLootHelper.instance().AddPotteryGuide(fryingpanguide, false); //advanced
+    	CookingPlusLootHelper.instance().AddPotteryGuide(juicerguide, false); // basic
+    	CookingPlusLootHelper.instance().AddPotteryGuide(saucepanguide, false); //advanced
+    	CookingPlusLootHelper.instance().AddPotteryGuide(breadtinguide, false); //advanced
     	
-    	CookingPlusLootHelper.instance().AddPotteryGuide(caketinguide, true);
-    	CookingPlusLootHelper.instance().AddPotteryGuide(largecuptrayguide, true);
+    	CookingPlusLootHelper.instance().AddPotteryGuide(caketinguide, true); //complex
+    	CookingPlusLootHelper.instance().AddPotteryGuide(largecuptrayguide, true); //complex
     }
 
     private void AddExtraBlockData(){

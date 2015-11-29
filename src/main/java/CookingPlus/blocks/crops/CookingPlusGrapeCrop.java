@@ -23,7 +23,7 @@ public class CookingPlusGrapeCrop extends CookingPlusCustomRopeCrop {
 	}
 	
 	@Override
-	protected Item GetCropItem(){
+	public Item GetCropItem(){
 		return CookingPlusMain.grape;
 	}
 	
@@ -33,7 +33,7 @@ public class CookingPlusGrapeCrop extends CookingPlusCustomRopeCrop {
     }
 	
 	@Override
-	protected Item GetSeedItem(){
+	public Item GetSeedItem(){
 		return CookingPlusMain.grapeseed;
 	}
 
