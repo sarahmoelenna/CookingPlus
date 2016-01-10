@@ -58,7 +58,7 @@ public class HydrophonicRenderer extends TileEntitySpecialRenderer {
 				if(MyHy.getCurrentCrop() instanceof CookingPlusCustomCrops){
 				  myBlock = MyHy.getCurrentCrop().getDefaultState().withProperty(CookingPlusCustomCrops.AGE, MyHy.GetAge());
 				}
-				else if(MyHy.getCurrentCrop() == Blocks.wheat || MyHy.getCurrentCrop() == Blocks.potatoes || MyHy.getCurrentCrop() == Blocks.carrots){
+				else if(MyHy.getCurrentCrop() instanceof BlockCrops){
 					myBlock = MyHy.getCurrentCrop().getDefaultState().withProperty(BlockCrops.AGE, MyHy.GetAge());
 				}
 				 this.bindTexture(TextureMap.locationBlocksTexture);

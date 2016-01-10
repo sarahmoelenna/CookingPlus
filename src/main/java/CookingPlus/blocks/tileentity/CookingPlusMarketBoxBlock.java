@@ -37,7 +37,7 @@ public class CookingPlusMarketBoxBlock extends BlockContainer {
 		private final String name = "marketbox";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusMarketBoxBlock() {
-                super(Material.glass);
+                super(Material.wood);
                 this.setUnlocalizedName("marketbox");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.4F, 1.0F);
         		this.setHardness(2.0F);

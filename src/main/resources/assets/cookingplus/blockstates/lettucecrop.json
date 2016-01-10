@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:lettucecrop" },
+		"age=0": { "model": "cookingplus:lettucecrop" },
+		"age=1": { "model": "cookingplus:lettucecrop" },
+		"age=2": { "model": "cookingplus:lettucecrop_1" },
+		"age=3": { "model": "cookingplus:lettucecrop_1" },
+		"age=4": { "model": "cookingplus:lettucecrop_2" },
+		"age=5": { "model": "cookingplus:lettucecrop_2" },
+		"age=6": { "model": "cookingplus:lettucecrop_2" },
+		"age=7": { "model": "cookingplus:lettucecrop_3" }
+	}
+}

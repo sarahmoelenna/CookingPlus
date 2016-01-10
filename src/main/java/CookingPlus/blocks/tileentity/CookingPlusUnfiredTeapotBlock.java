@@ -35,7 +35,7 @@ public class CookingPlusUnfiredTeapotBlock extends BlockContainer {
 		private final String name = "unfiredteapot";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusUnfiredTeapotBlock() {
-                super(Material.wood);
+                super(Material.clay);
                 this.setUnlocalizedName("unfiredteapot");
                 this.setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 0.7F, 0.8F);
         		this.setHardness(2.0F);

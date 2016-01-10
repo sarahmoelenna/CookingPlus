@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:coffeecrop" },
+		"age=0": { "model": "cookingplus:coffeecrop" },
+		"age=1": { "model": "cookingplus:coffeecrop" },
+		"age=2": { "model": "cookingplus:coffeecrop_1" },
+		"age=3": { "model": "cookingplus:coffeecrop_1" },
+		"age=4": { "model": "cookingplus:coffeecrop_2" },
+		"age=5": { "model": "cookingplus:coffeecrop_2" },
+		"age=6": { "model": "cookingplus:coffeecrop_2" },
+		"age=7": { "model": "cookingplus:coffeecrop_3" }
+	}
+}

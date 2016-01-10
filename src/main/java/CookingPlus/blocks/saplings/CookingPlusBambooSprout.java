@@ -34,7 +34,9 @@ public class CookingPlusBambooSprout extends CookingPlusCustomSapling {
 	@Override
 	public void GenTree(World myWorld, int x, int y, int z, Random myRand){
     	WorldGenerator myGen = new CookingPlusGenBambooTree(CookingPlusMain.blockBamboo, CookingPlusMain.blockBambooLeaves, 0, 0, true, 6, myRand.nextInt(12) + 1, false);
-    	myGen.generate(myWorld, myRand, new BlockPos(new Vec3(x, y, z)));
+    	if(!myGen.generate(myWorld, myRand, new BlockPos(new Vec3(x, y, z)))){
+    		myWorld.setBlockState(new BlockPos(x, y, z), this.getDefaultState());
+    	}
     }
 	
 	@Override

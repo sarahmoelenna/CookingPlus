@@ -11,10 +11,14 @@ import CookingPlus.CookingPlusMain;
 import CookingPlus.tiles.BotTileEntity;
 import CookingPlus.tiles.BrickOvenTileEntity;
 import CookingPlus.tiles.ButterChurnTileEntity;
+import CookingPlus.tiles.CookingPlusGathererTileEntity;
 import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusLightCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusSkyCrystalTileEntity;
 import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
+import CookingPlus.tiles.FisherTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
 import CookingPlus.tiles.GrabberTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
@@ -66,8 +70,12 @@ public class CookingPlusItemRender extends TileEntityItemStackRenderer {
     private VatTileEntity vatRender = new VatTileEntity();
     private BotTileEntity botRender = new BotTileEntity();
     private GrabberTileEntity grabberRender = new GrabberTileEntity();
+    private FisherTileEntity fisherRender = new FisherTileEntity();
     private CookingPlusGrowthCrystalTileEntity growthcrystalRender = new CookingPlusGrowthCrystalTileEntity();
     private CookingPlusWaterCrystalTileEntity watercrystalRender = new CookingPlusWaterCrystalTileEntity();
+    private CookingPlusLightCrystalTileEntity lightcrystalRender = new CookingPlusLightCrystalTileEntity();
+    private CookingPlusSkyCrystalTileEntity skycrystalRender = new CookingPlusSkyCrystalTileEntity();
+    private CookingPlusGathererTileEntity gathererRender = new CookingPlusGathererTileEntity();
     
     @Override
     public void renderByItem(ItemStack itemStack) {
@@ -154,8 +162,20 @@ public class CookingPlusItemRender extends TileEntityItemStackRenderer {
         	GL11.glTranslatef(0.2f, -0.25f, 0);
 			GL11.glScalef(0.65f,  0.65f,  0.65f);
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.watercrystalRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockLightCrystal) {
+        	GL11.glTranslatef(0.2f, -0.25f, 0);
+			GL11.glScalef(0.65f,  0.65f,  0.65f);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.lightcrystalRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockSkyCrystal) {
+        	GL11.glTranslatef(0.2f, -0.25f, 0);
+			GL11.glScalef(0.65f,  0.65f,  0.65f);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.skycrystalRender, 0.0D, 0.0D, 0.0D, 0.0F);
         }else if (block == CookingPlusMain.blockGrabber) {
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.grabberRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockFisher) {
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.fisherRender, 0.0D, 0.0D, 0.0D, 0.0F);
+        }else if (block == CookingPlusMain.blockGatherer) {
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.gathererRender, 0.0D, 0.0D, 0.0D, 0.0F);
         }else {
             super.renderByItem(itemStack);
         }

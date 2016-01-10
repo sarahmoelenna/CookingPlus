@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
@@ -112,7 +113,7 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
     		//System.out.println("B");
     		if(GetWorldBlock(parWorld, parX, parY + 1, parZ) != null){
     			//System.out.println("C");
-    			if(GetWorldBlock(parWorld, parX, parY + 1, parZ).equals(Blocks.air)){
+    			if(parWorld.getBlockState(new BlockPos(parX, parY + 1, parZ)).getBlock().getMaterial() == Material.air){
     				//System.out.println("D");
     				if(canGrow(parWorld, new BlockPos(new Vec3(parX, parY + 1, parZ)), state)){
     					//System.out.println("E");

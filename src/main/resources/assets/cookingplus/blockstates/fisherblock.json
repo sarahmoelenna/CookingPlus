@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:fisherblock" },
+		"level=0": { "model": "cookingplus:fisherblock" },
+		"level=1": { "model": "cookingplus:fisherblock" },
+		"level=2": { "model": "cookingplus:fisherblock" },
+		"level=3": { "model": "cookingplus:fisherblock" },
+		"level=4": { "model": "cookingplus:fisherblock" },
+		"level=5": { "model": "cookingplus:fisherblock" },
+		"level=6": { "model": "cookingplus:fisherblock" },
+		"level=7": { "model": "cookingplus:fisherblock" },
+		"level=8": { "model": "cookingplus:fisherblock" },
+		"level=9": { "model": "cookingplus:fisherblock" },
+		"level=10": { "model": "cookingplus:fisherblock" },
+		"level=11": { "model": "cookingplus:fisherblock" },
+		"level=12": { "model": "cookingplus:fisherblock" },
+		"level=13": { "model": "cookingplus:fisherblock" },
+		"level=14": { "model": "cookingplus:fisherblock" },
+		"level=15": { "model": "cookingplus:fisherblock" },
+		"inventory": { "model": "cookingplus:fisherblock" }
+	}
+}

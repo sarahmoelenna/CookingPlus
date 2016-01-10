@@ -1,5 +1,7 @@
 {
 	"variants": {
-		"normal": { "model": "cookingplus:buchu" }
+		"normal": { "model": "cookingplus:buchu" },
+		"placed=0": { "model": "cookingplus:buchu" },
+		"placed=1": { "model": "cookingplus:buchu" }
 	}
 }

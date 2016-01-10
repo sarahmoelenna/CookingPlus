@@ -43,7 +43,7 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
         //Treat it like a normal block here. The Block Bounds are a good idea - the first three are X Y and Z of the botton-left corner,
         //And the second three are the top-right corner.
         public CookingPlusBrickOvenBlock() {
-                super(Material.glass);
+                super(Material.rock);
                 this.setUnlocalizedName("brickoven");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.5F, 1.0F);
                 this.setHardness(2.0F);

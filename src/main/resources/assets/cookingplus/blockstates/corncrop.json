@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "cookingplus:corncrop" },
+		"age=0": { "model": "cookingplus:corncrop" },
+		"age=1": { "model": "cookingplus:corncrop" },
+		"age=2": { "model": "cookingplus:corncrop_1" },
+		"age=3": { "model": "cookingplus:corncrop_1" },
+		"age=4": { "model": "cookingplus:corncrop_2" },
+		"age=5": { "model": "cookingplus:corncrop_2" },
+		"age=6": { "model": "cookingplus:corncrop_2" },
+		"age=7": { "model": "cookingplus:corncrop_3" }
+	}
+}

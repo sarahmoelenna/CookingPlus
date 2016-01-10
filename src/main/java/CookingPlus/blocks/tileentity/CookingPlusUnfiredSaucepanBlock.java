@@ -33,7 +33,7 @@ public class CookingPlusUnfiredSaucepanBlock extends CookingPlusCustomTileEntity
 		private final String name = "unfiredsaucepan";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusUnfiredSaucepanBlock() {
-                super(Material.wood);
+                super(Material.clay);
                 this.setUnlocalizedName(name);
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.3F, 1.0F);
         		this.setHardness(2.0F);

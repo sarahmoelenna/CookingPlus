@@ -1,5 +1,7 @@
 {
 	"variants": {
-		"normal": { "model": "cookingplus:licorice" }
+		"normal": { "model": "cookingplus:licorice" },
+		"placed=0": { "model": "cookingplus:licorice" },
+		"placed=1": { "model": "cookingplus:licorice" }
 	}
 }

@@ -33,7 +33,7 @@ public class CookingPlusFryingPanBlock extends BlockContainer {
 		private final String name = "fryingpan";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusFryingPanBlock() {
-                super(Material.wood);
+                super(Material.rock);
                 this.setUnlocalizedName("fryingpan");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.2F, 1.0F);
         		this.setHardness(2.0F);

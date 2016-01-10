@@ -36,7 +36,7 @@ public class CookingPlusHydrophonicBlock extends CookingPlusCustomTileEntityBloc
 		private final String name = "hydrophonic";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusHydrophonicBlock() {
-                super(Material.wood);
+                super(Material.iron);
                 this.setUnlocalizedName(name);
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1F, 1F, 1F);
         		this.setHardness(2.0F);

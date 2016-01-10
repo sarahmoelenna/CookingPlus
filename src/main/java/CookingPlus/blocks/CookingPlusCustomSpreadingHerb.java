@@ -6,26 +6,53 @@ import java.util.Random;
 import CookingPlus.CookingPlusConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 
+	public static final PropertyInteger PlayerPlaced = PropertyInteger.create("placed", 0, 1);
+	
 	protected CookingPlusCustomSpreadingHerb() {
 		super(Material.plants);
 		this.setStepSound(soundTypeGrass);
 		this.setTickRandomly(true);
+		if(CookingPlusConfig.SpawnedHerbSpreading == false){
+			this.setDefaultState(this.blockState.getBaseState().withProperty(PlayerPlaced, Integer.valueOf(0)));
+		}
+		else{
+			this.setDefaultState(this.blockState.getBaseState().withProperty(PlayerPlaced, Integer.valueOf(1)));
+		}
 	}
 
+	@Override
+	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    {
+		if(CookingPlusConfig.PlayerHerbSpreading == true){
+			return this.getStateFromMeta(meta).withProperty(PlayerPlaced, 1);
+		}
+		else{
+			return this.getStateFromMeta(meta);
+		}
+    }
+	
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos myPos,IBlockState myState, int fortune) {
 		List<ItemStack> ret = super.getDrops(world, myPos, myState, fortune);
@@ -71,7 +98,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) 
 	{
-		if(CookingPlusConfig.HerbSpreading == true){
+		if(((Integer)state.getValue(PlayerPlaced)).intValue() == 1){
 		if (worldIn.getLightFromNeighbors(pos.up()) >= 9){
 			//System.out.println("ho ho ho");
 			if(rand.nextInt(100) > 100 - CookingPlusConfig.HerbSpreadRate){
@@ -81,7 +108,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						boolean done = false;
 						if(worldIn.getBlockState(pos.north()) != null){ // up one block
 							if(worldIn.getBlockState(pos.north()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.north().up()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.north().up()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.north().up(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -89,7 +116,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						}
 						if(done == false && worldIn.getBlockState(pos.north().down()) != null){ // same level
 							if(worldIn.getBlockState(pos.north().down()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.north()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.north()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.north(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -97,7 +124,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						}
 						if(done == false && worldIn.getBlockState(pos.north().down().down()) != null){ // down one block
 							if(worldIn.getBlockState(pos.north().down().down()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.north().down()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.north().down()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.north().down(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -109,7 +136,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						boolean done = false;
 						if(worldIn.getBlockState(pos.east()) != null){ // up one block
 							if(worldIn.getBlockState(pos.east()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.east().up()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.east().up()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.east().up(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -117,7 +144,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						}
 						if(done == false && worldIn.getBlockState(pos.east().down()) != null){ // same level
 							if(worldIn.getBlockState(pos.east().down()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.east()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.east()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.east(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -125,7 +152,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						}
 						if(done == false && worldIn.getBlockState(pos.east().down().down()) != null){ // down one block
 							if(worldIn.getBlockState(pos.east().down().down()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.east().down()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.east().down()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.east().down(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -137,7 +164,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						boolean done = false;
 						if(worldIn.getBlockState(pos.west()) != null){ // up one block
 							if(worldIn.getBlockState(pos.west()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.west().up()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.west().up()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.west().up(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -145,7 +172,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						}
 						if(done == false && worldIn.getBlockState(pos.west().down()) != null){ // same level
 							if(worldIn.getBlockState(pos.west().down()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.west()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.west()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.west(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -153,7 +180,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						}
 						if(done == false && worldIn.getBlockState(pos.west().down().down()) != null){ // down one block
 							if(worldIn.getBlockState(pos.west().down().down()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.west().down()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.west().down()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.west().down(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -165,7 +192,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						boolean done = false;
 						if(worldIn.getBlockState(pos.south()) != null){ // up one block
 							if(worldIn.getBlockState(pos.south()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.south().up()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.south().up()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.south().up(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -173,7 +200,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						}
 						if(done == false && worldIn.getBlockState(pos.south().down()) != null){ // same level
 							if(worldIn.getBlockState(pos.south().down()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.south()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.south()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.south(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -181,7 +208,7 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
 						}
 						if(done == false && worldIn.getBlockState(pos.south().down().down()) != null){ // down one block
 							if(worldIn.getBlockState(pos.west().south().down()).getBlock() == Blocks.grass){
-								if(worldIn.getBlockState(pos.south().down()).getBlock() == Blocks.air){
+								if(worldIn.getBlockState(pos.south().down()).getBlock().getMaterial() == Material.air){
 									worldIn.setBlockState(pos.south().down(), GetHerbItem().getDefaultState());
 									done = true;
 								}
@@ -203,10 +230,27 @@ public class CookingPlusCustomSpreadingHerb extends CookingPlusCustomBlock {
     }
 	
 	@Override
-	 public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
 	 {
 		//System.out.println("meow");
 	     return (worldIn.getBlockState(pos.down()).getBlock() == Blocks.grass);
 	 }
 	
+	@Override
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] { PlayerPlaced});
 	}
+
+	@Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(PlayerPlaced, Integer.valueOf(meta));
+    }
+
+	@Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((Integer)state.getValue(PlayerPlaced)).intValue();
+    }
+	
+}

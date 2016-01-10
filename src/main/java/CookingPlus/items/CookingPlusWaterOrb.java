@@ -44,7 +44,7 @@ private final String name = "waterorb";
                 	--itemStackIn.stackSize;
                 }
                 else{
-                	return null;
+                	return new ItemStack(itemStackIn.getItem(), 0);
                 }
             }
 

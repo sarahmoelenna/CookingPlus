@@ -44,6 +44,14 @@ public class CookingPlusEventHandler {
 					ItemStack k = new ItemStack(CookingPlusMain.mugguide, 2);
 					event.craftMatrix.setInventorySlotContents(i, k);
 				}
+				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.sphereguide)) {
+					ItemStack k = new ItemStack(CookingPlusMain.sphereguide, 2);
+					event.craftMatrix.setInventorySlotContents(i, k);
+				}
+				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.chipmoldmold)) {
+					ItemStack k = new ItemStack(CookingPlusMain.chipmoldmold, 2);
+					event.craftMatrix.setInventorySlotContents(i, k);
+				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.teapotguide)) {
 					ItemStack k = new ItemStack(CookingPlusMain.teapotguide, 2);
 					event.craftMatrix.setInventorySlotContents(i, k);

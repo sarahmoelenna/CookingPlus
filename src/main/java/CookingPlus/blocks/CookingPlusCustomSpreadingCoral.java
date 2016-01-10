@@ -4,6 +4,7 @@ import java.util.Random;
 
 import CookingPlus.CookingPlusConfig;
 import CookingPlus.CookingPlusMain;
+import CookingPlus.blocks.tileentity.CookingPlusGathererBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -74,6 +75,11 @@ public boolean isValidBlock(World world, BlockPos pos){
 		return true;
 	}
 	else if(myBlock instanceof CookingPlusCustomUnderwaterPlant)
+	{
+		//System.out.println("plant");
+		return true;
+	}
+	else if(myBlock instanceof CookingPlusGathererBlock)
 	{
 		//System.out.println("plant");
 		return true;

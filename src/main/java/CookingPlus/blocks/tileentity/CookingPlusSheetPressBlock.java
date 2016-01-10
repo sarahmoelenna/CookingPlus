@@ -33,7 +33,7 @@ public class CookingPlusSheetPressBlock extends BlockContainer {
 		private final String name = "sheetpress";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusSheetPressBlock() {
-                super(Material.wood);
+                super(Material.iron);
                 this.setUnlocalizedName("sheetpress");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         		this.setHardness(2.0F);

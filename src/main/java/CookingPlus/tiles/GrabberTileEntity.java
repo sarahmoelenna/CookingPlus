@@ -68,6 +68,11 @@ public class GrabberTileEntity extends TileEntity implements IUpdatePlayerListBo
 			timing--;
 		}
 		
+		if(!CookingPlusMain.blockGrabber.canPlaceBlockAt(this.getWorld(), this.getPos())){
+			CookingPlusMain.blockGrabber.dropBlockAsItem(this.getWorld(), this.getPos(), this.getWorld().getBlockState(this.getPos()), 0);
+			this.getWorld().setBlockState(this.getPos(), Blocks.air.getDefaultState());
+		}
+		
 	}
 	
 	public float getMovement(){

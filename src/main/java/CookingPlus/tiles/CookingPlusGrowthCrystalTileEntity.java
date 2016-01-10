@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import CookingPlus.CookingPlusConfig;
 import CookingPlus.CookingPlusMain;
 
 public class CookingPlusGrowthCrystalTileEntity extends CystalBaseTileEntity {
@@ -37,7 +38,7 @@ public class CookingPlusGrowthCrystalTileEntity extends CystalBaseTileEntity {
 		
 		growthRate++;
 		
-		if(growthRate > 50){
+		if(growthRate > CookingPlusConfig.GrowthCrystalGrowRate){
 		for(int w = 0; w < 8; w++){
 			for(int l = 0; l < 8; l++){
 				if(myRand.nextInt(5) == 0){

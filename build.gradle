@@ -19,7 +19,7 @@ apply plugin: 'forge'
 
 version = "0.7.0"
 group= "com.George.CookingPlus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "CookingPlus"
+archivesBaseName = "The Agricultural Revolution"
 
 minecraft {
     version = "1.8-11.14.3.1499"

@@ -35,7 +35,7 @@ public class CookingPlusUnfiredPlateBlock extends BlockContainer {
 		private final String name = "unfiredplate";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusUnfiredPlateBlock() {
-                super(Material.glass);
+                super(Material.clay);
                 this.setUnlocalizedName("unfiredplate");
                 this.setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 0.2F, 0.8F);
         		this.setHardness(2.0F);

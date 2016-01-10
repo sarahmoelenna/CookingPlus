@@ -18,7 +18,9 @@ import CookingPlus.Renderers.CookingPlusItemRender;
 import CookingPlus.Renderers.CookingPlusRender;
 import CookingPlus.Renderers.CrystalRenderer;
 import CookingPlus.Renderers.DryingRackRenderer;
+import CookingPlus.Renderers.FisherRenderer;
 import CookingPlus.Renderers.FryingPanRenderer;
+import CookingPlus.Renderers.GathererRenderer;
 import CookingPlus.Renderers.GrabberRenderer;
 import CookingPlus.Renderers.HeaterRenderer;
 import CookingPlus.Renderers.HydrophonicRenderer;
@@ -42,10 +44,14 @@ import CookingPlus.Renderers.VatRenderer;
 import CookingPlus.tiles.BotTileEntity;
 import CookingPlus.tiles.BrickOvenTileEntity;
 import CookingPlus.tiles.ButterChurnTileEntity;
+import CookingPlus.tiles.CookingPlusGathererTileEntity;
 import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusLightCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusSkyCrystalTileEntity;
 import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
+import CookingPlus.tiles.FisherTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
 import CookingPlus.tiles.GrabberTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
@@ -121,7 +127,11 @@ public class ClientProxy extends CommonProxy {
 		TileEntitySpecialRenderer myCrystalRender = new CrystalRenderer();
 		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusGrowthCrystalTileEntity.class, myCrystalRender);
 		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusWaterCrystalTileEntity.class, myCrystalRender);
+		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusLightCrystalTileEntity.class, myCrystalRender);
+		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusSkyCrystalTileEntity.class, myCrystalRender);
 		ClientRegistry.bindTileEntitySpecialRenderer(GrabberTileEntity.class, new GrabberRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(FisherTileEntity.class, new FisherRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(CookingPlusGathererTileEntity.class, new GathererRenderer());
 		
 	}
 

@@ -20,7 +20,7 @@ public class CookingPlusOilPressBlock extends BlockContainer {
 		private final String name = "oilpress";
 	
         public CookingPlusOilPressBlock() {
-                super(Material.wood);
+                super(Material.rock);
                 this.setUnlocalizedName("oilpress");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         		this.setHardness(2.0F);

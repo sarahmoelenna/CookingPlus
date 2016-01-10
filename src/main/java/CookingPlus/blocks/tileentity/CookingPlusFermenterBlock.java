@@ -37,7 +37,7 @@ public class CookingPlusFermenterBlock extends BlockContainer {
 		private final String name = "fermenter";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusFermenterBlock() {
-                super(Material.wood);
+                super(Material.iron);
                 this.setUnlocalizedName("fermenter");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         		this.setHardness(2.0F);

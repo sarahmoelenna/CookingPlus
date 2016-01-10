@@ -3,6 +3,7 @@ package CookingPlus;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
@@ -14,6 +15,8 @@ public class CookingPlusLootHelper {
 	 private final ArrayList<Item> PotteryGuideList = new ArrayList<Item>();
 	 private final ArrayList<Item> PotteryGuideCommonList = new ArrayList<Item>();
 	 private final ArrayList<Item> PotteryGuideRareList = new ArrayList<Item>();
+	 private final ArrayList<Item> FisherList = new ArrayList<Item>();
+	 private final ArrayList<Item> FisherRareList = new ArrayList<Item>();
 	
 	public static CookingPlusLootHelper instance()
     {
@@ -38,6 +41,16 @@ public class CookingPlusLootHelper {
 		PotteryGuideList.add(myGuide);
 	}
 	
+	public void AddFish(Item myItem, boolean Rarity)
+	{
+		if(Rarity == false){
+			FisherList.add(myItem);
+		}
+		else{
+			FisherRareList.add(myItem);
+		}
+	}
+	
 	public Item GetRandomCommonGuide(Random myRand){
 		int which = myRand.nextInt(PotteryGuideCommonList.size());
 		return PotteryGuideCommonList.get(which);
@@ -51,6 +64,22 @@ public class CookingPlusLootHelper {
 	public Item GetRandomGuide(Random myRand){
 		int which = myRand.nextInt(PotteryGuideList.size());
 		return PotteryGuideList.get(which);
+	}
+	
+	public Item GetRandomFish(Random myRand){
+		if(myRand.nextInt(10) > 1){
+			int which = myRand.nextInt(FisherList.size());
+			return FisherList.get(which);
+		}
+		else{
+			if(myRand.nextFloat() > 0.995f){
+				return Items.leather_boots;
+			}
+			else{
+				int which = myRand.nextInt(FisherRareList.size());
+				return FisherRareList.get(which);
+			}
+		}
 	}
 	
 	public ItemStack GetRandomProcessor(Random myRand){

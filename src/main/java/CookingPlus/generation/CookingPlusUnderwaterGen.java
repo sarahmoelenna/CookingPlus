@@ -30,8 +30,14 @@ public class CookingPlusUnderwaterGen {
 			for (int x = 0; x < 16; x++) {
 				for (int z = 0; z < 16; z++) {
 					if (randIn.nextInt(CookingPlusConfig.SeaweedSpawnRate) == 0 && CookingPlusConfig.SeaweedSpawnRate != 0) {
-						int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
-						GenerateUnderwaterGrowingPlant(worldIn, ChunkX * 16+ x, y, ChunkZ * 16 + z, randIn, 2, 5, CookingPlusMain.blockSeaweedCrop);
+						if (randIn.nextInt(50) > 48){
+							int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
+							GenerateUnderwaterGrowingPlant(worldIn, ChunkX * 16+ x, y, ChunkZ * 16 + z, randIn, 2, 5, CookingPlusMain.blockKelpCrop);
+						}
+						else{
+							int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
+							GenerateUnderwaterGrowingPlant(worldIn, ChunkX * 16+ x, y, ChunkZ * 16 + z, randIn, 2, 5, CookingPlusMain.blockSeaweedCrop);
+						}
 					}
 				}
 			}
@@ -281,7 +287,7 @@ public class CookingPlusUnderwaterGen {
 	int myY = y;
 	int layer = randIn.nextInt(12);
 	Block myFillingBlock = Blocks.lava;
-	if(randIn.nextInt(3) == 0){
+	if(randIn.nextInt(2) == 0){
 		myFillingBlock = CookingPlusMain.blockHydrothermal;
 	}
 	

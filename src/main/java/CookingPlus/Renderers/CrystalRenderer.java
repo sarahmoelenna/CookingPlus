@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL11;
 import CookingPlus.models.CookingPlusCrystal;
 import CookingPlus.models.CookingPlusSponge;
 import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusLightCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusSkyCrystalTileEntity;
 import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.CystalBaseTileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -38,6 +40,12 @@ public class CrystalRenderer extends TileEntitySpecialRenderer {
 		}
 		else if(entity instanceof CookingPlusWaterCrystalTileEntity){
 			this.model.RenderModel(0.0625f, 0);
+		}
+		else if(entity instanceof CookingPlusLightCrystalTileEntity){
+			this.model.RenderModel(0.0625f, 4);
+		}
+		else if(entity instanceof CookingPlusSkyCrystalTileEntity){
+			this.model.RenderModel(0.0625f, 1);
 		}
 		else{
 			this.model.RenderModel(0.0625f, 0);

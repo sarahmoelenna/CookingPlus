@@ -93,7 +93,9 @@ public class CookingPlusCustomSapling extends BlockBush implements IGrowable {
 	    
 	    public void GenTree(World myWorld, int x, int y, int z, Random myRand){
 	    	WorldGenerator myGen = new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockAppleLeaves, 0, 0, 3);
-	    	myGen.generate(myWorld, myRand, new BlockPos(new Vec3(x, y, z)));
+	    	if(!myGen.generate(myWorld, myRand, new BlockPos(new Vec3(x, y, z)))){
+	    		myWorld.setBlockState(new BlockPos(x, y, z), this.getDefaultState());
+	    	}
 	    }
 	    
 	    private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){

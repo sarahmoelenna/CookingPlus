@@ -34,7 +34,9 @@ public class CookingPlusPalmSapling extends CookingPlusCustomSapling {
 	@Override
 	public void GenTree(World myWorld, int x, int y, int z, Random myRand){
     	WorldGenerator myGen = new CookingPlusGenPalmTree(CookingPlusMain.blockPalmLog, CookingPlusMain.blockPalmLeaves, 0, 0, 3);
-    	myGen.generate(myWorld, myRand, new BlockPos(new Vec3(x, y, z)));
+    	if(!myGen.generate(myWorld, myRand, new BlockPos(new Vec3(x, y, z)))){
+    		myWorld.setBlockState(new BlockPos(x, y, z), this.getDefaultState());
+    	}
     }
 	
 	@Override

@@ -35,7 +35,7 @@ public class CookingPlusVatBlock extends CookingPlusCustomTileEntityBlock {
 		private final String name = "vat";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusVatBlock() {
-                super(Material.wood);
+                super(Material.iron);
                 this.setUnlocalizedName(name);
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1F, 2F, 1F);
         		this.setHardness(2.0F);

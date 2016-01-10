@@ -1,5 +1,6 @@
 package CookingPlus.tiles;
 
+import CookingPlus.CookingPlusConfig;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.blocks.CookingPlusCustomCrops;
 import net.minecraft.block.Block;
@@ -23,6 +24,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -61,7 +63,7 @@ public class HydrophonicTileEntity extends TileEntity implements IInventory, IUp
 		if(myAge < 7){
 			timer++;
 		}
-		if(timer > 200){
+		if(timer > CookingPlusConfig.HydrophonicGrowthRate){
 			SetAge(myAge + 1);
 			timer = 0;
 		}
@@ -285,7 +287,11 @@ public class HydrophonicTileEntity extends TileEntity implements IInventory, IUp
 		}
 	 
 	 public void UpdateBlock(){
-			this.worldObj.markBlockForUpdate(this.getPos());
+		 if(this.worldObj != null){
+			 if(this.getPos() != null){
+				 this.worldObj.markBlockForUpdate(this.getPos());
+			 }
+		 }
 	}
 
 	public void processAutoActivate(Item myItem){

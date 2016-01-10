@@ -23,6 +23,8 @@ public class CookingPlusConfig {
 	public static int TropicalHutSpawnRate;
 	public static int UnderwaterVentSpawnRate;
 	public static int GiantCoralDensity;
+	public static int NetherTangleSpawnRate;
+	public static int InlandHydrothermalVeinSpawnRate;
 	
 	public static int CoralReefID;
 	public static int BambooGroveID;
@@ -30,16 +32,27 @@ public class CookingPlusConfig {
 	public static int KelpForestID;
 	public static int TropicalID;
 	public static int DeepReefID;
+	public static int EdenDimensionID;
 	
 	public static boolean vanillarecipes;
-	public static boolean HerbSpreading;
+	public static boolean SpawnedHerbSpreading;
+	public static boolean PlayerHerbSpreading;
 	public static boolean CoralSpreading;
 	public static boolean SjinBot;
 	public static boolean OverwriteMushroomBiomes;
+	public static boolean AllowGuideCopy;
+	public static boolean EnableBotNetwork;
 	
 	public static int FruitDropRate;
 	public static int CoralSpreadRate;
 	public static int HerbSpreadRate;
+	
+	public static int HydrophonicGrowthRate;
+	public static int HHBHarvestRate;
+	public static int HHBPickRate;
+	public static int HHBFishRate;
+	public static int HHBGatherRate;
+	public static int GrowthCrystalGrowRate;
 	
 	public void PreInt(FMLPreInitializationEvent e){
 		
@@ -66,6 +79,8 @@ public class CookingPlusConfig {
 		TropicalHutSpawnRate = config.getInt("TropicalHutSpawnRate", "SpawnRates", 40, 0, 1000, "0 prevents these from spawning");
 		UnderwaterVentSpawnRate = config.getInt("UnderwaterVentSpawnRate", "SpawnRates", 20, 0, 1000, "0 prevents these from spawning");
 		GiantCoralDensity = config.getInt("GiantCoralDensity", "SpawnRates", 5, 0, 1000, "Number of attempts made to spawn a giant coral");
+		NetherTangleSpawnRate = config.getInt("NetherTangleSpawnRate", "SpawnRates", 20, 0, 100, "0 prevents these from spawning");
+		InlandHydrothermalVeinSpawnRate = config.getInt("InlandHydrothermalVeinSpawnRate", "SpawnRates", 200, 0, 1000, "0 prevents these from spawning");
 		
 		CoralReefID = config.getInt("CoralReefID", "Mod IDs", 53, 0, 1000, "");
 		BambooGroveID = config.getInt("BambooGroveID", "Mod IDs", 51, 0, 1000, "");
@@ -75,14 +90,24 @@ public class CookingPlusConfig {
 		DeepReefID = config.getInt("DeepReefID", "Mod IDs", 55, 0, 1000, "");
 		
 		vanillarecipes = config.getBoolean("DisableVanillaFoodRecipes", "Options", true, "");
-		HerbSpreading = config.getBoolean("HerbSpreading", "Options", true, "");
+		SpawnedHerbSpreading = config.getBoolean("HerbSpreading", "Options", false, "This Determines whether naturally spawned herbs are allowed to spread");
+		PlayerHerbSpreading = config.getBoolean("PlayerHerbSpreading", "Options", true, "This Determines whether player placed herbs are allowed to spread");
 		CoralSpreading = config.getBoolean("CoralSpreading", "Options", true, "");
 		SjinBot = config.getBoolean("SjinBot", "Options", false, "");
 		OverwriteMushroomBiomes = config.getBoolean("OverwriteMushroomBiomes", "Options", true, "");
+		AllowGuideCopy = config.getBoolean("AllowGuideCopying", "Options", true, "");
+		EnableBotNetwork = config.getBoolean("EnableBotNetwork", "Options", true, "");
 		
 		FruitDropRate = config.getInt("FruitDropRate", "GrowthRate", 50, 0, 100, "The rate is a percentage");
 		CoralSpreadRate = config.getInt("CoralSpreadRate", "GrowthRate", 25, 0, 100, "The rate is a percentage");
 		HerbSpreadRate = config.getInt("HerbSpreadRate", "GrowthRate", 25, 0, 100, "The rate is a percentage");
+		
+		HydrophonicGrowthRate = config.getInt("HydrophonicGrowthRate", "BlockRates", 200, 0, 100, "Ticks till growth");
+		HHBHarvestRate = config.getInt("HappyHarvetBotHarvestRate", "BlockRates", 30, 0, 10000, "Ticks till harvest");
+		HHBFishRate = config.getInt("HappyHarvetBotFishRate", "BlockRates", 300, 0, 10000, "Ticks till fish");
+		HHBPickRate = config.getInt("HappyHarvetBotPickRate", "BlockRates", 30, 0, 10000, "Ticks till attempt to harvest");
+		HHBGatherRate = config.getInt("HappyHarvetBotPickRate", "BlockRates", 30, 0, 10000, "Ticks till attempt to gather");
+		GrowthCrystalGrowRate = config.getInt("GrowthCrystalGrowRate", "BlockRates", 50, 0, 100, "Ticks till attempt to grow");
 		
 		config.save();
 		

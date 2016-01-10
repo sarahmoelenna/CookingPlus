@@ -19,6 +19,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.Potion;
+import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraftforge.common.BiomeDictionary;
@@ -26,6 +27,7 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.BiomeManager.BiomeType;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -39,6 +41,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+import CookingPlus.Dimension.CookingPlusEdenDimension;
+import CookingPlus.Dimension.CookingPlusIslandHelper;
 import CookingPlus.blocks.CookingPlusBamboo;
 import CookingPlus.blocks.CookingPlusBambooBlock;
 import CookingPlus.blocks.CookingPlusBananaBlock;
@@ -65,6 +72,9 @@ import CookingPlus.blocks.CookingPlusCustomUnderwaterCrop;
 import CookingPlus.blocks.CookingPlusCustomUnderwaterPlant;
 import CookingPlus.blocks.CookingPlusGreenCoralBlock;
 import CookingPlus.blocks.CookingPlusHydrothermalBlock;
+import CookingPlus.blocks.CookingPlusInfusedGlass;
+import CookingPlus.blocks.CookingPlusLightAirBlock;
+import CookingPlus.blocks.CookingPlusNetworkBlock;
 import CookingPlus.blocks.CookingPlusNullBlock;
 import CookingPlus.blocks.CookingPlusOrangeCoralBlock;
 import CookingPlus.blocks.CookingPlusPalmLog;
@@ -72,6 +82,8 @@ import CookingPlus.blocks.CookingPlusPalmPlanks;
 import CookingPlus.blocks.CookingPlusRedCoralBlock;
 import CookingPlus.blocks.CookingPlusRopeBlock;
 import CookingPlus.blocks.CookingPlusSaltBlock;
+import CookingPlus.blocks.CookingPlusTangleHeart;
+import CookingPlus.blocks.CookingPlusTangleLog;
 import CookingPlus.blocks.CookingPlusWhiteCoralBlock;
 import CookingPlus.blocks.CookingPlusYellowCoralBlock;
 import CookingPlus.blocks.bushes.CookingPlusBlueBerryBush;
@@ -114,6 +126,7 @@ import CookingPlus.blocks.leaves.CookingPlusLimeLeaves;
 import CookingPlus.blocks.leaves.CookingPlusOrangeLeaves;
 import CookingPlus.blocks.leaves.CookingPlusPalmLeaves;
 import CookingPlus.blocks.leaves.CookingPlusPeachLeaves;
+import CookingPlus.blocks.leaves.CookingPlusTangleLeaves;
 import CookingPlus.blocks.saplings.CookingPlusAppleSapling;
 import CookingPlus.blocks.saplings.CookingPlusBambooSprout;
 import CookingPlus.blocks.saplings.CookingPlusBananaSapling;
@@ -131,12 +144,15 @@ import CookingPlus.blocks.tileentity.CookingPlusButterChurnBlock;
 import CookingPlus.blocks.tileentity.CookingPlusCustomTileEntityBlock;
 import CookingPlus.blocks.tileentity.CookingPlusDryingRackBlock;
 import CookingPlus.blocks.tileentity.CookingPlusFermenterBlock;
+import CookingPlus.blocks.tileentity.CookingPlusFisherBlock;
 import CookingPlus.blocks.tileentity.CookingPlusFryingPanBlock;
+import CookingPlus.blocks.tileentity.CookingPlusGathererBlock;
 import CookingPlus.blocks.tileentity.CookingPlusGrabberBlock;
 import CookingPlus.blocks.tileentity.CookingPlusGrowthCrystalTileEntityBlock;
 import CookingPlus.blocks.tileentity.CookingPlusHeaterBlock;
 import CookingPlus.blocks.tileentity.CookingPlusHydrophonicBlock;
 import CookingPlus.blocks.tileentity.CookingPlusIceBoxBlock;
+import CookingPlus.blocks.tileentity.CookingPlusLightCrystalBlock;
 import CookingPlus.blocks.tileentity.CookingPlusLiquidBarrelBlock;
 import CookingPlus.blocks.tileentity.CookingPlusMarketBoxBlock;
 import CookingPlus.blocks.tileentity.CookingPlusNetBlock;
@@ -145,6 +161,7 @@ import CookingPlus.blocks.tileentity.CookingPlusOrnateChestBlock;
 import CookingPlus.blocks.tileentity.CookingPlusPlateBlock;
 import CookingPlus.blocks.tileentity.CookingPlusSaucePanBlock;
 import CookingPlus.blocks.tileentity.CookingPlusSheetPressBlock;
+import CookingPlus.blocks.tileentity.CookingPlusSkyCrystalBlock;
 import CookingPlus.blocks.tileentity.CookingPlusSpongeBlock;
 import CookingPlus.blocks.tileentity.CookingPlusTeapotBlock;
 import CookingPlus.blocks.tileentity.CookingPlusUnfiredFryingPanBlock;
@@ -213,6 +230,7 @@ import CookingPlus.items.CookingPlusShelledPrawn;
 import CookingPlus.items.CookingPlusSingleStackItem;
 import CookingPlus.items.CookingPlusStarCutter;
 import CookingPlus.items.CookingPlusStarUncooked;
+import CookingPlus.items.CookingPlusTeleportCrystal;
 import CookingPlus.items.CookingPlusUncookedCrabCake;
 import CookingPlus.items.CookingPlusVanillaButterCream;
 import CookingPlus.items.CookingPlusVanillaEssence;
@@ -344,10 +362,14 @@ import CookingPlus.recipes.CookingPlusSheetPressRecipes;
 import CookingPlus.tiles.BotTileEntity;
 import CookingPlus.tiles.BrickOvenTileEntity;
 import CookingPlus.tiles.ButterChurnTileEntity;
+import CookingPlus.tiles.CookingPlusGathererTileEntity;
 import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusLightCrystalTileEntity;
+import CookingPlus.tiles.CookingPlusSkyCrystalTileEntity;
 import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.DryingRackTileEntity;
 import CookingPlus.tiles.FermenterTileEntity;
+import CookingPlus.tiles.FisherTileEntity;
 import CookingPlus.tiles.FryingPanTileEntity;
 import CookingPlus.tiles.GrabberTileEntity;
 import CookingPlus.tiles.HeaterTileEntity;
@@ -376,8 +398,10 @@ import CookingPlus.tiles.VatTileEntity;
 public class CookingPlusMain {
 	
 	public static final String MODID = "CookingPlus";
-    public static final String MODNAME = "CookingPlus";
-    public static final String VERSION = "0.7.0";
+    public static final String MODNAME = "The Agricultural Revolution";
+    public static final String VERSION = "0.7.2";
+    
+    public static WorldProvider dimensionEden = new CookingPlusEdenDimension();
     
     //recipe declarations
     public final static CookingPlusOvenRecipes OvenRecipes = new CookingPlusOvenRecipes();
@@ -387,6 +411,7 @@ public class CookingPlusMain {
     public final static CookingPlusSaucePanRecipe SaucePanRecipes = new CookingPlusSaucePanRecipe();
     public final static CookingPlusIceBoxRecipes IceBoxRecipes = new CookingPlusIceBoxRecipes();
     public final static CookingPlusLootHelper MyLootHelper = new CookingPlusLootHelper();
+    public final static CookingPlusGenericHelper MyGenericHelper = new CookingPlusGenericHelper();
     
     //block declarations
     public final static Block blockChilliCrop = new CookingPlusChilliPlant();
@@ -714,8 +739,18 @@ public class CookingPlusMain {
     
     public final static Block blockGrowthCrystal = new CookingPlusGrowthCrystalTileEntityBlock();
     public final static Block blockWaterCrystal = new CookingPlusWaterCrystalBlock();
+    public final static Block blockLightCrystal = new CookingPlusLightCrystalBlock();
+    public final static Block blockSkyCrystal = new CookingPlusSkyCrystalBlock();
     
     public final static Block blockGrabber = new CookingPlusGrabberBlock();
+    public final static Block blockFisher = new CookingPlusFisherBlock();
+    public final static Block blockTangleLog = new CookingPlusTangleLog();
+    public final static Block blockTangleLeaves = new CookingPlusTangleLeaves();
+    public final static Block blockTangleHeart = new CookingPlusTangleHeart();
+    public final static Block blockLightAir = new CookingPlusLightAirBlock();
+    public final static Block blockInfusedGlass = new CookingPlusInfusedGlass();
+    public final static Block blockNetworkBlock = new CookingPlusNetworkBlock();
+    public final static Block blockGatherer = new CookingPlusGathererBlock();
     
     public final static Item riceSeed = new CookingPlusRiceSeed();
     public final static Item rice = new CookingPlusEasyHarvest("rice");
@@ -759,6 +794,34 @@ public class CookingPlusMain {
     public final static Item basicschematic = new CookingPlusMultiStackItem("basicschematic");
     public final static Item advancedschematic = new CookingPlusMultiStackItem("advancedschematic");
     public final static Item complexschematic = new CookingPlusMultiStackItem("complexschematic");
+    public final static Item teleportcrystal = new CookingPlusTeleportCrystal();
+    public final static Item tangleheartshard = new CookingPlusMultiStackItem("tangleheartshard");
+    public final static Item moltenglass = new CookingPlusSingleStackItem("moltenglass");
+    public final static Item moltenorb = new CookingPlusSingleStackItem("moltenorb");
+    public final static Item sphereguide = new CookingPlusSingleStackItem("sphereguide");
+    public final static Item spheremold = new CookingPlusSingleStackItem("spheremold");
+    public final static Item unfiredsphere = new CookingPlusSingleStackItem("unfiredsphere");
+    public final static Item chipguide = new CookingPlusSingleStackItem("chipguide");
+    public final static Item chipmoldmold = new CookingPlusSingleStackItem("chipmoldmold");
+    public final static Item unfiredchipmoldmold = new CookingPlusSingleStackItem("unfiredchipmoldmold");
+    
+    //crop and dimension update stuff
+    public final static Block blockLeekCrop = new CookingPlusEasyCrop("leekcrop");
+    public final static Item leek = new CookingPlusEasyHarvest("leek");
+    public final static Item leekseeds = new CookingPlusEasySeed("leekseeds", blockLeekCrop, Blocks.farmland);
+    
+    public final static Block blockLettuceCrop = new CookingPlusEasyCrop("lettucecrop");
+    public final static Item lettuce = new CookingPlusEasyHarvest("lettuce");
+    public final static Item lettuceseeds = new CookingPlusEasySeed("lettuceseeds", blockLettuceCrop, Blocks.farmland);
+    
+    public final static Block blockCornCrop = new CookingPlusEasyCrop("corncrop");
+    public final static Item corn = new CookingPlusEasyHarvest("corn");
+    public final static Item cornseeds = new CookingPlusEasySeed("cornseeds", blockCornCrop, Blocks.farmland);
+    
+    public final static Block blockCoffeeCrop = new CookingPlusEasyCrop("coffeecrop");
+    public final static Item coffeebean = new CookingPlusEasyHarvest("coffeebean");
+    public final static Item coffeeseeds = new CookingPlusEasySeed("coffeeseeds", blockCoffeeCrop, Blocks.farmland);
+    
     
     //1.9 stuff
     public final static Block blockBeetrootCrop = new CookingPlusBeetrootPlant();
@@ -785,7 +848,7 @@ public class CookingPlusMain {
     public static BiomeGenBase myOceanB;
     
   //Use a custom item as an icon (assuming it is instantiated in a class called ModItems)
-    public static CreativeTabs tabCustom = new CreativeTabs("tabCookingPlus") {
+    public static CreativeTabs tabCustom = new CreativeTabs("tabAgriculturalRevolution") {
         @Override
         @SideOnly(Side.CLIENT)
         public Item getTabIconItem() {
@@ -810,6 +873,8 @@ public class CookingPlusMain {
         CookingPlusConfig myConfig = new CookingPlusConfig();
         myConfig.PreInt(e);
         CookingPlusLootHelper.instance().CookingPlusLootHelperInit();
+        System.out.println("Pre-Generating Floating Islands");
+        CookingPlusIslandHelper.PregenerateIslands();
         
         orchardBiome = new CookingPlusOrchardBiome(CookingPlusConfig.OrchardID);
         bambooBiome = new CookingPlusBambooBiome(CookingPlusConfig.BambooGroveID);
@@ -854,16 +919,20 @@ public class CookingPlusMain {
     	GameRegistry.registerTileEntity(BotTileEntity.class, "bot");
     	GameRegistry.registerTileEntity(CookingPlusGrowthCrystalTileEntity.class, "growthcrystal");
     	GameRegistry.registerTileEntity(CookingPlusWaterCrystalTileEntity.class, "watercrystal");
+    	GameRegistry.registerTileEntity(CookingPlusLightCrystalTileEntity.class, "lightcrystal");
+    	GameRegistry.registerTileEntity(CookingPlusSkyCrystalTileEntity.class, "skycrystal");
     	GameRegistry.registerTileEntity(GrabberTileEntity.class, "grabber");
+    	GameRegistry.registerTileEntity(FisherTileEntity.class, "fisher");
+    	GameRegistry.registerTileEntity(CookingPlusGathererTileEntity.class, "gatherer");
 		
     	addPotions();
-		
+    	RegisterDimensions();
 		this.proxy.preInit(e);
 	}
     
     @EventHandler
 	public void init(FMLInitializationEvent e) {
-		System.out.println("Cooking Plus Intialised");
+		System.out.println("The Agricultural Revolution Intialised");
 		
 		//biomes
       	BiomeDictionary.registerBiomeType(orchardBiome, Type.FOREST, Type.LUSH);
@@ -889,7 +958,7 @@ public class CookingPlusMain {
       	
 		
 		AddExtraBlockData();
-		
+		RegisterDictionary();
 		if(CookingPlusConfig.vanillarecipes == true){
 			removeCraftingRecipe(Items.bread);
 			removeCraftingRecipe(Items.cake);
@@ -910,40 +979,40 @@ public class CookingPlusMain {
 		GameRegistry.addShapelessRecipe(new ItemStack(grapeseed, 2), new Object[] {new ItemStack(grape)});
 		GameRegistry.addShapelessRecipe(new ItemStack(rawprawn), new Object[] {new ItemStack(shelledprawn)});
 		GameRegistry.addShapelessRecipe(new ItemStack(flour), new Object[] {new ItemStack(pestle), new ItemStack(Items.wheat)});
-		GameRegistry.addShapelessRecipe(new ItemStack(cakebatter), new Object[] {new ItemStack(caketin), new ItemStack(Items.milk_bucket), new ItemStack(Items.egg), new ItemStack(flour), new ItemStack(Items.sugar)});
-		GameRegistry.addShapelessRecipe(new ItemStack(dough), new Object[] {new ItemStack(breadtin), new ItemStack(Items.milk_bucket), new ItemStack(saltpile), new ItemStack(flour), new ItemStack(Items.sugar), new ItemStack(butternugget)});
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cakebatter), new Object[] {new ItemStack(caketin), new ItemStack(Items.milk_bucket), new ItemStack(Items.egg), "materialFlour", new ItemStack(Items.sugar)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dough), new Object[] {new ItemStack(breadtin), new ItemStack(Items.milk_bucket), new ItemStack(saltpile), "materialFlour", new ItemStack(Items.sugar), new ItemStack(butternugget)}));
 		GameRegistry.addShapelessRecipe(new ItemStack(butternugget, 9), new Object[] {new ItemStack(butteringot)});
 		GameRegistry.addShapelessRecipe(new ItemStack(butteringot, 9), new Object[] {new ItemStack(Item.getItemFromBlock(blockButter))});
-		GameRegistry.addShapelessRecipe(new ItemStack(cookiebatter), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(chocolate), new ItemStack(flour), new ItemStack(Items.sugar), new ItemStack(butternugget)});
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cookiebatter), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(chocolate), "materialFlour", new ItemStack(Items.sugar), new ItemStack(butternugget)}));
 		GameRegistry.addShapelessRecipe(new ItemStack(vanillabuttercream), new Object[] {new ItemStack(Items.bowl), new ItemStack(vanillaessence), new ItemStack(Items.sugar), new ItemStack(butternugget)});
 		GameRegistry.addShapelessRecipe(new ItemStack(rawoyster), new Object[] {new ItemStack(shelledoyster)});
 		GameRegistry.addShapelessRecipe(new ItemStack(rawcrab), new Object[] {new ItemStack(shelledcrab)});
 		GameRegistry.addShapelessRecipe(new ItemStack(rawlobster), new Object[] {new ItemStack(shelledlobster)});
 		GameRegistry.addShapelessRecipe(new ItemStack(Item.getItemFromBlock(blockPalmPlanks), 4), new Object[] {new ItemStack(Item.getItemFromBlock(blockPalmLog))});
-		GameRegistry.addShapelessRecipe(new ItemStack(bananadough), new Object[] {new ItemStack(breadtin), new ItemStack(Items.egg), new ItemStack(bananaslice), new ItemStack(flour), new ItemStack(Items.sugar), new ItemStack(butternugget)});
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(bananadough), new Object[] {new ItemStack(breadtin), new ItemStack(Items.egg), new ItemStack(bananaslice), "materialFlour", new ItemStack(Items.sugar), new ItemStack(butternugget)}));
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(vanillaicecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(vanillaessence), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(minticecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(mintessence), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(strawberryicecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(strawberryjuice), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(chocolateicecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(chocolate), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(lemonicecreammix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(creambucket), new ItemStack(lemonjuice), new ItemStack(Items.sugar)});
-		GameRegistry.addShapelessRecipe(new ItemStack(bananaslice, 3), new Object[] {new ItemStack(knife), new ItemStack(banana)});
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(bananaslice, 3), new Object[] {new ItemStack(knife), "foodBanana"}));
 		
 		
 		//juices
 		GameRegistry.addShapelessRecipe(new ItemStack(applejuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(Items.apple), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(lemonjuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(lemon), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(limejuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(lime), 	new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(peachjuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(peach), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(blueberryjuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(blueberry), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(gooseberryjuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(gooseberry), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(strawberryjuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(strawberry), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(orangejuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(orange), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(grapejuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(grape), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(vanillaessence, 1), new Object[] {new ItemStack(pestle), new ItemStack(vanillapod), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(pineapplejuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(pineapple), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(kiwijuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(kiwi), new ItemStack(Items.glass_bottle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(mangojuice, 1), new Object[] {new ItemStack(juicer), new ItemStack(mango), new ItemStack(Items.glass_bottle)});
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(lemonjuice, 1), new Object[] {new ItemStack(juicer), "foodLemon", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(limejuice, 1), new Object[] {new ItemStack(juicer), "foodLime", 	new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(peachjuice, 1), new Object[] {new ItemStack(juicer), "foodPeach", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(blueberryjuice, 1), new Object[] {new ItemStack(juicer), "foodBlueberry", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(gooseberryjuice, 1), new Object[] {new ItemStack(juicer), "foodGooseberry", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(strawberryjuice, 1), new Object[] {new ItemStack(juicer), "foodStrawberry", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(orangejuice, 1), new Object[] {new ItemStack(juicer), "foodOrange", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(grapejuice, 1), new Object[] {new ItemStack(juicer), "foodGrape", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(vanillaessence, 1), new Object[] {new ItemStack(pestle), "foodVanilla", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(pineapplejuice, 1), new Object[] {new ItemStack(juicer), "foodPineapple", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(kiwijuice, 1), new Object[] {new ItemStack(juicer), "foodKiwi", new ItemStack(Items.glass_bottle)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(mangojuice, 1), new Object[] {new ItemStack(juicer), "foodMango", new ItemStack(Items.glass_bottle)}));
 		GameRegistry.addShapelessRecipe(new ItemStack(mintessence, 1), new Object[] {new ItemStack(pestle), new ItemStack(mintleaf), new ItemStack(Items.glass_bottle)});
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(unfiredjuicer, 1), new Object[] {new ItemStack(juicerguide), new ItemStack(Items.clay_ball)});
@@ -956,15 +1025,15 @@ public class CookingPlusMain {
 		GameRegistry.addShapelessRecipe(new ItemStack(moonuncooked, 10), new Object[] {new ItemStack(mooncutter), new ItemStack(cookiebatter)});
 		GameRegistry.addShapelessRecipe(new ItemStack(chocolate, 1), new Object[] {new ItemStack(cocoapowder), new ItemStack(Items.milk_bucket), new ItemStack(Items.sugar), new ItemStack(butternugget)});
 		GameRegistry.addShapelessRecipe(new ItemStack(cocoapowder, 1), new Object[] {new ItemStack(Items.dye, 1, 3), new ItemStack(pestle)});
-		GameRegistry.addShapelessRecipe(new ItemStack(pancakemix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), new ItemStack(flour), new ItemStack(Items.egg), new ItemStack(vegetableoil)});
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(pancakemix), new Object[] {new ItemStack(Items.bowl), new ItemStack(Items.milk_bucket), "materialFlour", new ItemStack(Items.egg), new ItemStack(vegetableoil)}));
 		GameRegistry.addShapelessRecipe(new ItemStack(chocolatepancake, 1), new Object[] {new ItemStack(pancake), new ItemStack(chocolate)});
 		GameRegistry.addShapelessRecipe(new ItemStack(sugarpancake, 1), new Object[] {new ItemStack(pancake), new ItemStack(Items.sugar)});
 		GameRegistry.addShapelessRecipe(new ItemStack(lemonpancake, 1), new Object[] {new ItemStack(pancake), new ItemStack(lemonjuice)});
 		GameRegistry.addShapelessRecipe(new ItemStack(creampancake, 1), new Object[] {new ItemStack(pancake), new ItemStack(creambucket)});
-		GameRegistry.addShapelessRecipe(new ItemStack(traysponge), new Object[] {new ItemStack(cupcaketray), new ItemStack(Items.milk_bucket), new ItemStack(flour), new ItemStack(Items.egg), new ItemStack(Items.sugar), new ItemStack(vanillaessence)});
-		GameRegistry.addShapelessRecipe(new ItemStack(traychocolate), new Object[] {new ItemStack(cupcaketray), new ItemStack(Items.milk_bucket), new ItemStack(flour), new ItemStack(Items.egg), new ItemStack(Items.sugar), new ItemStack(chocolate)});
-		GameRegistry.addShapelessRecipe(new ItemStack(trayvelvet), new Object[] {new ItemStack(cupcaketray), new ItemStack(Items.milk_bucket), new ItemStack(flour), new ItemStack(Items.egg), new ItemStack(Items.sugar), new ItemStack(chocolate), new ItemStack(Items.dye, 1, 1)});
-		GameRegistry.addShapelessRecipe(new ItemStack(traylargesponge), new Object[] {new ItemStack(largecupcaketray), new ItemStack(Items.milk_bucket), new ItemStack(flour), new ItemStack(Items.egg), new ItemStack(Items.sugar), new ItemStack(vanillaessence)});
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(traysponge), new Object[] {new ItemStack(cupcaketray), new ItemStack(Items.milk_bucket), "materialFlour", new ItemStack(Items.egg), new ItemStack(Items.sugar), new ItemStack(vanillaessence)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(traychocolate), new Object[] {new ItemStack(cupcaketray), new ItemStack(Items.milk_bucket), "materialFlour", new ItemStack(Items.egg), new ItemStack(Items.sugar), new ItemStack(chocolate)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(trayvelvet), new Object[] {new ItemStack(cupcaketray), new ItemStack(Items.milk_bucket), "materialFlour", new ItemStack(Items.egg), new ItemStack(Items.sugar), new ItemStack(chocolate), new ItemStack(Items.dye, 1, 1)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(traylargesponge), new Object[] {new ItemStack(largecupcaketray), new ItemStack(Items.milk_bucket), "materialFlour", new ItemStack(Items.egg), new ItemStack(Items.sugar), new ItemStack(vanillaessence)}));
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(vanillasponge, 1), new Object[] {new ItemStack(vanillabuttercream), new ItemStack(cherry), new ItemStack(plainspongecupcake)});
 		GameRegistry.addShapelessRecipe(new ItemStack(vanillachocolate, 1), new Object[] {new ItemStack(vanillabuttercream), new ItemStack(cherry), new ItemStack(plainchocolatecupcake)});
@@ -976,32 +1045,32 @@ public class CookingPlusMain {
 		GameRegistry.addShapelessRecipe(new ItemStack(uncookedcrabcake), new Object[] {new ItemStack(cookedcrab), new ItemStack(Items.egg), new ItemStack(breadcrumbs)});
 		
 		//salted
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedpork, 1), new Object[] {new ItemStack(Items.cooked_porkchop), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedbeef, 1), new Object[] {new ItemStack(Items.cooked_beef), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedprawn, 1), new Object[] {new ItemStack(cookedprawn), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedmutton, 1), new Object[] {new ItemStack(Items.cooked_mutton), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedchicken, 1), new Object[] {new ItemStack(Items.cooked_chicken), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedrabbit, 1), new Object[] {new ItemStack(Items.cooked_rabbit), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedsquid, 1), new Object[] {new ItemStack(cookedsquid), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedoyster, 1), new Object[] {new ItemStack(cookedoyster), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedcrab, 1), new Object[] {new ItemStack(cookedcrab), new ItemStack(saltpile)});
-		GameRegistry.addShapelessRecipe(new ItemStack(saltedlobster, 1), new Object[] {new ItemStack(cookedlobster), new ItemStack(saltpile)});
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedpork, 1), new Object[] {new ItemStack(Items.cooked_porkchop), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedbeef, 1), new Object[] {new ItemStack(Items.cooked_beef), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedprawn, 1), new Object[] {new ItemStack(cookedprawn), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedmutton, 1), new Object[] {new ItemStack(Items.cooked_mutton), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedchicken, 1), new Object[] {new ItemStack(Items.cooked_chicken), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedrabbit, 1), new Object[] {new ItemStack(Items.cooked_rabbit), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedsquid, 1), new Object[] {new ItemStack(cookedsquid), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedoyster, 1), new Object[] {new ItemStack(cookedoyster), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedcrab, 1), new Object[] {new ItemStack(cookedcrab), "dustSalt"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(saltedlobster, 1), new Object[] {new ItemStack(cookedlobster), "dustSalt"}));
 		
 		GameRegistry.addRecipe(new ItemStack(fishingnet), new Object[] {"~#~", "###", "~#~", '#', new ItemStack(Items.string), '~', new ItemStack(Items.stick)});
 		GameRegistry.addRecipe(new ItemStack(blockSalt), new Object[] {"##", "##", '#', new ItemStack(saltpile)});
-		GameRegistry.addRecipe(new ItemStack(pestle), new Object[] {" ~ ", "#@#", " # ", '#', new ItemStack(Item.getItemFromBlock(Blocks.cobblestone)), '~', new ItemStack(Items.stick), '@', new ItemStack(Item.getItemFromBlock(Blocks.planks))});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(pestle), new Object[] {" ~ ", "#@#", " # ", '#', new ItemStack(Item.getItemFromBlock(Blocks.cobblestone)), '~', new ItemStack(Items.stick), '@', "plankWood"}));
 		GameRegistry.addRecipe(new ItemStack(rack), new Object[] {" # ", " # ", " # ", '#', new ItemStack(Item.getItemFromBlock(Blocks.iron_bars))});
 		GameRegistry.addRecipe(new ItemStack(blockBrickOven), new Object[] {"~~~", "~#~", "~~~", '#', new ItemStack(rack), '~', new ItemStack(Items.brick)});
 		GameRegistry.addRecipe(new ItemStack(knife), new Object[] {" #", "~ ", '#', new ItemStack(Items.iron_ingot), '~', new ItemStack(Items.stick)});
-		GameRegistry.addRecipe(new ItemStack(blockButterChurn), new Object[] {" # ", "~#~", "~~~", '~', new ItemStack(Item.getItemFromBlock(Blocks.planks)), '#', new ItemStack(Items.stick)});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockButterChurn), new Object[] {" # ", "~#~", "~~~", '~', "plankWood", '#', new ItemStack(Items.stick)}));
 		GameRegistry.addRecipe(new ItemStack(blockButter), new Object[] {"###", "###", "###", '#', new ItemStack(butteringot)});
 		GameRegistry.addRecipe(new ItemStack(butteringot), new Object[] {"###", "###", "###", '#', new ItemStack(butternugget)});
-		GameRegistry.addRecipe(new ItemStack(blockOilPress), new Object[] {"#~#", " ~ ", "###", '~', new ItemStack(Item.getItemFromBlock(Blocks.planks)), '#', Item.getItemFromBlock(Blocks.stone)});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockOilPress), new Object[] {"#~#", " ~ ", "###", '~', "plankWood", '#', Item.getItemFromBlock(Blocks.stone)}));
 		GameRegistry.addRecipe(new ItemStack(blockRope), new Object[] {" ~ ", " ~ ", " ~ ", '~', new ItemStack(Items.string)});
-		GameRegistry.addRecipe(new ItemStack(blockFermenter), new Object[] {"#~#", "#~#", "@_@", '~', new ItemStack(Items.glass_bottle), '@', new ItemStack(Item.getItemFromBlock(Blocks.planks)), '_', new ItemStack(Item.getItemFromBlock(Blocks.iron_block)), '#', new ItemStack(Items.iron_ingot)});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockFermenter), new Object[] {"#~#", "#~#", "@_@", '~', new ItemStack(Items.glass_bottle), '@', "plankWood", '_', new ItemStack(Item.getItemFromBlock(Blocks.iron_block)), '#', new ItemStack(Items.iron_ingot)}));
 		GameRegistry.addRecipe(new ItemStack(Items.string), new Object[] {" ~ ", " ~ ", " ~ ", '~', new ItemStack(cottonbud)});
 		GameRegistry.addRecipe(new ItemStack(blockBambooBlock), new Object[] {"##", "##", '#', new ItemStack(Item.getItemFromBlock(blockBamboo))});
-		GameRegistry.addRecipe(new ItemStack(blockMarketBox), new Object[] {"   ", "~~~", "#~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.planks)),'~', new ItemStack(Items.stick)});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMarketBox), new Object[] {"   ", "~~~", "#~#", '#', "plankWood",'~', new ItemStack(Items.stick)}));
 		GameRegistry.addRecipe(new ItemStack(blockUnfiredTeapot), new Object[] {"###", "#~#", "###", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(teapotguide)});
 		GameRegistry.addRecipe(new ItemStack(blockHeater), new Object[] {"#~#", "###", '#', new ItemStack(Items.iron_ingot),  '~', new ItemStack(Item.getItemFromBlock(Blocks.furnace))});
 		GameRegistry.addRecipe(new ItemStack(blockUnfiredFryingPan), new Object[] {"###", "#~#", "###", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(fryingpanguide)});
@@ -1012,8 +1081,8 @@ public class CookingPlusMain {
 		GameRegistry.addRecipe(new ItemStack(blockCoralRockSmooth, 4), new Object[] {"##", "##", '#', new ItemStack(Item.getItemFromBlock(blockCoralRock))});
 		GameRegistry.addRecipe(new ItemStack(blockCoralRockBrick, 4), new Object[] {"##", "##", '#', new ItemStack(Item.getItemFromBlock(blockCoralRockSmooth))});
 		GameRegistry.addRecipe(new ItemStack(blockNetBlock), new Object[] {"#~#", "~#~", "#~#", '#', new ItemStack(fishingnet),  '~', new ItemStack(Items.string)});
-		GameRegistry.addRecipe(new ItemStack(blockDryingRack), new Object[] {" ~#", " ##", "~##", '#', new ItemStack(Item.getItemFromBlock(Blocks.planks)),  '~', new ItemStack(Items.stick)});
-		GameRegistry.addRecipe(new ItemStack(blockLiquidBarrel), new Object[] {"# #", "# #", "~#~", '~', new ItemStack(Item.getItemFromBlock(Blocks.planks)),  '#', new ItemStack(Items.stick)});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockDryingRack), new Object[] {" ~#", " ##", "~##", '#', "plankWood",  '~', new ItemStack(Items.stick)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockLiquidBarrel), new Object[] {"# #", "# #", "~#~", '~', "plankWood",  '#', new ItemStack(Items.stick)}));
 		
 		GameRegistry.addRecipe(new ItemStack(blockUnfiredSaucePan), new Object[] {"###", "#~#", "###", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(saucepanguide)});
 		GameRegistry.addRecipe(new ItemStack(blockBasaltSmooth, 4), new Object[] {"##", "##", '#', new ItemStack(Item.getItemFromBlock(blockBasalt))});
@@ -1021,16 +1090,16 @@ public class CookingPlusMain {
 		GameRegistry.addRecipe(new ItemStack(unfiredcaketinmold), new Object[] {"#~#", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(caketinguide)});
 		GameRegistry.addRecipe(new ItemStack(blockIceBox), new Object[] {"~~~", "~#~", "~~~", '#', new ItemStack(Item.getItemFromBlock(Blocks.chest)), '~', new ItemStack(Item.getItemFromBlock(Blocks.snow))});
 		
-		GameRegistry.addRecipe(new ItemStack(woodenscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Item.getItemFromBlock(Blocks.planks))});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(woodenscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', "plankWood"}));
 		GameRegistry.addRecipe(new ItemStack(stonescythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Item.getItemFromBlock(Blocks.cobblestone))});
 		GameRegistry.addRecipe(new ItemStack(ironscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.iron_ingot)});
 		GameRegistry.addRecipe(new ItemStack(goldscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.gold_ingot)});
 		GameRegistry.addRecipe(new ItemStack(diamondscythe), new Object[] {"~~#", " # ", "#  ", '#', new ItemStack(Items.stick), '~', new ItemStack(Items.diamond)});
 		GameRegistry.addShapelessRecipe(new ItemStack(pricklypearpeeled), new Object[] {new ItemStack(pricklypear)});
 		GameRegistry.addShapelessRecipe(new ItemStack(onigiri), new Object[] {new ItemStack(rice), new ItemStack(driedseaweed)});
-		GameRegistry.addRecipe(new ItemStack(sushiroll), new Object[] {"A", "B", "C", 'A', new ItemStack(Items.cooked_fish), 'B', new ItemStack(rice), 'C', new ItemStack(driedseaweed)});
-		GameRegistry.addRecipe(new ItemStack(prawnsushi), new Object[] {"A", "B", 'A', new ItemStack(cookedprawn), 'B', new ItemStack(rice)});
-		GameRegistry.addRecipe(new ItemStack(californiaroll), new Object[] {"A", "B", 'A', new ItemStack(avocado), 'B', new ItemStack(rice)});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sushiroll), new Object[] {"A", "B", "C", 'A', new ItemStack(Items.cooked_fish), 'B', "foodRice", 'C', new ItemStack(driedseaweed)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(prawnsushi), new Object[] {"A", "B", 'A', new ItemStack(cookedprawn), 'B', "foodRice"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(californiaroll), new Object[] {"A", "B", 'A', "foodAvocado", 'B', "foodRice"}));
 		
 		//science
 		GameRegistry.addRecipe(new ItemStack(blockHydrophonic), new Object[] {"ABA", "CDC", "CEC", 'B', new ItemStack(Item.getItemFromBlock(Blocks.daylight_detector)), 'A', new ItemStack(Item.getItemFromBlock(Blocks.redstone_lamp)), 'C', new ItemStack(ironsheet), 'D', new ItemStack(redstoneprocessor), 'E', new ItemStack(Item.getItemFromBlock(Blocks.dirt))});
@@ -1042,13 +1111,26 @@ public class CookingPlusMain {
 		GameRegistry.addRecipe(new ItemStack(goldwire, 4), new Object[] {"##", '#', new ItemStack(Items.gold_ingot)});
 		GameRegistry.addRecipe(new ItemStack(uncasedchip, 1), new Object[] {"#~", '#', new ItemStack(goldwire), '~', new ItemStack(siliconchip)});
 		GameRegistry.addRecipe(new ItemStack(needle), new Object[] {"  C", " B ", "A  ", 'C', new ItemStack(Items.iron_ingot), 'A', new ItemStack(Items.stick), 'B', new ItemStack(Item.getItemFromBlock(Blocks.glass))});
+		GameRegistry.addRecipe(new ItemStack(blockGrabber), new Object[] {"DBD", "CEC", "ADA", 'B', new ItemStack(Item.getItemFromBlock(Blocks.redstone_torch)), 'A', new ItemStack(ironsheet), 'C', new ItemStack(redstoneprocessor), 'D', new ItemStack(Item.getItemFromBlock(Blocks.piston)), 'E', new ItemStack(ironprocessor)});
+		GameRegistry.addRecipe(new ItemStack(blockFisher), new Object[] {"DBD", "CEC", "ADA", 'B', new ItemStack(Item.getItemFromBlock(Blocks.redstone_torch)), 'A', new ItemStack(ironsheet), 'C', new ItemStack(redstoneprocessor), 'D', new ItemStack(fishingnet), 'E', new ItemStack(ironprocessor)});
+		GameRegistry.addRecipe(new ItemStack(blockNetworkBlock, 2), new Object[] {"ABA", "BCB", "ADA", 'A', new ItemStack(ironsheet), 'B', new ItemStack(goldwire), 'C', new ItemStack(ironprocessor), 'D', new ItemStack(Items.comparator)});
+		GameRegistry.addRecipe(new ItemStack(blockGatherer), new Object[] {"DBD", "BCB", "DAD", 'B', new ItemStack(ironscythe), 'A', new ItemStack(ironprocessor), 'C', new ItemStack(redstoneprocessor), 'D', new ItemStack(ironsheet)});
+		GameRegistry.addRecipe(new ItemStack(unfiredchipmoldmold), new Object[] {"###", "#~#", "###", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(chipguide)});
 		
 		//magic recipes
 		GameRegistry.addRecipe(new ItemStack(giftofthesea), new Object[] {"ABA", "CDC", "EFE", 'A', new ItemStack(seafoodplatter), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(cookedcrabcake), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(Items.cooked_fish), 'F', new ItemStack(Items.water_bucket)});
 		GameRegistry.addRecipe(new ItemStack(giftofthesoil), new Object[] {"ABA", "CDC", "EFE", 'A', new ItemStack(Item.getItemFromBlock(blockVanilla)), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(Items.cake), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(Items.bread), 'F', new ItemStack(Item.getItemFromBlock(Blocks.grass))});
+		GameRegistry.addRecipe(new ItemStack(giftofthesky), new Object[] {"GBA", "HDC", "IFE", 'A', new ItemStack(avocado), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(Item.getItemFromBlock(blockCoconutBlock)), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(orange), 'F', new ItemStack(kiwi),  'G', new ItemStack(peach),  'H', new ItemStack(banana),  'I', new ItemStack(cherry)});
+		GameRegistry.addRecipe(new ItemStack(giftofthesun), new Object[] {"ABA", "BDB", "EBE",'A', new ItemStack(Items.glowstone_dust), 'B', new ItemStack(Item.getItemFromBlock(blockTangleHeart)), 'D', new ItemStack(mysteriousorb),'E', new ItemStack(Item.getItemFromBlock(Blocks.redstone_lamp))});
 		GameRegistry.addRecipe(new ItemStack(crystalcore), new Object[] {"ABA", "BCB", "ABA", 'A', new ItemStack(Items.gold_nugget), 'B', new ItemStack(Items.diamond), 'C', new ItemStack(Items.quartz)});
 		GameRegistry.addRecipe(new ItemStack(blockGrowthCrystal), new Object[] {"ABA", "ACA", "ABA", 'B', new ItemStack(giftofthesoil), 'A', new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), 'C', new ItemStack(crystalcore)});
 		GameRegistry.addRecipe(new ItemStack(blockWaterCrystal), new Object[] {"ABA", "ACA", "ABA", 'B', new ItemStack(giftofthesea), 'A', new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), 'C', new ItemStack(crystalcore)});
+		GameRegistry.addRecipe(new ItemStack(blockLightCrystal), new Object[] {"ABA", "ACA", "ABA", 'B', new ItemStack(giftofthesun), 'A', new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), 'C', new ItemStack(crystalcore)});
+		GameRegistry.addRecipe(new ItemStack(blockSkyCrystal), new Object[] {"ABA", "ACA", "ABA", 'B', new ItemStack(giftofthesky), 'A', new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), 'C', new ItemStack(crystalcore)});
+		GameRegistry.addRecipe(new ItemStack(teleportcrystal), new Object[] {"ADA", "BCB", "ADA", 'A', new ItemStack(Items.gold_nugget), 'B', new ItemStack(Items.redstone), 'C', new ItemStack(Items.ender_eye), 'D', new ItemStack(crystalcore)});
+		GameRegistry.addRecipe(new ItemStack(blockTangleHeart), new Object[] {"AA", "AA", 'A', new ItemStack(tangleheartshard)});
+		GameRegistry.addRecipe(new ItemStack(unfiredsphere), new Object[] {"###", "#~#", "###", '#', new ItemStack(Items.clay_ball),  '~', new ItemStack(sphereguide)});
+		GameRegistry.addRecipe(new ItemStack(blockInfusedGlass), new Object[] {"#B#", "B~B", "#B#", '#', new ItemStack(Items.redstone),  '~', new ItemStack(Items.diamond),  'B', new ItemStack(Item.getItemFromBlock(Blocks.glass))});
 		
 		//pottery guide recipe
 		GameRegistry.addRecipe(new ItemStack(advancedschematic), new Object[] {"AA", "AA", 'A', new ItemStack(basicschematic)});
@@ -1063,6 +1145,25 @@ public class CookingPlusMain {
 		GameRegistry.addRecipe(new ItemStack(largecuptrayguide), new Object[] {" C ", " B ", "ACA", 'A', new ItemStack(complexschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
 		GameRegistry.addRecipe(new ItemStack(caketinguide), new Object[] {" C ", "ABA", "ACA", 'A', new ItemStack(complexschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
 		GameRegistry.addRecipe(new ItemStack(teapotguide), new Object[] {"ACA", "ABA", "ACA", 'A', new ItemStack(complexschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(sphereguide), new Object[] {"ACA", "ABA", "AAA", 'A', new ItemStack(complexschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		GameRegistry.addRecipe(new ItemStack(chipguide), new Object[] {"AAA", "ABA", "AAA", 'A', new ItemStack(complexschematic), 'B', new ItemStack(Items.book), 'C', new ItemStack(Items.paper)});
+		
+		//pottery guide copying
+		if(CookingPlusConfig.AllowGuideCopy == true){
+			GameRegistry.addShapelessRecipe(new ItemStack(mugguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(mugguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(plateguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(plateguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(juicerguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(juicerguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(fryingpanguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(fryingpanguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(saucepanguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(saucepanguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(cuptrayguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(cuptrayguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(breadtinguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(breadtinguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(caketinguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(caketinguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(largecuptrayguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(largecuptrayguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(teapotguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(teapotguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(sphereguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(sphereguide)});
+			GameRegistry.addShapelessRecipe(new ItemStack(chipguide, 1), new Object[] {new ItemStack(Items.book), new ItemStack(chipguide)});
+			
+		}
 		
 		//oven recipes
 		CookingPlusOvenRecipes.instance().addOvenRecipe(new ItemStack(rawprawn), new ItemStack(cookedprawn), 0.7f);
@@ -1096,6 +1197,8 @@ public class CookingPlusMain {
 		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(diamondsheet), new ItemStack(uncasedchip), new ItemStack(diamondprocessor), 0.5f);
 		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(ironsheet), new ItemStack(uncasedchip), new ItemStack(ironprocessor), 0.5f);
 		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(redstonesheet), new ItemStack(uncasedchip), new ItemStack(redstoneprocessor), 0.5f);
+		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(spheremold), new ItemStack(moltenglass), new ItemStack(moltenorb), 0.5f);
+		CookingPlusSheetPressRecipes.instance().addSheetPressRecipe(new ItemStack(chipmoldmold), new ItemStack(ironsheet), new ItemStack(chipmold), 0.7f);
 		
 		//drying rack recipe
 		CookingPlusDryingRackRecipe.instance().addDryingRackRecipe(new ItemStack(Item.getItemFromBlock(blockSeaweedCrop)), new ItemStack(driedseaweed), 0.7f);
@@ -1123,6 +1226,9 @@ public class CookingPlusMain {
 		GameRegistry.addSmelting(blockUnfiredSaucePan,new ItemStack(Item.getItemFromBlock(blockSaucePan)), 5);
 		GameRegistry.addSmelting(unfiredcaketinmold,new ItemStack(caketinmold), 5);
 		GameRegistry.addSmelting(unfiredbreadtinmold,new ItemStack(breadtinmold), 5);
+		GameRegistry.addSmelting(unfiredsphere,new ItemStack(spheremold), 5);
+		GameRegistry.addSmelting(blockInfusedGlass,new ItemStack(moltenglass), 5);
+		GameRegistry.addSmelting(unfiredchipmoldmold,new ItemStack(chipmoldmold), 5);
 		
 		//ice box recipes
 		CookingPlusIceBoxRecipes.instance().addIceBoxRecipe(new ItemStack(vanillaboiled), new ItemStack(vanillaicecream), 0.7f);
@@ -1130,11 +1236,10 @@ public class CookingPlusMain {
 		CookingPlusIceBoxRecipes.instance().addIceBoxRecipe(new ItemStack(strawberryboiled), new ItemStack(strawberryicecream), 0.7f);
 		CookingPlusIceBoxRecipes.instance().addIceBoxRecipe(new ItemStack(lemonboiled), new ItemStack(lemonicecream), 0.7f);
 		CookingPlusIceBoxRecipes.instance().addIceBoxRecipe(new ItemStack(mintboiled), new ItemStack(minticecream), 0.7f);
+		CookingPlusIceBoxRecipes.instance().addIceBoxRecipe(new ItemStack(moltenorb), new ItemStack(mysteriousorb), 0.7f);
 		
 		//1.9 stuff
 		GameRegistry.addRecipe(new ItemStack(beetrootsoup), new Object[] {"###", "###", " ~ ", '~', new ItemStack(Items.bowl), '#', new ItemStack(beetroot)});
-		AddDyeRecipes();
-		AddBambooRecipes();
 		itemRender(e);
 		AddLatestStuff(e);
 		this.proxy.init(e);
@@ -1829,67 +1934,42 @@ public class CookingPlusMain {
     	Additem(event, basicschematic);
     	Additem(event, advancedschematic);
     	Additem(event, complexschematic);
+    	Additem(event, teleportcrystal);
+    	Additem(event, tangleheartshard);
+    	Additem(event, unfiredsphere);
+    	Additem(event, spheremold);
+    	Additem(event, sphereguide);
+    	Additem(event, moltenglass);
+    	Additem(event, moltenorb);
+    	Additem(event, chipguide);
+    	Additem(event, unfiredchipmoldmold);
+    	Additem(event, chipmoldmold);
     	
     	Addblock(event, blockGrabber);
+    	Addblock(event, blockFisher);
+    	Addblock(event, blockTangleLog);
+    	Addblock(event, blockTangleLeaves);
+    	Addblock(event, blockLightCrystal);
+    	Addblock(event, blockSkyCrystal);
+    	Addblock(event, blockTangleHeart);
+    	Addblock(event, blockLightAir);
+    	Addblock(event, blockInfusedGlass);
+    	Addblock(event, blockNetworkBlock);
+    	Addblock(event, blockGatherer);
     	
-    }
-
-    private void AddBambooRecipes(){
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.crafting_table), 1), new Object[] {"##", "##", '#', new ItemStack(Item.getItemFromBlock(blockBambooBlock))});
-    	GameRegistry.addRecipe(new ItemStack(Items.stick, 4), new Object[] {"#", "#", '#', new ItemStack(Item.getItemFromBlock(blockBamboo))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.chest), 1), new Object[] {"###", "# #", "###", '#', new ItemStack(Item.getItemFromBlock(blockBambooBlock))});
-    	GameRegistry.addRecipe(new ItemStack(Items.bowl), new Object[] {"# #", " # ", '#', new ItemStack(Item.getItemFromBlock(blockBambooBlock))});
-    	GameRegistry.addRecipe(new ItemStack(Items.boat), new Object[] {"# #", "###", '#', new ItemStack(Item.getItemFromBlock(blockBambooBlock))});
-		
-    	GameRegistry.addRecipe(new ItemStack(blockButterChurn), new Object[] {" # ", "~#~", "~~~", '~', new ItemStack(Item.getItemFromBlock(blockBambooBlock)), '#', new ItemStack(Items.stick)});
-    	GameRegistry.addRecipe(new ItemStack(blockOilPress), new Object[] {"#~#", " ~ ", "###", '~', new ItemStack(Item.getItemFromBlock(blockBambooBlock)), '#', Item.getItemFromBlock(Blocks.stone)});
-    	GameRegistry.addRecipe(new ItemStack(blockMarketBox), new Object[] {"   ", "~~~", "#~#", '#', new ItemStack(Item.getItemFromBlock(blockBambooBlock)),'~', new ItemStack(Items.stick)});
-    	GameRegistry.addRecipe(new ItemStack(blockDryingRack), new Object[] {" ~#", " ##", "~##", '#', new ItemStack(Item.getItemFromBlock(blockBambooBlock)),  '~', new ItemStack(Items.stick)});
-		GameRegistry.addRecipe(new ItemStack(blockLiquidBarrel), new Object[] {"# #", "# #", "~#~", '~', new ItemStack(Item.getItemFromBlock(blockBambooBlock)),  '#', new ItemStack(Items.stick)});
-		
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.crafting_table), 1), new Object[] {"##", "##", '#', new ItemStack(Item.getItemFromBlock(blockPalmPlanks))});
-    	GameRegistry.addRecipe(new ItemStack(Items.stick, 4), new Object[] {"#", "#", '#', new ItemStack(Item.getItemFromBlock(blockPalmPlanks))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.chest), 1), new Object[] {"###", "# #", "###", '#', new ItemStack(Item.getItemFromBlock(blockPalmPlanks))});
-    	GameRegistry.addRecipe(new ItemStack(Items.bowl), new Object[] {"# #", " # ", '#', new ItemStack(Item.getItemFromBlock(blockPalmPlanks))});
-    	GameRegistry.addRecipe(new ItemStack(Items.boat), new Object[] {"# #", "###", '#', new ItemStack(Item.getItemFromBlock(blockPalmPlanks))});
-		
-    	GameRegistry.addRecipe(new ItemStack(blockButterChurn), new Object[] {" # ", "~#~", "~~~", '~', new ItemStack(Item.getItemFromBlock(blockPalmPlanks)), '#', new ItemStack(Items.stick)});
-    	GameRegistry.addRecipe(new ItemStack(blockOilPress), new Object[] {"#~#", " ~ ", "###", '~', new ItemStack(Item.getItemFromBlock(blockPalmPlanks)), '#', Item.getItemFromBlock(Blocks.stone)});
-    	GameRegistry.addRecipe(new ItemStack(blockMarketBox), new Object[] {"   ", "~~~", "#~#", '#', new ItemStack(Item.getItemFromBlock(blockPalmPlanks)),'~', new ItemStack(Items.stick)});
-    	GameRegistry.addRecipe(new ItemStack(blockDryingRack), new Object[] {" ~#", " ##", "~##", '#', new ItemStack(Item.getItemFromBlock(blockPalmPlanks)),  '~', new ItemStack(Items.stick)});
-		GameRegistry.addRecipe(new ItemStack(blockLiquidBarrel), new Object[] {"# #", "# #", "~#~", '~', new ItemStack(Item.getItemFromBlock(blockPalmPlanks)),  '#', new ItemStack(Items.stick)});
-		
-		
-    }
-    
-    private void AddDyeRecipes(){
+    	Additem(event, leek);
+    	Additem(event, leekseeds);
+    	Additem(event, lettuce);
+    	Additem(event, lettuceseeds);
+    	Additem(event, coffeebean);
+    	Additem(event, coffeeseeds);
+    	Additem(event, corn);
+    	Additem(event, cornseeds);
     	
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 15), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.wool)), '~', new ItemStack(Item.getItemFromBlock(blockBlackCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 0), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.wool)), '~', new ItemStack(Item.getItemFromBlock(blockWhiteCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 11), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.wool)), '~', new ItemStack(Item.getItemFromBlock(blockBlueCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 1), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.wool)), '~', new ItemStack(Item.getItemFromBlock(blockOrangeCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 4), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.wool)), '~', new ItemStack(Item.getItemFromBlock(blockYellowCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 14), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.wool)), '~', new ItemStack(Item.getItemFromBlock(blockRedCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 13), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.wool)), '~', new ItemStack(Item.getItemFromBlock(blockGreenCoral))});
-		
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_glass), 1, 15), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.glass)), '~', new ItemStack(Item.getItemFromBlock(blockBlackCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_glass), 1, 0), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.glass)), '~', new ItemStack(Item.getItemFromBlock(blockWhiteCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_glass), 1, 11), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.glass)), '~', new ItemStack(Item.getItemFromBlock(blockBlueCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_glass), 1, 1), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.glass)), '~', new ItemStack(Item.getItemFromBlock(blockOrangeCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_glass), 1, 4), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.glass)), '~', new ItemStack(Item.getItemFromBlock(blockYellowCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_glass), 1, 14), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.glass)), '~', new ItemStack(Item.getItemFromBlock(blockRedCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_glass), 1, 13), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.glass)), '~', new ItemStack(Item.getItemFromBlock(blockGreenCoral))});
-		
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_hardened_clay), 1, 15), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.hardened_clay)), '~', new ItemStack(Item.getItemFromBlock(blockBlackCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_hardened_clay), 1, 0), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.hardened_clay)), '~', new ItemStack(Item.getItemFromBlock(blockWhiteCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_hardened_clay), 1, 11), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.hardened_clay)), '~', new ItemStack(Item.getItemFromBlock(blockBlueCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_hardened_clay), 1, 1), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.hardened_clay)), '~', new ItemStack(Item.getItemFromBlock(blockOrangeCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_hardened_clay), 1, 4), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.hardened_clay)), '~', new ItemStack(Item.getItemFromBlock(blockYellowCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_hardened_clay), 1, 14), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.hardened_clay)), '~', new ItemStack(Item.getItemFromBlock(blockRedCoral))});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.stained_hardened_clay), 1, 13), new Object[] {"~#", '#', new ItemStack(Item.getItemFromBlock(Blocks.hardened_clay)), '~', new ItemStack(Item.getItemFromBlock(blockGreenCoral))});
-		
-    	GameRegistry.addRecipe(new ItemStack(Items.writable_book, 1), new Object[] {"~#", " $", '#', new ItemStack(Items.book), '~', new ItemStack(Item.getItemFromBlock(blockBlackCoral)), '$', new ItemStack(Items.feather)});
-    	GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(Blocks.prismarine), 1, 2), new Object[] {"###", "#~#", "###", '#', new ItemStack(Items.prismarine_shard), '~', new ItemStack(Item.getItemFromBlock(blockBlackCoral))});
+    	Addblock(event, blockLeekCrop);
+    	Addblock(event, blockLettuceCrop);
+    	Addblock(event, blockCoffeeCrop);
+    	Addblock(event, blockCornCrop);
     	
     }
 
@@ -1916,6 +1996,14 @@ public class CookingPlusMain {
     	
     	CookingPlusLootHelper.instance().AddPotteryGuide(caketinguide, true); //complex
     	CookingPlusLootHelper.instance().AddPotteryGuide(largecuptrayguide, true); //complex
+    	CookingPlusLootHelper.instance().AddPotteryGuide(sphereguide, true); //complex
+    	CookingPlusLootHelper.instance().AddPotteryGuide(chipguide, true); //complex
+    	
+    	CookingPlusLootHelper.instance().AddFish(Items.fish, false);
+    	CookingPlusLootHelper.instance().AddFish(shelledprawn, false);
+    	CookingPlusLootHelper.instance().AddFish(shelledoyster, false);
+    	CookingPlusLootHelper.instance().AddFish(shelledcrab, false);
+    	CookingPlusLootHelper.instance().AddFish(shelledlobster, true);
     }
 
     private void AddExtraBlockData(){
@@ -1929,5 +2017,76 @@ public class CookingPlusMain {
     	
     	((CookingPlusEasyCrop)blockRiceCrop).SetData(Blocks.water, rice, riceSeed);
     	((CookingPlusEasyCrop)blockPricklyPearCrop).SetData(Blocks.sand, pricklypear, pricklypearseeds);
+    	((CookingPlusEasyCrop)blockLeekCrop).SetData(Blocks.farmland, leek, leekseeds);
+    	((CookingPlusEasyCrop)blockLettuceCrop).SetData(Blocks.farmland, lettuce, lettuceseeds);
+    	((CookingPlusEasyCrop)blockCoffeeCrop).SetData(Blocks.farmland, coffeebean, coffeeseeds);
+    	((CookingPlusEasyCrop)blockCornCrop).SetData(Blocks.farmland, corn, cornseeds);
+    }
+
+    private void RegisterBlockDictionary(String name, Block myBlock){
+    	OreDictionary.registerOre(name, myBlock);
+    }
+    
+    private void RegisterItemDictionary(String name, Item myItem){
+    	OreDictionary.registerOre(name, myItem);
+    }
+
+    private void RegisterDimensions(){
+    	CookingPlusConfig.EdenDimensionID = DimensionManager.getNextFreeDimId();
+    	DimensionManager.registerProviderType(CookingPlusConfig.EdenDimensionID, CookingPlusEdenDimension.class, false);
+    	DimensionManager.registerDimension(CookingPlusConfig.EdenDimensionID, CookingPlusConfig.EdenDimensionID);
+    }
+    
+    public void RegisterDictionary(){
+    	RegisterBlockDictionary("plankWood", blockBambooBlock);
+    	RegisterBlockDictionary("plankWood", blockPalmPlanks);
+    	RegisterBlockDictionary("logWood", blockBamboo);
+    	RegisterBlockDictionary("logWood", blockPalmLog);
+    	RegisterBlockDictionary("logWood", blockTangleLog);
+    	RegisterBlockDictionary("foodCoconut", blockCoconutBlock);
+    	RegisterBlockDictionary("oreSalt", blockSalt);
+    	
+    	RegisterBlockDictionary("cropPineapple", blockPineappleCrop);
+    	RegisterBlockDictionary("cropRice", blockRiceCrop);
+    	RegisterBlockDictionary("cropChilli", blockChilliCrop);
+    	RegisterBlockDictionary("cropOnion", blockOnionCrop);
+    	RegisterBlockDictionary("cropCotton", blockCottonCrop);
+    	RegisterBlockDictionary("cropPricklyPear", blockPricklyPearCrop);
+    	RegisterBlockDictionary("cropTea", blockTeaCrop);
+    	RegisterBlockDictionary("cropBeetroot", blockBeetrootCrop);
+    	
+    	RegisterBlockDictionary("dyeYellow", blockYellowCoral);
+    	RegisterBlockDictionary("dyeBlue", blockBlueCoral);
+    	RegisterBlockDictionary("dyeBlack", blockBlackCoral);
+    	RegisterBlockDictionary("dyeWhite", blockWhiteCoral);
+    	RegisterBlockDictionary("dyeOrange", blockOrangeCoral);
+    	RegisterBlockDictionary("dyeRed", blockRedCoral);
+    	RegisterBlockDictionary("dyeGreen", blockGreenCoral);
+    	
+    	RegisterItemDictionary("dustSalt", saltpile);
+    	
+    	RegisterItemDictionary("foodCherry", cherry);
+    	RegisterItemDictionary("foodLime", lime);
+    	RegisterItemDictionary("foodLemon", lemon);
+    	RegisterItemDictionary("foodPeach", peach);
+    	RegisterItemDictionary("foodAvocado", avocado);
+    	RegisterItemDictionary("foodMango", mango);
+    	RegisterItemDictionary("foodKiwi", kiwi);
+    	RegisterItemDictionary("foodBanana", banana);
+    	RegisterItemDictionary("foodVanilla", vanillapod);
+    	RegisterItemDictionary("foodHop", hops);
+    	RegisterItemDictionary("foodGrape", grape);
+    	RegisterItemDictionary("foodBlueberry", blueberry);
+    	RegisterItemDictionary("foodGooseberry", gooseberry);
+    	RegisterItemDictionary("foodStrawberry", strawberry);
+    	RegisterItemDictionary("foodRice", rice);
+    	RegisterItemDictionary("foodChilli", chilli);
+    	RegisterItemDictionary("foodBeetroot", beetroot);
+    	RegisterItemDictionary("foodOnion", onion);
+    	RegisterItemDictionary("foodPineapple", pineapple);
+    	RegisterItemDictionary("foodOrange", orange);
+    	RegisterItemDictionary("materialCotton", cottonbud);
+    	
+    	RegisterItemDictionary("materialFlour", flour);
     }
 }

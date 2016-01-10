@@ -1,5 +1,7 @@
 {
 	"variants": {
-		"normal": { "model": "cookingplus:chamomile" }
+		"normal": { "model": "cookingplus:chamomile" },
+		"placed=0": { "model": "cookingplus:chamomile" },
+		"placed=1": { "model": "cookingplus:chamomile" }
 	}
 }
