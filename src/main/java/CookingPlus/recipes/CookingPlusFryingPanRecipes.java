@@ -1,10 +1,10 @@
 package CookingPlus.recipes;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Maps;
@@ -15,6 +15,8 @@ public class CookingPlusFryingPanRecipes
     /** The list of grinding results. */
     private final Map grindingList = Maps.newHashMap();
     private final Map experienceList = Maps.newHashMap();
+    
+    public final ArrayList<ItemStack> recipeList = new ArrayList();
 
     public static CookingPlusFryingPanRecipes instance()
     {
@@ -28,6 +30,9 @@ public class CookingPlusFryingPanRecipes
 
     public void addFryingPanRecipe(ItemStack parItemStackIn, ItemStack parItemStackOut, float parExperience)
     {
+    	recipeList.add(parItemStackIn);
+    	recipeList.add(parItemStackOut);
+    	
         grindingList.put(parItemStackIn, parItemStackOut);
         experienceList.put(parItemStackOut, Float.valueOf(parExperience));
     }

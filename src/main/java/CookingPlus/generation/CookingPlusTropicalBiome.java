@@ -3,26 +3,26 @@ package CookingPlus.generation;
 import java.util.Random;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import CookingPlus.CookingPlusMain;
 
-public class CookingPlusTropicalBiome extends BiomeGenBase {
+public class CookingPlusTropicalBiome extends Biome {
 
 	
-    public CookingPlusTropicalBiome(int i) {
+    public CookingPlusTropicalBiome(BiomeProperties i) {
         super(i);
         this.spawnableCreatureList.clear();
-        setBiomeName("Tropical Hills");
-        topBlock = Blocks.sand.getDefaultState();
-        fillerBlock = Blocks.sandstone.getDefaultState();
-        enableRain = true;
-        this.setHeight(height_LowHills);
-        temperature = 1.5f;
-        rainfall = 0.1f;
+        //setBiomeName("Tropical Hills");
+        topBlock = Blocks.SAND.getDefaultState();
+        fillerBlock = Blocks.SANDSTONE.getDefaultState();
+        //enableRain = true;
+        //this.setHeight(height_LowHills);
+        //temperature = 1.5f;
+        //rainfall = 0.1f;
         this.theBiomeDecorator.treesPerChunk = 1;
         this.theBiomeDecorator.mushroomsPerChunk = -999;
-        this.setColor(2250013);
+        //this.setColor(2250013);
     }
     
     @Override
@@ -46,6 +46,7 @@ public class CookingPlusTropicalBiome extends BiomeGenBase {
     {
     	return 0xc8db84;
     }
+    
     
 }
 

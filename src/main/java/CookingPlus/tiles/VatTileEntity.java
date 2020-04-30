@@ -1,10 +1,6 @@
 package CookingPlus.tiles;
 
-import CookingPlus.CookingPlusMain;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
@@ -13,7 +9,7 @@ import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,17 +17,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import CookingPlus.CookingPlusMain;
 
-public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class VatTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable {
 
 	private ItemStack[] inv;
 	private int EntityDirection;
@@ -116,8 +109,7 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		
 		NBTTagList nbttaglist = new NBTTagList();
 		
@@ -137,18 +129,19 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 
 		nbt.setTag("Items", nbttaglist);
 
-
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -187,7 +180,7 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -208,7 +201,7 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -274,37 +267,33 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 	public void FillSlot(ItemStack myItem, int slot){
 			if(!this.getWorld().isRemote){
 			inv[slot] = myItem;
-			UpdateBlock();
+			UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 			}
 		}
-	 
-	 public void UpdateBlock(){
-			this.worldObj.markBlockForUpdate(this.getPos());
-	}
 
 	 public void processActivate(EntityPlayer playerIn) {
-		if(playerIn.getCurrentEquippedItem() != null){
+		if(playerIn.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) != null){
 			if(myEntityType == 0){
-				Item myItem = playerIn.getCurrentEquippedItem().getItem();
+				Item myItem = playerIn.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem();
 				if(myItem == CookingPlusMain.cowneedle){
 					SetType(4);
-					playerIn.setCurrentItemOrArmor(0, new ItemStack(CookingPlusMain.dirtyneedle));
+					playerIn.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(CookingPlusMain.dirtyneedle));
 				}
 				else if(myItem == CookingPlusMain.chickenneedle){
 					SetType(3);
-					playerIn.setCurrentItemOrArmor(0, new ItemStack(CookingPlusMain.dirtyneedle));
+					playerIn.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(CookingPlusMain.dirtyneedle));
 				}
 				else if(myItem == CookingPlusMain.sheepneedle){
 					SetType(1);
-					playerIn.setCurrentItemOrArmor(0, new ItemStack(CookingPlusMain.dirtyneedle));
+					playerIn.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(CookingPlusMain.dirtyneedle));
 				}
 				else if(myItem == CookingPlusMain.pigneedle){
 					SetType(2);
-					playerIn.setCurrentItemOrArmor(0, new ItemStack(CookingPlusMain.dirtyneedle));
+					playerIn.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(CookingPlusMain.dirtyneedle));
 				}
 				else if(myItem == CookingPlusMain.rabbitneedle){
 					SetType(5);
-					playerIn.setCurrentItemOrArmor(0, new ItemStack(CookingPlusMain.dirtyneedle));
+					playerIn.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(CookingPlusMain.dirtyneedle));
 				}
 			}
 		}	
@@ -314,7 +303,7 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 			if(!this.getWorld().isRemote){
 				if(newamount != myAge){
 					myAge = newamount;
-					UpdateBlock();
+					UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 				}
 			}
 		}
@@ -323,7 +312,7 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 			if(!this.getWorld().isRemote){
 				if(newamount != myEntityType){
 					myEntityType = newamount;
-					UpdateBlock();
+					UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 				}
 			}
 		}
@@ -400,16 +389,16 @@ public class VatTileEntity extends TileEntity implements IInventory, IUpdatePlay
 	
 	protected BlockPos getBestPosition(){
 		
-		if(this.getWorld().getBlockState(getPos().west()).getBlock() == Blocks.air){
+		if(this.getWorld().getBlockState(getPos().west()).getBlock() == Blocks.AIR){
 			return getPos().west();
 		}
-		if(this.getWorld().getBlockState(getPos().east()).getBlock() == Blocks.air){
+		if(this.getWorld().getBlockState(getPos().east()).getBlock() == Blocks.AIR){
 			return getPos().east();
 		}
-		if(this.getWorld().getBlockState(getPos().north()).getBlock() == Blocks.air){
+		if(this.getWorld().getBlockState(getPos().north()).getBlock() == Blocks.AIR){
 			return getPos().north();
 		}
-		if(this.getWorld().getBlockState(getPos().south()).getBlock() == Blocks.air){
+		if(this.getWorld().getBlockState(getPos().south()).getBlock() == Blocks.AIR){
 			return getPos().south();
 		}
 		return null;

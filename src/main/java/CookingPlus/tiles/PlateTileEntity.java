@@ -2,7 +2,7 @@ package CookingPlus.tiles;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -10,18 +10,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 
-public class PlateTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class PlateTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable {
 
 	private int EntityDirection;
 	private ItemStack[] inv;
@@ -35,21 +33,21 @@ public class PlateTileEntity extends TileEntity implements IInventory, IUpdatePl
 	public void processActivate(EntityPlayer Player) {
 		if(Player.isSneaking()){
 			if(inv[0] != null){
-				Player.dropPlayerItemWithRandomChoice(inv[0], false);
+				Player.dropItem(inv[0], false);
 				inv[0] = null;
 			}
 		}
 		else{
-			if(Player.getCurrentEquippedItem() != null){
-				if(Player.getCurrentEquippedItem().getItem() instanceof ItemFood){
+			if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) != null){
+				if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() instanceof ItemFood){
 					//System.out.println("rawr");
 					if(inv[0] == null){
-						setInventorySlotContents(0, new ItemStack(Player.getCurrentEquippedItem().getItem(), 1));
-						if(Player.getCurrentEquippedItem().stackSize == 1){
-							Player.setCurrentItemOrArmor(0, null);
+						setInventorySlotContents(0, new ItemStack(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem(), 1));
+						if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).stackSize == 1){
+							Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
 						}
 						else{
-							Player.setCurrentItemOrArmor(0, new ItemStack(Player.getCurrentEquippedItem().getItem(), (Player.getCurrentEquippedItem().stackSize) - 1));
+							Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem(), (Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).stackSize) - 1));
 						}
 					}
 				}
@@ -109,9 +107,8 @@ public class PlateTileEntity extends TileEntity implements IInventory, IUpdatePl
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		
 		//nbt.setInteger("MyMoveState", MoveState);
 		//nbt.setFloat("MyMovement", MovementTimer);
 		//nbt.setInteger("MyButterState", ButterState);
@@ -131,18 +128,20 @@ public class PlateTileEntity extends TileEntity implements IInventory, IUpdatePl
 
 		nbt.setTag("Items", nbttaglist);
 
+		return super.writeToNBT(nbt);
 
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -181,7 +180,7 @@ public class PlateTileEntity extends TileEntity implements IInventory, IUpdatePl
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -202,7 +201,7 @@ public class PlateTileEntity extends TileEntity implements IInventory, IUpdatePl
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

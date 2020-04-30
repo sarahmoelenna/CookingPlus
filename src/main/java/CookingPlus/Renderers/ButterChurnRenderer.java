@@ -1,18 +1,17 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusBrickOven;
-import CookingPlus.models.CookingPlusChurn;
-import CookingPlus.tiles.BrickOvenTileEntity;
-import CookingPlus.tiles.ButterChurnTileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusChurn;
+import CookingPlus.tiles.ButterChurnTileEntity;
+
 public class ButterChurnRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/churn.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/churn.png");
 	
 	private CookingPlusChurn model;
 	
@@ -34,7 +33,12 @@ public class ButterChurnRenderer extends TileEntitySpecialRenderer {
 		this.bindTexture(texture);
 		
 		GL11.glPushMatrix();
-		this.model.RenderModel(0.0625f, MyChurn.getMovement()/500.0f);
+		if(MyChurn != null){
+			this.model.RenderModel(0.0625f, MyChurn.getMovement()/500.0f);
+		}
+		else{
+			this.model.RenderModel(0.0625f, 0f);
+		}
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}

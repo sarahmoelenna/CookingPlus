@@ -1,7 +1,5 @@
 package CookingPlus.Renderers;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +12,7 @@ import CookingPlus.tiles.UnfiredSaucepanTileEntity;
 
 public class UnfiredSaucepanRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/unfiredsaucepanmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/unfiredsaucepanmap.png");
 	EntityItem entItem;
 	
 	private CookingPlusSaucepan model;
@@ -35,6 +33,7 @@ public class UnfiredSaucepanRenderer extends TileEntitySpecialRenderer {
 		//System.out.println(MyOven.getDirection());
 		//System.out.println(MyOven.getDirection());
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven != null){
 		if(MyOven.getDirection() == 3){
 			GL11.glRotatef(0, 0, 1, 0);
 		}
@@ -46,6 +45,7 @@ public class UnfiredSaucepanRenderer extends TileEntitySpecialRenderer {
 		}
 		else if(MyOven.getDirection() == 5){
 			GL11.glRotatef(270, 0, 1, 0);
+		}
 		}
 		
 		this.bindTexture(texture);

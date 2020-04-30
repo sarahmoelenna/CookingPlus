@@ -2,7 +2,7 @@ package CookingPlus.tiles;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -10,18 +10,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 
-public class MarketBoxTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class MarketBoxTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable {
 
 	private int EntityDirection;
 	private ItemStack[] inv;
@@ -35,16 +33,16 @@ public class MarketBoxTileEntity extends TileEntity implements IInventory, IUpda
 	public void processActivate(EntityPlayer Player) {
 		if(Player.isSneaking()){
 			if(inv[0] != null){
-				Player.dropPlayerItemWithRandomChoice(inv[0], false);
+				Player.dropItem(inv[0], false);
 				inv[0] = null;
 			}
 		}
 		else{
-			if(Player.getCurrentEquippedItem() != null){
-				if(Player.getCurrentEquippedItem().getItem() instanceof ItemFood){
+			if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) != null){
+				if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() instanceof ItemFood){
 					if(inv[0] == null){
-						setInventorySlotContents(0, Player.getCurrentEquippedItem());
-						Player.setCurrentItemOrArmor(0, null);
+						setInventorySlotContents(0, Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND));
+						Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
 					}
 				}
 			}
@@ -103,8 +101,8 @@ public class MarketBoxTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		
 
 		//nbt.setInteger("MyMoveState", MoveState);
 		//nbt.setFloat("MyMovement", MovementTimer);
@@ -125,18 +123,19 @@ public class MarketBoxTileEntity extends TileEntity implements IInventory, IUpda
 
 		nbt.setTag("Items", nbttaglist);
 
-
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -175,7 +174,7 @@ public class MarketBoxTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -196,7 +195,7 @@ public class MarketBoxTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

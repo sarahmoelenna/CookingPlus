@@ -13,7 +13,7 @@ public class CookingPlusRawPrawn extends CookingPlusCustomEdibleFood {
         GameRegistry.registerItem(this, name);
         setUnlocalizedName("rawprawn");
         //setTextureName("cookingplus:deshelledprawn");
-        setCreativeTab(CreativeTabs.tabFood);
+        setCreativeTab(CreativeTabs.FOOD);
     }
 	
 	@Override

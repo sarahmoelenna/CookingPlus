@@ -7,17 +7,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class CookingPlusCustomBlockBush extends Block implements IPlantable
+public class CookingPlusCustomBlockBush extends CookingPlusCustomBlock implements IPlantable
 {
     //private static final String __OBFID = "CL_00000208";
 
@@ -27,17 +24,18 @@ public class CookingPlusCustomBlockBush extends Block implements IPlantable
         this.setTickRandomly(true);
         float f = 0.2F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        this.setCreativeTab(CreativeTabs.DECORATIONS);
     }
 
     protected CookingPlusCustomBlockBush()
     {
-        this(Material.plants);
+        this(Material.PLANTS);
     }
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        return super.canPlaceBlockAt(worldIn, pos) && worldIn.getBlockState(pos.down()).getBlock().canSustainPlant(worldIn, pos.down(), net.minecraft.util.EnumFacing.UP, this);
+        IBlockState soil = worldIn.getBlockState(pos.down());
+        return super.canPlaceBlockAt(worldIn, pos) && soil.getBlock().canSustainPlant(soil, worldIn, pos.down(), net.minecraft.util.EnumFacing.UP, this);
     }
 
     /**
@@ -45,15 +43,15 @@ public class CookingPlusCustomBlockBush extends Block implements IPlantable
      */
     protected boolean canPlaceBlockOn(Block ground)
     {
-        return ground == Blocks.grass || ground == Blocks.dirt || ground == Blocks.farmland;
+        return ground == Blocks.GRASS || ground == Blocks.DIRT || ground == Blocks.FARMLAND;
     }
 
     /**
      * Called when a neighboring block changes.
      */
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock)
     {
-        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+        super.neighborChanged(state, worldIn, pos, neighborBlock);
         this.checkAndDropBlock(worldIn, pos, state);
     }
 
@@ -67,38 +65,25 @@ public class CookingPlusCustomBlockBush extends Block implements IPlantable
         if (!this.canBlockStay(worldIn, pos, state))
         {
             this.dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockState(pos, Blocks.air.getDefaultState(), 3);
+            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
         }
     }
 
     public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state)
     {
-        BlockPos down = pos.down();
-        Block soil = worldIn.getBlockState(down).getBlock();
-        if (state.getBlock() != this) return this.canPlaceBlockOn(soil); //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
-        return soil.canSustainPlant(worldIn, down, net.minecraft.util.EnumFacing.UP, this);
+        if (state.getBlock() == this) //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
+        {
+            IBlockState soil = worldIn.getBlockState(pos.down());
+            return soil.getBlock().canSustainPlant(soil, worldIn, pos.down(), net.minecraft.util.EnumFacing.UP, this);
+        }
+        return this.func_185514_i(worldIn.getBlockState(pos.down()));
+    }
+    
+    protected boolean func_185514_i(IBlockState state)
+    {
+        return state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.FARMLAND;
     }
 
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-    {
-    	return new AxisAlignedBB((double)pos.getX() + this.minX, (double)pos.getY() + this.minY, (double)pos.getZ() + this.minZ, (double)pos.getX() + this.maxX, (double)pos.getY() + this.maxY, (double)pos.getZ() + this.maxZ);
-    }
-
-    public boolean isOpaqueCube()
-    {
-        return true;
-    }
-
-    public boolean isFullCube()
-    {
-        return true;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer()
-    {
-        return EnumWorldBlockLayer.CUTOUT;
-    }
 
     @Override
     public EnumPlantType getPlantType(net.minecraft.world.IBlockAccess world, BlockPos pos)
@@ -113,4 +98,61 @@ public class CookingPlusCustomBlockBush extends Block implements IPlantable
         if (state.getBlock() != this) return getDefaultState();
         return state;
     }
+    
+    
+    
+    
+    public void setBlockBounds(float x1, float y1, float z1, float x2, float y2, float z2){
+		MY_FULL_BLOCK_AABB = new AxisAlignedBB(x1, y1, z1, x2, y2, z2);
+	}
+	
+    @Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    {
+		if(MY_FULL_BLOCK_AABB != null){
+			return MY_FULL_BLOCK_AABB;
+		}
+		else{
+			return super.getBoundingBox(state, source, pos);
+		}
+    }
+    
+    
+  //LETS FIX THESE OPAQUE CUBES
+    public boolean isVisuallyOpaque()
+    {
+        return isOpaqueCube();
+    }
+	
+	public boolean isOpaqueCube()
+    {
+        return true;
+    }
+	
+	
+	//LETS FIX THESE FULL CUBES
+	@Override
+	public boolean isFullCube(IBlockState state)
+    {
+        return isFullCube();
+    }
+	
+    public boolean isFullCube()
+    {
+        return true;
+    }
+	
+    
+    //LETS FIX OUR LEAVES
+    @Override
+    public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+        return canSustainLeaves(world, pos);
+    }
+    
+    public boolean canSustainLeaves(IBlockAccess world, BlockPos pos)
+    {
+        return false;
+    }
+    
 }

@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:peachleaves" },
+		"check_decay=false,decayable=false": { "model": "agriculturalrevolution:peachleaves" },
+		"check_decay=true,decayable=false": { "model": "agriculturalrevolution:peachleaves" },
+		"check_decay=true,decayable=true": { "model": "agriculturalrevolution:peachleaves" },
+		"check_decay=false,decayable=true": { "model": "agriculturalrevolution:peachleaves" }
+	}
+}

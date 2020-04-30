@@ -4,12 +4,14 @@ import java.util.Iterator;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -22,16 +24,17 @@ public class CookingPlusBamboo extends CookingPlusCustomBlock{
 	private final String name = "bamboo";
 	
 	public CookingPlusBamboo() {
-		super(Material.grass);
+		super(Material.WOOD);
 		GameRegistry.registerBlock(this, name);
 		this.setUnlocalizedName("bamboo");
 		this.setBlockBounds(0.3125f, 0f, 0.3125f, 0.6875f, 1f, 0.6875f);
 		
 		//this.setBlockTextureName("cookingplus:salt");
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setLightOpacity(5);
+		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		this.setHardness(1.0F);
 		this.setResistance(1.0F);
-		this.setStepSound(soundTypeWood);
+		this.setSoundType(SoundType.WOOD);
 	}
 	
 	@Override
@@ -71,18 +74,18 @@ public class CookingPlusBamboo extends CookingPlusCustomBlock{
     }
     
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock){
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock){
 		if(worldIn.getBlockState(pos.down()).getBlock() != null){
 			if(worldIn.getBlockState(pos.down()).getBlock().equals(CookingPlusMain.blockBamboo)){
 				
 			}
-			else if(worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.dirt)){
+			else if(worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.DIRT)){
 				
 			}
-			else if(worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.grass)){
+			else if(worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.GRASS)){
 				
 			}
-			else if(worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.farmland)){
+			else if(worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.FARMLAND)){
 				
 			}
 			else{
@@ -108,13 +111,18 @@ public class CookingPlusBamboo extends CookingPlusCustomBlock{
 	                BlockPos blockpos1 = (BlockPos)iterator.next();
 	                IBlockState iblockstate1 = worldIn.getBlockState(blockpos1);
 
-	                if (iblockstate1.getBlock().isLeaves(worldIn, blockpos1))
+	                if (iblockstate1.getBlock().isLeaves(iblockstate1, worldIn, blockpos1))
 	                {
-	                    iblockstate1.getBlock().beginLeavesDecay(worldIn, blockpos1);
+	                    iblockstate1.getBlock().beginLeavesDecay(iblockstate1, worldIn, blockpos1);
 	                }
 	            }
 	        }
 	    }
 	
+	@Override
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
+    {
+        return false;
+    }
 
 }

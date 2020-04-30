@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:avocadoleaves" },
+		"check_decay=false,decayable=false": { "model": "agriculturalrevolution:avocadoleaves" },
+		"check_decay=true,decayable=false": { "model": "agriculturalrevolution:avocadoleaves" },
+		"check_decay=true,decayable=true": { "model": "agriculturalrevolution:avocadoleaves" },
+		"check_decay=false,decayable=true": { "model": "agriculturalrevolution:avocadoleaves" }
+	}
+}

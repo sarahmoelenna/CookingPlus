@@ -2,34 +2,33 @@ package CookingPlus.generation;
 
 import java.util.Random;
 
-import CookingPlus.CookingPlusConfig;
-import CookingPlus.CookingPlusMain;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import CookingPlus.CookingPlusConfig;
+import CookingPlus.CookingPlusMain;
 
 public class CookingPlusNetherGen {
 
 	static void GenerateNetherStructures(World worldIn, Random randIn,
 			int ChunkX, int ChunkZ) {
 		
-		
+		if(CookingPlusConfig.NetherTangleSpawnRate != 0){
 		if(randIn.nextFloat()*100 > (100 - CookingPlusConfig.NetherTangleSpawnRate)){
 			int x = ChunkX * 16 + randIn.nextInt(16);
         	int z = ChunkZ * 16 + randIn.nextInt(16);
         	int y = randIn.nextInt(255) + 1;
 
 			for (int i = y - 1; i > 1; i--) {
-				if (worldIn.getBlockState(new BlockPos(x, i, z)).getBlock() == Blocks.air) {
-					if (worldIn.getBlockState(new BlockPos(x, i - 1, z)).getBlock() == Blocks.netherrack || worldIn.getBlockState(new BlockPos(x, i, z)).getBlock() == Blocks.soul_sand) {
+				if (worldIn.getBlockState(new BlockPos(x, i, z)).getBlock() == Blocks.AIR) {
+					if (worldIn.getBlockState(new BlockPos(x, i - 1, z)).getBlock() == Blocks.NETHERRACK || worldIn.getBlockState(new BlockPos(x, i, z)).getBlock() == Blocks.SOUL_SAND) {
 						SpreadTangle(worldIn, new BlockPos(x, i, z), randIn, 0);
 						i = 0;
 					}
 				}
 			}
+		}
 		}
 
 	}
@@ -225,7 +224,7 @@ public class CookingPlusNetherGen {
 	}
 
 	static boolean canPlaceTangleBlock(World worldIn, BlockPos myPos, Block Ignore){
-		if(worldIn.getBlockState(myPos).getBlock() == Blocks.air){
+		if(worldIn.getBlockState(myPos).getBlock() == Blocks.AIR){
 			SurroundWithBlock(worldIn, myPos, Ignore);
 			return true;
 		}

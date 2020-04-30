@@ -1,20 +1,11 @@
 package CookingPlus.blocks.crops;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import CookingPlus.CookingPlusMain;
 import CookingPlus.blocks.CookingPlusCustomCrops;
 
 public class CookingPlusEasyCrop extends CookingPlusCustomCrops
@@ -55,9 +46,10 @@ public class CookingPlusEasyCrop extends CookingPlusCustomCrops
     }
     
     @Override
-    protected boolean canPlaceBlockOn(Block parBlock)
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        return parBlock == GroundBlock;
+        Block soil = worldIn.getBlockState(pos.down()).getBlock();
+        return soil == GroundBlock;
     }
     
     @Override

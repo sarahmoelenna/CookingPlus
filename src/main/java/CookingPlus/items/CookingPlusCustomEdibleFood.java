@@ -14,5 +14,11 @@ public class CookingPlusCustomEdibleFood extends ItemFood
     {
     	return null;
     }
+    
+    public void setPotionEffect(int a, int b, int c, int d){
+    	//this.setPotionEffect(new PotionEffect(Potion.getPotionById(a), b, c), 1);
+    }
+    
+    
 
 }

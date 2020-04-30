@@ -1,0 +1,17 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+	"custom": { "flip-v": true },
+    "model": "agriculturalrevolution:brickoven.obj"
+  },
+  "variants": {
+	"normal": [{}],
+	"facing=west": [{}],
+	"facing=north": [{}],
+	"facing=south": [{}],
+	"facing=east": [{}],
+	"inventory": [{
+            "transform": "forge:default-block"
+        }]
+  }
+}

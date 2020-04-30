@@ -1,7 +1,7 @@
 package CookingPlus.items.Drinks;
 
-import CookingPlus.items.CookingPlusCustomHerbalTea;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomHerbalTea;
 
 public class CookingPlusMintTea extends CookingPlusCustomHerbalTea {
 

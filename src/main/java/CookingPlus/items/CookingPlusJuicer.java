@@ -1,6 +1,5 @@
 package CookingPlus.items;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -11,7 +10,7 @@ public class CookingPlusJuicer extends CookingPlusCustomItem {
 	public CookingPlusJuicer(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("juicer");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":cakebatter");
 		setMaxStackSize(1);
 	}

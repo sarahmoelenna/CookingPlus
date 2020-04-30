@@ -1,24 +1,18 @@
 package CookingPlus;
 
-import com.google.common.base.Function;
-
-import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IFlexibleBakedModel;
-import net.minecraftforge.client.model.ISmartBlockModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Collections;
-import java.util.List;
+import com.google.common.base.Function;
 
 @SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
-public abstract class CookingPlusSmartBlockModel implements IFlexibleBakedModel, ISmartBlockModel {
+public abstract class CookingPlusSmartBlockModel implements IBakedModel {
 
     private boolean isAmbientOcclusion;
     private boolean isGui3d;
@@ -54,7 +48,7 @@ public abstract class CookingPlusSmartBlockModel implements IFlexibleBakedModel,
         return false;
     }
 
-    @Override
+    //@Override
     public TextureAtlasSprite getTexture() {
         return texture;
     }
@@ -64,18 +58,4 @@ public abstract class CookingPlusSmartBlockModel implements IFlexibleBakedModel,
         return ItemCameraTransforms.DEFAULT;
     }
 
-    @Override
-    public List<BakedQuad> getFaceQuads(EnumFacing side) {
-        return Collections.EMPTY_LIST;
-    }
-
-    @Override
-    public List<BakedQuad> getGeneralQuads() {
-        return Collections.EMPTY_LIST;
-    }
-
-    @Override
-    public VertexFormat getFormat() {
-        return format;
-    }
 }

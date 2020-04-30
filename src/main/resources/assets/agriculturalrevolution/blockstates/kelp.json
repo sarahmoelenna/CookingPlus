@@ -1,0 +1,21 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:kelp" },
+		"level=0": { "model": "agriculturalrevolution:kelp" },
+		"level=1": { "model": "agriculturalrevolution:kelp" },
+		"level=2": { "model": "agriculturalrevolution:kelp" },
+		"level=3": { "model": "agriculturalrevolution:kelp" },
+		"level=4": { "model": "agriculturalrevolution:kelp" },
+		"level=5": { "model": "agriculturalrevolution:kelp" },
+		"level=6": { "model": "agriculturalrevolution:kelp" },
+		"level=7": { "model": "agriculturalrevolution:kelp" },
+		"level=8": { "model": "agriculturalrevolution:kelp" },
+		"level=9": { "model": "agriculturalrevolution:kelp" },
+		"level=10": { "model": "agriculturalrevolution:kelp" },
+		"level=11": { "model": "agriculturalrevolution:kelp" },
+		"level=12": { "model": "agriculturalrevolution:kelp" },
+		"level=13": { "model": "agriculturalrevolution:kelp" },
+		"level=14": { "model": "agriculturalrevolution:kelp" },
+		"level=15": { "model": "agriculturalrevolution:kelp" }
+	}
+}

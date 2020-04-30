@@ -11,7 +11,7 @@ import CookingPlus.tiles.OilPressTileEntity;
 
 public class OilPressRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/oilpress.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/oilpress.png");
 	
 	private CookingPlusOilPress model;
 	
@@ -33,8 +33,13 @@ public class OilPressRenderer extends TileEntitySpecialRenderer {
 		this.bindTexture(texture);
 		
 		GL11.glPushMatrix();
+		if(MyChurn != null){
 		GL11.glRotatef((float) (MyChurn.getMovement() * 180/Math.PI), 0f, 1f, 0f);
 		this.model.RenderModel(0.0625f, MyChurn.getMovement());
+		}
+		else{
+			this.model.RenderModel(0.0625f, 0);
+		}
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}

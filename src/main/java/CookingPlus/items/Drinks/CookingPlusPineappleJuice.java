@@ -1,9 +1,7 @@
 package CookingPlus.items.Drinks;
 
-import CookingPlus.items.CookingPlusCustomJuice;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomJuice;
 
 public class CookingPlusPineappleJuice extends CookingPlusCustomJuice
 {

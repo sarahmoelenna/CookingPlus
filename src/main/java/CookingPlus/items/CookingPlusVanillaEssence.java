@@ -1,6 +1,5 @@
 package CookingPlus.items;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -11,7 +10,7 @@ public class CookingPlusVanillaEssence extends CookingPlusCustomItem {
 	public CookingPlusVanillaEssence(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("vanillaessence");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":flour");
 		this.setMaxStackSize(16);
 	}

@@ -1,11 +1,11 @@
 package CookingPlus.items.Seeds;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomEdibleRopeCropSeed;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.items.CookingPlusCustomEdibleRopeCropSeed;
 
 public class CookingPlusHopSeed extends CookingPlusCustomEdibleRopeCropSeed 
 {
@@ -13,11 +13,11 @@ public class CookingPlusHopSeed extends CookingPlusCustomEdibleRopeCropSeed
 
     public CookingPlusHopSeed() 
     {
-        super(1, 0.3F, CookingPlusMain.blockHopCrop, Blocks.farmland);	//change this
+        super(1, 0.3F, CookingPlusMain.blockHopCrop, Blocks.FARMLAND);	//change this
         GameRegistry.registerItem(this, name);
         setUnlocalizedName("hopseed");
         //setTextureName("cookingplus:chilliseed");
-        setCreativeTab(CreativeTabs.tabFood);
+        setCreativeTab(CreativeTabs.FOOD);
     }
     
     public Block GetCropBlock(){

@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:mangoleaves" },
+		"check_decay=false,decayable=false": { "model": "agriculturalrevolution:mangoleaves" },
+		"check_decay=true,decayable=false": { "model": "agriculturalrevolution:mangoleaves" },
+		"check_decay=true,decayable=true": { "model": "agriculturalrevolution:mangoleaves" },
+		"check_decay=false,decayable=true": { "model": "agriculturalrevolution:mangoleaves" }
+	}
+}

@@ -1,33 +1,24 @@
 package CookingPlus.generation;
 
-import java.util.Random;
-
-import net.minecraft.block.BlockSand;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenOcean;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.biome.Biome;
 import CookingPlus.CookingPlusMain;
 
-public class CookingPlusCoralReefBiome extends BiomeGenBase {
+public class CookingPlusCoralReefBiome extends Biome {
 
 	
-    public CookingPlusCoralReefBiome(int i) {
+    public CookingPlusCoralReefBiome(BiomeProperties i) {
         super(i);
         
-        BiomeGenBase.Height CoralReefHeight = new BiomeGenBase.Height(-1.2F, 0.1F);
-        setBiomeName("Coral Reef");
+        //Biome.Height CoralReefHeight = new Biome.Height(-1.2F, 0.1F);
+        //setBiomeName("Coral Reef");
         topBlock = CookingPlusMain.blockCoralRock.getDefaultState();
         fillerBlock = CookingPlusMain.blockCoralRock.getDefaultState();
-        this.setHeight(CoralReefHeight);
-        this.setColor(113);
+        //this.setHeight(CoralReefHeight);
+       //this.setColor(113);
         
     }
+    
+
     
     
 }

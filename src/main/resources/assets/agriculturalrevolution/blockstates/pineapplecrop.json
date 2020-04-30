@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:pineapplecrop" },
+		"age=0": { "model": "agriculturalrevolution:pineapplecrop" },
+		"age=1": { "model": "agriculturalrevolution:pineapplecrop" },
+		"age=2": { "model": "agriculturalrevolution:pineapplecrop_1" },
+		"age=3": { "model": "agriculturalrevolution:pineapplecrop_1" },
+		"age=4": { "model": "agriculturalrevolution:pineapplecrop_2" },
+		"age=5": { "model": "agriculturalrevolution:pineapplecrop_2" },
+		"age=6": { "model": "agriculturalrevolution:pineapplecrop_2" },
+		"age=7": { "model": "agriculturalrevolution:pineapplecrop_3" }
+	}
+}

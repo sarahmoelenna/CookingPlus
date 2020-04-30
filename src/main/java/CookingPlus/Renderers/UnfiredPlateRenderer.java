@@ -1,23 +1,16 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusBrickOven;
-import CookingPlus.models.CookingPlusFermenter;
-import CookingPlus.models.CookingPlusOrnateChest;
-import CookingPlus.models.CookingPlusPlate;
-import CookingPlus.models.CookingPlusTeapot;
-import CookingPlus.tiles.BrickOvenTileEntity;
-import CookingPlus.tiles.FermenterTileEntity;
-import CookingPlus.tiles.OrnateChestTileEntity;
-import CookingPlus.tiles.TeapotTileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusPlate;
+
 public class UnfiredPlateRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/unfiredplatemap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/unfiredplatemap.png");
 	
 	private CookingPlusPlate model;
 	

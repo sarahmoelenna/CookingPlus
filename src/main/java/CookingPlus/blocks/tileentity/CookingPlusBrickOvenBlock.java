@@ -1,15 +1,14 @@
 package CookingPlus.blocks.tileentity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,13 +17,12 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -34,7 +32,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.tiles.BrickOvenTileEntity;
 
-public class CookingPlusBrickOvenBlock extends BlockContainer {
+public class CookingPlusBrickOvenBlock extends CookingPlusCustomTileEntityBlock {
 
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	
@@ -43,12 +41,12 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
         //Treat it like a normal block here. The Block Bounds are a good idea - the first three are X Y and Z of the botton-left corner,
         //And the second three are the top-right corner.
         public CookingPlusBrickOvenBlock() {
-                super(Material.rock);
+                super(Material.ROCK);
                 this.setUnlocalizedName("brickoven");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.5F, 1.0F);
                 this.setHardness(2.0F);
         		this.setResistance(6.0F);
-        		this.setStepSound(soundTypeStone);
+        		this.setSoundType(SoundType.STONE);
         		//this.setBlockTextureName("cookingplus:salt");
         		this.setTickRandomly(false);
         		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
@@ -84,8 +82,8 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
 			//System.out.println("blargd");
 			if(MyPos.getY() < 252){
 				if(parWorld.getBlockState(MyPos).getBlock().isReplaceable(parWorld, MyPos)){
-					if(parWorld.getBlockState(new BlockPos(new Vec3(MyPos.getX(), MyPos.getY() + 1, MyPos.getZ()))).getBlock().isReplaceable(parWorld, new BlockPos(new Vec3(MyPos.getX(), MyPos.getY() + 1, MyPos.getZ())))){
-						if(parWorld.getBlockState(new BlockPos(new Vec3(MyPos.getX(), MyPos.getY() + 2, MyPos.getZ()))).getBlock().isReplaceable(parWorld, new BlockPos(new Vec3(MyPos.getX(), MyPos.getY() + 2, MyPos.getZ())))){
+					if(parWorld.getBlockState(new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY() + 1, MyPos.getZ()))).getBlock().isReplaceable(parWorld, new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY() + 1, MyPos.getZ())))){
+						if(parWorld.getBlockState(new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY() + 2, MyPos.getZ()))).getBlock().isReplaceable(parWorld, new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY() + 2, MyPos.getZ())))){
 							return true;
 						}
 					}
@@ -104,8 +102,8 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
 			int i = myPos.getX();
 			int j = myPos.getY();
 			int k = myPos.getZ();
-			SetWorldBlock(world, i, j + 1, k, Blocks.air, 0, 2);
-			SetWorldBlock(world, i, j + 2, k, Blocks.air, 0, 2);
+			SetWorldBlock(world, i, j + 1, k, Blocks.AIR, 0, 2);
+			SetWorldBlock(world, i, j + 2, k, Blocks.AIR, 0, 2);
 		}
 		
 		@Override
@@ -114,8 +112,8 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
 			int i = myPos.getX();
 			int j = myPos.getY();
 			int k = myPos.getZ();
-			SetWorldBlock(world, i, j + 1, k, Blocks.air, 0, 2);
-			SetWorldBlock(world, i, j + 2, k, Blocks.air, 0, 2);
+			SetWorldBlock(world, i, j + 1, k, Blocks.AIR, 0, 2);
+			SetWorldBlock(world, i, j + 2, k, Blocks.AIR, 0, 2);
 		}
 		
 		@Override
@@ -192,7 +190,7 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
 	    }
 		
 		@Override
-		public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+		public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	    {
 	        if (!worldIn.isRemote)
 	        {
@@ -204,8 +202,9 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
 		 
 		@SideOnly(Side.CLIENT)
 		@Override
-	    public void randomDisplayTick(World world, BlockPos myPos, IBlockState state, Random ran) {
+		public void randomDisplayTick(IBlockState IworldIn, World world, BlockPos state, Random ran) {
 		 //System.out.println("A");
+			BlockPos myPos = new BlockPos(state.getX(),state.getY(),state.getZ());
 			if(world.getTileEntity(myPos) != null){
 				//System.out.println("B");
 				BrickOvenTileEntity myOven = (BrickOvenTileEntity) world.getTileEntity(myPos);
@@ -246,11 +245,11 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
 	    }
 
 		private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-			myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+			myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 		}
 		
 		private Block GetWorldBlock(World myWorld, int x, int y, int z){
-			return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+			return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 		}
 		
 		public String GetName(){
@@ -277,9 +276,9 @@ public class CookingPlusBrickOvenBlock extends BlockContainer {
 	    }
 
 	    @Override
-	    protected BlockState createBlockState()
+	    protected BlockStateContainer createBlockState()
 	    {
-	        return new BlockState(this, new IProperty[] {FACING});
+	        return new BlockStateContainer(this, new IProperty[] {FACING});
 	    }
 
 	    public String getName()

@@ -1,9 +1,8 @@
 package CookingPlus.items.Harvest;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomItem;
 
 public class CookingPlusChamomileFlower extends CookingPlusCustomItem {
 
@@ -12,7 +11,7 @@ public class CookingPlusChamomileFlower extends CookingPlusCustomItem {
 	public CookingPlusChamomileFlower(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("chamomileflower");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":flour");
 	}
 	

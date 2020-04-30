@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:palmsapling" },
+		"age=0": { "model": "agriculturalrevolution:palmsapling" },
+		"age=1": { "model": "agriculturalrevolution:palmsapling" },
+		"age=2": { "model": "agriculturalrevolution:palmsapling" },
+		"age=3": { "model": "agriculturalrevolution:palmsapling" },
+		"age=4": { "model": "agriculturalrevolution:palmsapling" },
+		"age=5": { "model": "agriculturalrevolution:palmsapling" },
+		"age=6": { "model": "agriculturalrevolution:palmsapling" },
+		"age=7": { "model": "agriculturalrevolution:palmsapling" },
+		"inventory": { "model": "agriculturalrevolution:palmsapling" }
+	}
+}

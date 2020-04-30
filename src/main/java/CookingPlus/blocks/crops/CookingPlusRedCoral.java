@@ -1,11 +1,9 @@
 package CookingPlus.blocks.crops;
 
+import net.minecraft.block.Block;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.blocks.CookingPlusCustomSpreadingCoral;
-import CookingPlus.blocks.CookingPlusCustomUnderwaterCrop;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CookingPlusRedCoral extends CookingPlusCustomSpreadingCoral{
 

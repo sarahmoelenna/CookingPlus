@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:mint" },
+		"placed=0": { "model": "agriculturalrevolution:mint" },
+		"placed=1": { "model": "agriculturalrevolution:mint" }
+	}
+}

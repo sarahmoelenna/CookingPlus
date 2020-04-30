@@ -1,10 +1,10 @@
 package CookingPlus.blocks.crops;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.blocks.CookingPlusCustomUnderwaterCrop;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.blocks.CookingPlusCustomUnderwaterCrop;
 
 public class CookingPlusSeaweedCrop extends CookingPlusCustomUnderwaterCrop{
 
@@ -26,7 +26,7 @@ public class CookingPlusSeaweedCrop extends CookingPlusCustomUnderwaterCrop{
 	}
 
 	public Block GetGroundBlock(){
-		return Blocks.sand;
+		return Blocks.SAND;
 	}
 	
 }

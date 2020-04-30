@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:chamomile" },
+		"placed=0": { "model": "agriculturalrevolution:chamomile" },
+		"placed=1": { "model": "agriculturalrevolution:chamomile" }
+	}
+}

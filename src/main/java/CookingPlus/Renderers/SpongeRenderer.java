@@ -1,15 +1,16 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusSponge;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusSponge;
+
 public class SpongeRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/cupcakemap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/cupcakemap.png");
 	
 	private CookingPlusSponge model;
 	

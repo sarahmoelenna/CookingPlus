@@ -1,9 +1,7 @@
 package CookingPlus.items.Harvest;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomItem;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomItem;
 
 public class CookingPlusVanillaPod extends CookingPlusCustomItem {
 
@@ -12,7 +10,7 @@ public class CookingPlusVanillaPod extends CookingPlusCustomItem {
 	public CookingPlusVanillaPod(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("vanillapod");
-		//setCreativeTab(CreativeTabs.tabMisc);
+		//setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":rack");
 	}
 	

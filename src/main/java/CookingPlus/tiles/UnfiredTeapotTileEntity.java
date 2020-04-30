@@ -11,18 +11,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 
-public class UnfiredTeapotTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class UnfiredTeapotTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable {
 
 	private int EntityDirection;
 	private ItemStack[] inv;
@@ -56,19 +54,19 @@ public class UnfiredTeapotTileEntity extends TileEntity implements IInventory, I
 	@Override
     public void update(){
 		if(inv[0] != null){
-			if(inv[0].getItem().equals(Items.water_bucket)){
+			if(inv[0].getItem().equals(Items.WATER_BUCKET)){
 				if(LiquidAmount < 10){
 					LiquidAmount++;
-					inv[0] = new ItemStack(Items.bucket);
+					inv[0] = new ItemStack(Items.BUCKET);
 				}
 			}
 		}
 		
 		if(this.getWorld().getBlockState(this.getPos().down().down()) != null){
-			if(this.getWorld().getBlockState(this.getPos().down().down()).getBlock() == Blocks.fire){
+			if(this.getWorld().getBlockState(this.getPos().down().down()).getBlock() == Blocks.FIRE){
     			canBoil = true;
     		}
-    		else if(this.getWorld().getBlockState(this.getPos().down().down()).getBlock() == Blocks.lava){
+    		else if(this.getWorld().getBlockState(this.getPos().down().down()).getBlock() == Blocks.LAVA){
     			canBoil = true;
     		}
     		else{
@@ -126,8 +124,8 @@ public class UnfiredTeapotTileEntity extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		
 
 		//nbt.setInteger("MyMoveState", MoveState);
 		//nbt.setFloat("MyMovement", MovementTimer);
@@ -150,18 +148,19 @@ public class UnfiredTeapotTileEntity extends TileEntity implements IInventory, I
 
 		nbt.setTag("Items", nbttaglist);
 
-
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -200,7 +199,7 @@ public class UnfiredTeapotTileEntity extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -221,7 +220,7 @@ public class UnfiredTeapotTileEntity extends TileEntity implements IInventory, I
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

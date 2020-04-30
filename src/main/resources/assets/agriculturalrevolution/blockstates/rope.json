@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:rope" },
+		"type=0": { "model": "agriculturalrevolution:rope" },
+		"type=1": { "model": "agriculturalrevolution:rope_straight" },
+		"type=2": { "model": "agriculturalrevolution:rope_bottom" },
+		"type=3": { "model": "agriculturalrevolution:rope_top" },
+		"inventory": { "model": "agriculturalrevolution:rope" }
+	}
+}

@@ -24,7 +24,10 @@ public class CookingPlusModelLoader implements ICustomModelLoader {
     	//}
     	//System.out.println(l.getResourcePath());
     	//System.out.println(l.getResourcePath().startsWith("models/block/builtin/"));
-        return l.getResourceDomain().equals("cookingplus") && ((l.getResourcePath().startsWith("models/block/grapecrop") || l.getResourcePath().startsWith("models/block/hopcrop") || l.getResourcePath().startsWith("models/block/vanillacrop")));
+    	/*if (l.getResourceDomain().equals("agriculturalrevolution") && l.getResourcePath().startsWith("models/block/")){
+    	System.out.println(l.getResourcePath());
+    	}*/
+        return l.getResourceDomain().equals("agriculturalrevolution") && ((l.getResourcePath().startsWith("models/block/grapecrop") || l.getResourcePath().startsWith("models/block/hopcrop") || l.getResourcePath().startsWith("models/block/vanillacrop")));
     }
 
     @Override

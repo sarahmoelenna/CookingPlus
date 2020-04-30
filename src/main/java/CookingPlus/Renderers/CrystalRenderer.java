@@ -1,21 +1,21 @@
 package CookingPlus.Renderers;
 
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import CookingPlus.models.CookingPlusCrystal;
-import CookingPlus.models.CookingPlusSponge;
 import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
 import CookingPlus.tiles.CookingPlusLightCrystalTileEntity;
 import CookingPlus.tiles.CookingPlusSkyCrystalTileEntity;
 import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import CookingPlus.tiles.CystalBaseTileEntity;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 public class CrystalRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/crystalmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/crystalmap.png");
 	
 	private CookingPlusCrystal model;
 	
@@ -30,8 +30,10 @@ public class CrystalRenderer extends TileEntitySpecialRenderer {
 		GL11.glTranslated((float)x + 0.5f, (float)y + 1.5f, (float)z + 0.5f);
 		GL11.glRotatef(180, 0f, 0f, 1f);
 		CystalBaseTileEntity myentity = (CystalBaseTileEntity) entity;
+		if(myentity != null){
 		GL11.glRotatef(myentity.getRotation(), 0, 1, 0);
 		GL11.glTranslated(0, (myentity.getBobbing() - 0.5f)/10, 0);
+		}
 		this.bindTexture(texture);
 		
 		GL11.glPushMatrix();

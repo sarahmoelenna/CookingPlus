@@ -1,11 +1,10 @@
 package CookingPlus.items.Seeds;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomEdibleSeed;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.items.CookingPlusCustomEdibleSeed;
 
 public class CookingPlusPineappleSeed extends CookingPlusCustomEdibleSeed 
 {
@@ -13,7 +12,7 @@ public class CookingPlusPineappleSeed extends CookingPlusCustomEdibleSeed
 
     public CookingPlusPineappleSeed() 
     {
-        super(1, 0.3F, CookingPlusMain.blockPineappleCrop, Blocks.farmland);	//change this
+        super(1, 0.3F, CookingPlusMain.blockPineappleCrop, Blocks.FARMLAND);	//change this
         GameRegistry.registerItem(this, name);
         setUnlocalizedName(name);
     }

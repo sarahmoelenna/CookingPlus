@@ -2,19 +2,15 @@ package CookingPlus.Containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import CookingPlus.Slots.CookingPlusFuelSlot;
 import CookingPlus.Slots.CookingPlusSingleSlot;
+import CookingPlus.recipes.CookingPlusSheetPressRecipes;
 
 public class CookingPlusSheetPressContainer extends Container {
 	private final IInventory tileGrinder;
@@ -25,7 +21,7 @@ public class CookingPlusSheetPressContainer extends Container {
 
 	public CookingPlusSheetPressContainer(InventoryPlayer parInventoryPlayer,TileEntity tileEntity) {
 		// DEBUG
-		// System.out.println("ContainerGrinder constructor()");
+		 System.out.println("Sheet Press constructor()");
 
 		tileGrinder = (IInventory) tileEntity;
 		sizeInventory = tileGrinder.getSizeInventory();
@@ -48,12 +44,12 @@ public class CookingPlusSheetPressContainer extends Container {
 		}
 	}
 
-	@Override
-	public void addCraftingToCrafters(ICrafting listener) {
-		super.addCraftingToCrafters(listener);
-		listener.sendContainerAndContentsToPlayer(this,
-				this.inventoryItemStacks);
-	}
+	//@Override
+		//public void addCraftingToCrafters(ICrafting listener) {
+		//	super.addCraftingToCrafters(listener);
+		//	listener.sendContainerAndContentsToPlayer(this,
+		//			this.inventoryItemStacks);
+		//}
 
 	/**
 	 * Looks for changes made in the container, sends them to every listener.
@@ -83,6 +79,8 @@ public class CookingPlusSheetPressContainer extends Container {
 
 			ItemStack itemstack1 = slotObject.getStack();
 			itemstack = itemstack1.copy();
+			ItemStack mySingleItemStack = itemstack1.copy();
+			mySingleItemStack.stackSize = 1;
 			//System.out.println(slotIndex);
 			if (slotIndex < tileGrinder.getSizeInventory()) { //merge into inventory
 				// try to place in player inventory / action bar; add 36+1 because mergeItemStack uses < index,
@@ -94,12 +92,51 @@ public class CookingPlusSheetPressContainer extends Container {
 			}
 			// itemstack is in player inventory, try to place in appropriate input slot
 			else if (slotIndex >= tileGrinder.getSizeInventory()) {
-				// try to place in either Input slot; add 1 to final input slot because mergeItemStack uses < index
-					//if (!this.mergeItemStack(itemstack1, 0, 1, false)) {//input
+					boolean[] mySlot = CookingPlusSheetPressRecipes.instance().getAppropriateSlot(mySingleItemStack.getItem());
+					//System.out.println(mySingleItemStack.stackSize);
+					if(mySlot[0] == true || mySlot[1] == true){
+						if(mySlot[0] == true && tileGrinder.getStackInSlot(0) == null){
+							if (!this.mergeItemStack(mySingleItemStack, 0, 1, false)) {//input 1
+								if(mySlot[1] == true && tileGrinder.getStackInSlot(1) == null){
+									if (!this.mergeItemStack(mySingleItemStack, 1, 2, false)) {//input 2
+										return null;
+									}
+									else{
+										itemstack1.stackSize = itemstack1.stackSize - 1;
+									}
+								}
+								else{
+									return null;
+								}
+							}
+							else{
+								itemstack1.stackSize = itemstack1.stackSize - 1;
+							}
+						}
+						if(mySlot[1] == true && tileGrinder.getStackInSlot(1) == null){
+							if (!this.mergeItemStack(mySingleItemStack, 1, 2, false)) {//input 2
+								if(mySlot[0] == true && tileGrinder.getStackInSlot(0) == null){
+									if (!this.mergeItemStack(mySingleItemStack, 0, 1, false)) {//input 1
+										return null;
+									}
+									else{
+										itemstack1.stackSize = itemstack1.stackSize - 1;
+									}
+								}
+								else{
+									return null;
+								}
+							}
+							else{
+								itemstack1.stackSize = itemstack1.stackSize - 1;
+							}
+						}
+					}
+					else{
 						return null;
-					//}
+					}
 			}
-
+			//System.out.println(mySingleItemStack.stackSize);
 			if (itemstack1.stackSize == 0) {
 				slotObject.putStack((ItemStack) null);
 			} else {

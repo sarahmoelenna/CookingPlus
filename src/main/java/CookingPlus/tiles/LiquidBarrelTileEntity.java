@@ -5,28 +5,27 @@ import java.util.Random;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 
-public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class LiquidBarrelTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable {
 
 	private int EntityDirection;
 	private ItemStack[] inv;
@@ -45,29 +44,29 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 			
 		}
 		else{
-			if(Player.getCurrentEquippedItem() != null){
-				Item playerItem = Player.getCurrentEquippedItem().getItem();
+			if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) != null){
+				Item playerItem = Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem();
 				if(myLiquid.equals("empty")){
-					if(playerItem == Items.water_bucket){
-						Player.setCurrentItemOrArmor(0, new ItemStack(Items.bucket, 1));
+					if(playerItem == Items.WATER_BUCKET){
+						Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BUCKET, 1));
 						SetLiquid("water");
 					}
 					if(playerItem == CookingPlusMain.creambucket){
-						Player.setCurrentItemOrArmor(0, new ItemStack(Items.bucket, 1));
+						Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BUCKET, 1));
 						SetLiquid("cream");
 					}
 				}
-				if(playerItem == Items.bucket){
+				if(playerItem == Items.BUCKET){
 					if(myLiquid.equals("water")){
-						if(Player.getCurrentEquippedItem().stackSize > 1){
-							ItemStack mystack = new ItemStack(Player.getCurrentEquippedItem().getItem(), Player.getCurrentEquippedItem().stackSize - 1);
-							Player.setCurrentItemOrArmor(0, mystack);
+						if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).stackSize > 1){
+							ItemStack mystack = new ItemStack(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem(), Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).stackSize - 1);
+							Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, mystack);
 						}
 						else{
-							Player.setCurrentItemOrArmor(0, null);
+							Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
 						}
-						if(Player.inventory.addItemStackToInventory(new ItemStack(Items.water_bucket)) == false){
-							Player.dropPlayerItemWithRandomChoice(new ItemStack(Items.water_bucket), false);
+						if(Player.inventory.addItemStackToInventory(new ItemStack(Items.WATER_BUCKET)) == false){
+							Player.dropItem(new ItemStack(Items.WATER_BUCKET), false);
 						}
 						SetLiquid("empty");
 					}
@@ -77,25 +76,25 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 				if(!myLiquid.equals("empty")){
 					if(myLiquid.equals("cheddar")){
 						//if(Player.inventory.addItemStackToInventory(new ItemStack(CookingPlusMain.cheddarwedge, 4)) == false){
-							Player.dropPlayerItemWithRandomChoice(new ItemStack(CookingPlusMain.cheddarwedge, 4), false);
+							Player.dropItem(new ItemStack(CookingPlusMain.cheddarwedge, 4), false);
 						//}
 						SetLiquid("empty");
 					}
 					if(myLiquid.equals("cc")){
 						//if(Player.inventory.addItemStackToInventory(new ItemStack(CookingPlusMain.creamwedge , 4)) == false){
-							Player.dropPlayerItemWithRandomChoice(new ItemStack(CookingPlusMain.creamwedge, 4), false);
+							Player.dropItem(new ItemStack(CookingPlusMain.creamwedge, 4), false);
 						//}
 						SetLiquid("empty");
 					}
 					if(myLiquid.equals("blue")){
 						//if(Player.inventory.addItemStackToInventory(new ItemStack(CookingPlusMain.bluewedge, 4)) == false){
-							Player.dropPlayerItemWithRandomChoice(new ItemStack(CookingPlusMain.bluewedge, 4), false);
+							Player.dropItem(new ItemStack(CookingPlusMain.bluewedge, 4), false);
 						//}
 						SetLiquid("empty");
 					}
 					if(myLiquid.equals("halloumi")){
 						//if(Player.inventory.addItemStackToInventory(new ItemStack(CookingPlusMain.halloumiwedge, 4)) == false){
-							Player.dropPlayerItemWithRandomChoice(new ItemStack(CookingPlusMain.halloumiwedge, 4), false);
+							Player.dropItem(new ItemStack(CookingPlusMain.halloumiwedge, 4), false);
 						//}
 						SetLiquid("empty");
 					}
@@ -163,8 +162,8 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		
 
 		//nbt.setInteger("MyMoveState", MoveState);
 		//nbt.setFloat("MyMovement", MovementTimer);
@@ -186,18 +185,19 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 
 		nbt.setTag("Items", nbttaglist);
 
-
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -236,7 +236,7 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -257,7 +257,7 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -333,7 +333,7 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 		if(!this.getWorld().isRemote){
 			if(newLiquid != myLiquid){
 				myLiquid = newLiquid;
-				UpdateBlock();
+				UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 			}
 		}
 	}
@@ -345,7 +345,7 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 	
 	public void processLiquid(){
 		if(myLiquid.equals("cream")){
-			BiomeGenBase myBiome = this.worldObj.getBiomeGenForCoords(getPos());
+			Biome myBiome = this.worldObj.getBiomeGenForCoords(getPos());
 			if(BiomeDictionary.isBiomeOfType(myBiome, Type.SWAMP)){
 				SetLiquid("blue");
 				age = 0;
@@ -365,8 +365,4 @@ public class LiquidBarrelTileEntity extends TileEntity implements IInventory, IU
 		}
 	}
 	
-	public void UpdateBlock(){
-		//System.out.println("update tile entity for client");
-		this.worldObj.markBlockForUpdate(this.getPos());
-	}
 }

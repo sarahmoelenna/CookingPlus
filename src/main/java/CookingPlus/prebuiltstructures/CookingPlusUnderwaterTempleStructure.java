@@ -2,12 +2,12 @@ package CookingPlus.prebuiltstructures;
 
 import java.util.Random;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import CookingPlus.CookingPlusMain;
 
 public class CookingPlusUnderwaterTempleStructure extends CookingPlusPreBuiltStructure {
 
@@ -17,11 +17,11 @@ public class CookingPlusUnderwaterTempleStructure extends CookingPlusPreBuiltStr
 	}
 	
 	private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock){
-		myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+		myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 	}
 	
 	private Block GetWorldBlock(World myWorld, int x, int y, int z){
-		return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+		return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class CookingPlusUnderwaterTempleStructure extends CookingPlusPreBuiltStr
 	//generate entrance
 		for(int h = 0; h < 11; h++){
 			if(h < 8){
-				SetWorldBlock(worldIn, x, y - h, z, Blocks.air);
+				SetWorldBlock(worldIn, x, y - h, z, Blocks.AIR);
 				SetWorldBlock(worldIn, x + 1, y - h, z, getRandomBrick(randIn));
 				SetWorldBlock(worldIn, x - 1, y - h, z, getRandomBrick(randIn));
 				SetWorldBlock(worldIn, x, y - h, z + 1, getRandomBrick(randIn));
@@ -42,16 +42,16 @@ public class CookingPlusUnderwaterTempleStructure extends CookingPlusPreBuiltStr
 				SetWorldBlock(worldIn, x + 1, y - h, z - 1, getRandomBrick(randIn));
 			}
 			if(h >= 8 && h < 10){
-				SetWorldBlock(worldIn, x, y - h, z, Blocks.air);
-				SetWorldBlock(worldIn, x + 1, y - h, z, Blocks.air);
-				SetWorldBlock(worldIn, x - 1, y - h, z, Blocks.air);
-				SetWorldBlock(worldIn, x, y - h, z + 1, Blocks.air);
-				SetWorldBlock(worldIn, x, y - h, z - 1, Blocks.air);
+				SetWorldBlock(worldIn, x, y - h, z, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 1, y - h, z, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 1, y - h, z, Blocks.AIR);
+				SetWorldBlock(worldIn, x, y - h, z + 1, Blocks.AIR);
+				SetWorldBlock(worldIn, x, y - h, z - 1, Blocks.AIR);
 				
-				SetWorldBlock(worldIn, x + 1, y - h, z + 1, Blocks.air);
-				SetWorldBlock(worldIn, x - 1, y - h, z -1, Blocks.air);
-				SetWorldBlock(worldIn, x - 1, y - h, z + 1, Blocks.air);
-				SetWorldBlock(worldIn, x + 1, y - h, z - 1, Blocks.air);
+				SetWorldBlock(worldIn, x + 1, y - h, z + 1, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 1, y - h, z -1, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 1, y - h, z + 1, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 1, y - h, z - 1, Blocks.AIR);
 				
 				SetWorldBlock(worldIn, x + 2, y - h, z, getRandomBrick(randIn));
 				SetWorldBlock(worldIn, x + 2, y - h, z - 1, getRandomBrick(randIn));
@@ -66,8 +66,8 @@ public class CookingPlusUnderwaterTempleStructure extends CookingPlusPreBuiltStr
 				SetWorldBlock(worldIn, x + 1, y - h, z - 2, getRandomBrick(randIn));
 			}
 			if(h == 10){
-				SetWorldBlock(worldIn, x, y - h, z, Blocks.air);
-				SetWorldBlock(worldIn, x, y - h - 1, z, Blocks.sea_lantern);
+				SetWorldBlock(worldIn, x, y - h, z, Blocks.AIR);
+				SetWorldBlock(worldIn, x, y - h - 1, z, Blocks.SEA_LANTERN);
 				SetWorldBlock(worldIn, x + 1, y - h, z, CookingPlusMain.blockCoralRockSmooth);
 				SetWorldBlock(worldIn, x - 1, y - h, z, CookingPlusMain.blockCoralRockSmooth);
 				SetWorldBlock(worldIn, x, y - h, z + 1, CookingPlusMain.blockCoralRockSmooth);
@@ -88,41 +88,41 @@ public class CookingPlusUnderwaterTempleStructure extends CookingPlusPreBuiltStr
 			if(i > 0 && i < 4){
 				for(int h = 0; h < 7; h++){
 					for(int j = 0; j < 7; j++){
-						SetWorldBlock(worldIn, x + h - 3, y + i, z + j - 3, Blocks.air);
+						SetWorldBlock(worldIn, x + h - 3, y + i, z + j - 3, Blocks.AIR);
 					}
 				}
 				
-				SetWorldBlock(worldIn, x - 4, y + i, z, Blocks.air);
-				SetWorldBlock(worldIn, x - 4, y + i, z + 1, Blocks.air);
-				SetWorldBlock(worldIn, x - 4, y + i, z + 2, Blocks.air);
-				SetWorldBlock(worldIn, x - 4, y + i, z + 3, Blocks.air);
-				SetWorldBlock(worldIn, x - 4, y + i, z - 1, Blocks.air);
-				SetWorldBlock(worldIn, x - 4, y + i, z - 2, Blocks.air);
-				SetWorldBlock(worldIn, x - 4, y + i, z - 3, Blocks.air);
+				SetWorldBlock(worldIn, x - 4, y + i, z, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 4, y + i, z + 1, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 4, y + i, z + 2, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 4, y + i, z + 3, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 4, y + i, z - 1, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 4, y + i, z - 2, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 4, y + i, z - 3, Blocks.AIR);
 				
-				SetWorldBlock(worldIn, x + 4, y + i, z, Blocks.air);
-				SetWorldBlock(worldIn, x + 4, y + i, z + 1, Blocks.air);
-				SetWorldBlock(worldIn, x + 4, y + i, z + 2, Blocks.air);
-				SetWorldBlock(worldIn, x + 4, y + i, z + 3, Blocks.air);
-				SetWorldBlock(worldIn, x + 4, y + i, z - 1, Blocks.air);
-				SetWorldBlock(worldIn, x + 4, y + i, z - 2, Blocks.air);
-				SetWorldBlock(worldIn, x + 4, y + i, z - 3, Blocks.air);
+				SetWorldBlock(worldIn, x + 4, y + i, z, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 4, y + i, z + 1, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 4, y + i, z + 2, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 4, y + i, z + 3, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 4, y + i, z - 1, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 4, y + i, z - 2, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 4, y + i, z - 3, Blocks.AIR);
 				
-				SetWorldBlock(worldIn, x , y + i, z + 4, Blocks.air);
-				SetWorldBlock(worldIn, x + 1, y + i, z + 4, Blocks.air);
-				SetWorldBlock(worldIn, x + 2, y + i, z + 4, Blocks.air);
-				SetWorldBlock(worldIn, x + 3, y + i, z + 4,Blocks.air);
-				SetWorldBlock(worldIn, x - 1, y + i, z + 4, Blocks.air);
-				SetWorldBlock(worldIn, x - 2, y + i, z + 4, Blocks.air);
-				SetWorldBlock(worldIn, x - 3, y + i, z + 4, Blocks.air);
+				SetWorldBlock(worldIn, x , y + i, z + 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 1, y + i, z + 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 2, y + i, z + 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 3, y + i, z + 4,Blocks.AIR);
+				SetWorldBlock(worldIn, x - 1, y + i, z + 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 2, y + i, z + 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 3, y + i, z + 4, Blocks.AIR);
 				
-				SetWorldBlock(worldIn, x , y + i, z - 4, Blocks.air);
-				SetWorldBlock(worldIn, x + 1, y + i, z - 4, Blocks.air);
-				SetWorldBlock(worldIn, x + 2, y + i, z - 4, Blocks.air);
-				SetWorldBlock(worldIn, x + 3, y + i, z - 4,Blocks.air);
-				SetWorldBlock(worldIn, x - 1, y + i, z - 4, Blocks.air);
-				SetWorldBlock(worldIn, x - 2, y + i, z - 4, Blocks.air);
-				SetWorldBlock(worldIn, x - 3, y + i, z - 4, Blocks.air);
+				SetWorldBlock(worldIn, x , y + i, z - 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 1, y + i, z - 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 2, y + i, z - 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x + 3, y + i, z - 4,Blocks.AIR);
+				SetWorldBlock(worldIn, x - 1, y + i, z - 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 2, y + i, z - 4, Blocks.AIR);
+				SetWorldBlock(worldIn, x - 3, y + i, z - 4, Blocks.AIR);
 				
 
 				//walls
@@ -138,7 +138,7 @@ public class CookingPlusUnderwaterTempleStructure extends CookingPlusPreBuiltStr
 					SetWorldBlock(worldIn, x + 5, y + i, z, getRandomBrick(randIn));
 				}
 				else{
-					SetWorldBlock(worldIn, x + 5, y + i, z, Blocks.air);
+					SetWorldBlock(worldIn, x + 5, y + i, z, Blocks.AIR);
 				}
 				SetWorldBlock(worldIn, x + 5, y + i, z + 1, getRandomBrick(randIn));
 				SetWorldBlock(worldIn, x + 5, y + i, z + 2, getRandomBrick(randIn));
@@ -163,10 +163,10 @@ public class CookingPlusUnderwaterTempleStructure extends CookingPlusPreBuiltStr
 				SetWorldBlock(worldIn, x - 2, y + i, z - 5, getRandomBrick(randIn));
 				SetWorldBlock(worldIn, x - 3, y + i, z - 5, getRandomBrick(randIn));
 				
-				SetWorldBlock(worldIn, x - 4, y + i, z - 4, Blocks.sea_lantern);
-				SetWorldBlock(worldIn, x + 4, y + i, z + 4, Blocks.sea_lantern);
-				SetWorldBlock(worldIn, x - 4, y + i, z + 4, Blocks.sea_lantern);
-				SetWorldBlock(worldIn, x + 4, y + i, z - 4, Blocks.sea_lantern);
+				SetWorldBlock(worldIn, x - 4, y + i, z - 4, Blocks.SEA_LANTERN);
+				SetWorldBlock(worldIn, x + 4, y + i, z + 4, Blocks.SEA_LANTERN);
+				SetWorldBlock(worldIn, x - 4, y + i, z + 4, Blocks.SEA_LANTERN);
+				SetWorldBlock(worldIn, x + 4, y + i, z - 4, Blocks.SEA_LANTERN);
 				
 			}
 			else{

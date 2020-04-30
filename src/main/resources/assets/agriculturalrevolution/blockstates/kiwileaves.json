@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:kiwileaves" },
+		"check_decay=false,decayable=false": { "model": "agriculturalrevolution:kiwileaves" },
+		"check_decay=true,decayable=false": { "model": "agriculturalrevolution:kiwileaves" },
+		"check_decay=true,decayable=true": { "model": "agriculturalrevolution:kiwileaves" },
+		"check_decay=false,decayable=true": { "model": "agriculturalrevolution:kiwileaves" }
+	}
+}

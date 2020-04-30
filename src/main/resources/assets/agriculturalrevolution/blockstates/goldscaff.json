@@ -1,0 +1,6 @@
+{
+    "multipart": [
+        {   "apply": { "model": "agriculturalrevolution:goldscaff" }},
+		{   "apply": { "model": "agriculturalrevolution:invertgoldscaff" }}
+    ]
+}

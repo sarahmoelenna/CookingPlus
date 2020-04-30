@@ -2,49 +2,54 @@ package CookingPlus.blocks.tileentity;
 
 import java.util.List;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.tiles.DryingRackTileEntity;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.tiles.DryingRackTileEntity;
 
 
 public class CookingPlusDryingRackBlock extends CookingPlusCustomTileEntityBlock {
 
         //Treat it like a normal block here. The Block Bounds are a good idea - the first three are X Y and Z of the botton-left corner,
         //And the second three are the top-right corner.
+		protected static final AxisAlignedBB PISTON_BASE_EAST_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 0.6F, 1.0F, 1.0F);
+		protected static final AxisAlignedBB PISTON_BASE_WEST_AABB = new AxisAlignedBB(0.4F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		protected static final AxisAlignedBB PISTON_BASE_SOUTH_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.6F);
+		protected static final AxisAlignedBB PISTON_BASE_NORTH_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.4F, 1.0F, 1.0F, 1.0F);
+
 		private final String name = "dryingrack";
 		
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         
 		public CookingPlusDryingRackBlock() {
-                super(Material.wood);
+                super(Material.WOOD);
                 this.setUnlocalizedName(name);
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         		this.setHardness(2.0F);
         		this.setResistance(6.0F);
         		this.setHarvestLevel("pickaxe", 0);
-        		this.setStepSound(soundTypeWood);
+        		this.setSoundType(SoundType.WOOD);
         		this.setTickRandomly(true);
         		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
         		this.setLightOpacity(0);
@@ -82,13 +87,13 @@ public class CookingPlusDryingRackBlock extends CookingPlusCustomTileEntityBlock
 		@Override
 		public void onBlockDestroyedByPlayer(World world, BlockPos myPos, IBlockState myState) {
 			super.onBlockDestroyedByPlayer(world, myPos, myState);
-			//SetWorldBlock(world, myPos.getX(), myPos.getY() + 1, myPos.getZ(), Blocks.air, 0, 2);
+			//SetWorldBlock(world, myPos.getX(), myPos.getY() + 1, myPos.getZ(), Blocks.AIR, 0, 2);
 		}
 		
 		@Override
 		public void onBlockDestroyedByExplosion(World world, BlockPos myPos, Explosion p_149664_5_) {
 			super.onBlockDestroyedByExplosion(world, myPos, p_149664_5_);
-			//SetWorldBlock(world, myPos.getX(), myPos.getY() + 1, myPos.getZ(), Blocks.air, 0, 2);
+			//SetWorldBlock(world, myPos.getX(), myPos.getY() + 1, myPos.getZ(), Blocks.AIR, 0, 2);
 		}
 		
 		@Override
@@ -163,7 +168,7 @@ public class CookingPlusDryingRackBlock extends CookingPlusCustomTileEntityBlock
 	    }
 		
 		@Override
-		public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+		public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	    {
 			
 					if(worldIn.getTileEntity(pos) != null){
@@ -178,11 +183,11 @@ public class CookingPlusDryingRackBlock extends CookingPlusCustomTileEntityBlock
 	    }
 		 
 		private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-			myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+			myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 		}
 		
 		private Block GetWorldBlock(World myWorld, int x, int y, int z){
-			return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+			return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 		}
 		
 		@Override
@@ -210,9 +215,9 @@ public class CookingPlusDryingRackBlock extends CookingPlusCustomTileEntityBlock
 	    }
 
 	    @Override
-	    protected BlockState createBlockState()
+	    protected BlockStateContainer createBlockState()
 	    {
-	        return new BlockState(this, new IProperty[] {FACING});
+	        return new BlockStateContainer(this, new IProperty[] {FACING});
 	    }
 	    
 	    @Override
@@ -276,4 +281,17 @@ public class CookingPlusDryingRackBlock extends CookingPlusCustomTileEntityBlock
 	        }
 	    }
 	    
+
+	    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	    {
+	    	if(state.getValue(FACING) == EnumFacing.NORTH){
+	    		return PISTON_BASE_NORTH_AABB;
+	    	} else if(state.getValue(FACING) == EnumFacing.SOUTH){
+	    		return PISTON_BASE_SOUTH_AABB;
+	    	} else if(state.getValue(FACING) == EnumFacing.WEST){
+	    		return PISTON_BASE_WEST_AABB;
+	    	} else{
+	    		return PISTON_BASE_EAST_AABB;
+	    	}
+	    }
 }

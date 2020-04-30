@@ -1,9 +1,8 @@
 package CookingPlus.items.Harvest;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomItem;
 
 public class CookingPlusBuchuLeaf extends CookingPlusCustomItem {
 
@@ -12,7 +11,7 @@ public class CookingPlusBuchuLeaf extends CookingPlusCustomItem {
 	public CookingPlusBuchuLeaf(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("buchuleaf");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":flour");
 	}
 	

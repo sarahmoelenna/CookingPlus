@@ -3,22 +3,20 @@ package CookingPlus.blocks.leaves;
 import java.util.List;
 import java.util.Random;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.blocks.CookingPlusCustomLeaves;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.blocks.CookingPlusCustomLeaves;
 
 public class CookingPlusTangleLeaves extends CookingPlusCustomLeaves {
 
@@ -26,7 +24,7 @@ public class CookingPlusTangleLeaves extends CookingPlusCustomLeaves {
 	
 	public CookingPlusTangleLeaves() {
 		super("tangleleaves");
-		Blocks.fire.setFireInfo(this, 0, 0);
+		Blocks.FIRE.setFireInfo(this, 0, 0);
 		GameRegistry.registerBlock(this, name);
 		// TODO Auto-generated constructor stub
 	}
@@ -62,8 +60,9 @@ public class CookingPlusTangleLeaves extends CookingPlusCustomLeaves {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World worldIn, BlockPos myPos, IBlockState state, Random rand) {
-	if(worldIn.getBlockState(myPos.down()).getBlock() == Blocks.air){
+	public void randomDisplayTick(IBlockState state, World worldIn, BlockPos myPos, Random rand)
+	{
+	if(worldIn.getBlockState(myPos.down()).getBlock() == Blocks.AIR){
 		for (int l = 0; l < 2; ++l){
 			if(rand.nextInt(10) > 8){
 				float f = (float) myPos.getX() + rand.nextFloat();

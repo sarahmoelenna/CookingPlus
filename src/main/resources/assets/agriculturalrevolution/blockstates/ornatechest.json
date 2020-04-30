@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:ornatechest" },
+		"facing=west": { "model": "agriculturalrevolution:ornatechest" },
+		"facing=north": { "model": "agriculturalrevolution:ornatechest" },
+		"facing=south": { "model": "agriculturalrevolution:ornatechest" },
+		"facing=east": { "model": "agriculturalrevolution:ornatechest" },
+		"inventory": { "model": "agriculturalrevolution:ornatechest" }
+	}
+}

@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+	"custom": { "flip-v": true },
+    "model": "agriculturalrevolution:desalinator.obj"
+  },
+  "variants": {
+	"normal": [{}],
+	"inventory": [{
+            "transform": "forge:default-block"
+        }]
+  }
+}

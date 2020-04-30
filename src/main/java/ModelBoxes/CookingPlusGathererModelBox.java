@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.client.model.TexturedQuad;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -55,13 +55,13 @@ public class CookingPlusGathererModelBox extends ModelBox {
 		this.MyquadList[5].flipFace();
 	}
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void render(WorldRenderer p_178780_1_, float p_178780_2_)
-	{
-	    for (int i = 0; i < this.MyquadList.length; ++i)
-	    {
-	        this.MyquadList[i].draw(p_178780_1_, p_178780_2_);
-	    }
-	}
+	
+	 @SideOnly(Side.CLIENT)
+	 public void render(VertexBuffer renderer, float scale)
+	 {
+	     for (int i = 0; i < this.MyquadList.length; ++i)
+	     {
+	         this.MyquadList[i].draw(renderer, scale);
+	     }
+	 }
 }

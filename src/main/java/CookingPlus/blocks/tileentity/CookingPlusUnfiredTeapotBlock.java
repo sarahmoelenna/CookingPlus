@@ -1,26 +1,23 @@
 package CookingPlus.blocks.tileentity;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -28,20 +25,20 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.tiles.UnfiredTeapotTileEntity;
 
-public class CookingPlusUnfiredTeapotBlock extends BlockContainer {
+public class CookingPlusUnfiredTeapotBlock extends CookingPlusCustomTileEntityBlock {
 
         //Treat it like a normal block here. The Block Bounds are a good idea - the first three are X Y and Z of the botton-left corner,
         //And the second three are the top-right corner.
 		private final String name = "unfiredteapot";
 		public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
         public CookingPlusUnfiredTeapotBlock() {
-                super(Material.clay);
+                super(Material.CLAY);
                 this.setUnlocalizedName("unfiredteapot");
                 this.setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 0.7F, 0.8F);
         		this.setHardness(2.0F);
         		this.setResistance(6.0F);
         		this.setHarvestLevel("pickaxe", 0);
-        		this.setStepSound(soundTypeWood);
+        		this.setSoundType(SoundType.WOOD);
         		//this.setBlockTextureName("cookingplus:salt");
         		//this.setTickRandomly(false);
         		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
@@ -74,13 +71,13 @@ public class CookingPlusUnfiredTeapotBlock extends BlockContainer {
 		@Override
 		public void onBlockDestroyedByPlayer(World world, BlockPos myPos, IBlockState myState) {
 			super.onBlockDestroyedByPlayer(world, myPos, myState);
-			//SetWorldBlock(world, myPos.getX(), myPos.getY() + 1, myPos.getZ(), Blocks.air, 0, 2);
+			//SetWorldBlock(world, myPos.getX(), myPos.getY() + 1, myPos.getZ(), Blocks.AIR, 0, 2);
 		}
 		
 		@Override
 		public void onBlockDestroyedByExplosion(World world, BlockPos myPos, Explosion p_149664_5_) {
 			super.onBlockDestroyedByExplosion(world, myPos, p_149664_5_);
-			//SetWorldBlock(world, myPos.getX(), myPos.getY() + 1, myPos.getZ(), Blocks.air, 0, 2);
+			//SetWorldBlock(world, myPos.getX(), myPos.getY() + 1, myPos.getZ(), Blocks.AIR, 0, 2);
 		}
 		
 		@Override
@@ -150,11 +147,11 @@ public class CookingPlusUnfiredTeapotBlock extends BlockContainer {
 	    }
 		 
 		private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-			myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+			myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 		}
 		
 		private Block GetWorldBlock(World myWorld, int x, int y, int z){
-			return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+			return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 		}
 		
 		public String getName(){
@@ -181,9 +178,9 @@ public class CookingPlusUnfiredTeapotBlock extends BlockContainer {
 	    }
 
 	    @Override
-	    protected BlockState createBlockState()
+	    protected BlockStateContainer createBlockState()
 	    {
-	        return new BlockState(this, new IProperty[] {FACING});
+	        return new BlockStateContainer(this, new IProperty[] {FACING});
 	    }
 	    
 	    @Override

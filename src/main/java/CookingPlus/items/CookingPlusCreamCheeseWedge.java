@@ -1,8 +1,6 @@
 package CookingPlus.items;
 
-import CookingPlus.items.CookingPlusCustomJuice;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CookingPlusCreamCheeseWedge extends CookingPlusCustomEdibleFood
@@ -15,7 +13,7 @@ public class CookingPlusCreamCheeseWedge extends CookingPlusCustomEdibleFood
         super(8, 6F);
         GameRegistry.registerItem(this, name);
         setUnlocalizedName(name);
-        setCreativeTab(CreativeTabs.tabFood);
+        setCreativeTab(CreativeTabs.FOOD);
         setPotionEffect(32, 200, 15, 100);
     }
     

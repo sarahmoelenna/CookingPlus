@@ -5,14 +5,15 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import CookingPlus.CookingPlusMain;
@@ -24,7 +25,7 @@ public class CookingPlusCustomSapling extends BlockBush implements IGrowable {
 	
 		public CookingPlusCustomSapling(String name){
 			this.setUnlocalizedName(name);
-			this.setStepSound(soundTypeGrass);
+			this.setSoundType(SoundType.GROUND);
 		}
 	
 		//igrowable.....
@@ -82,28 +83,28 @@ public class CookingPlusCustomSapling extends BlockBush implements IGrowable {
 	        int i = ((Integer)myState.getValue(AGE)).intValue() + MathHelper.getRandomIntegerInRange(myWorld.rand, 2, 5);
 	        if ((i & 8) == 0)
 	        {
-	        	myWorld.setBlockState(new BlockPos(new Vec3(parX, parY, parZ)), myState.withProperty(AGE, Integer.valueOf(i)), 2);
+	        	myWorld.setBlockState(new BlockPos(new Vec3d(parX, parY, parZ)), myState.withProperty(AGE, Integer.valueOf(i)), 2);
 	        }
 	        else
 	        {
-	        	SetWorldBlock(myWorld, parX, parY, parZ, Blocks.air, 0, 2);
+	        	SetWorldBlock(myWorld, parX, parY, parZ, Blocks.AIR, 0, 2);
 	            this.GenTree(myWorld, parX, parY, parZ, myRand);
 	        }
 	    }
 	    
 	    public void GenTree(World myWorld, int x, int y, int z, Random myRand){
-	    	WorldGenerator myGen = new CookingPlusGenOriginalTree(Blocks.log, CookingPlusMain.blockAppleLeaves, 0, 0, 3);
-	    	if(!myGen.generate(myWorld, myRand, new BlockPos(new Vec3(x, y, z)))){
+	    	WorldGenerator myGen = new CookingPlusGenOriginalTree(Blocks.LOG, CookingPlusMain.blockAppleLeaves, 0, 0, 3);
+	    	if(!myGen.generate(myWorld, myRand, new BlockPos(new Vec3d(x, y, z)))){
 	    		myWorld.setBlockState(new BlockPos(x, y, z), this.getDefaultState());
 	    	}
 	    }
 	    
 	    private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-			myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+			myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 		}
 		
 		private Block GetWorldBlock(World myWorld, int x, int y, int z){
-			return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+			return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 		}
 	   
 		@Override
@@ -128,8 +129,8 @@ public class CookingPlusCustomSapling extends BlockBush implements IGrowable {
 	    }
 
 	    @Override
-	    protected BlockState createBlockState()
+	    protected BlockStateContainer createBlockState()
 	    {
-	        return new BlockState(this, new IProperty[] {AGE});
+	        return new BlockStateContainer(this, new IProperty[] {AGE});
 	    }
 }

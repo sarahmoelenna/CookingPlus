@@ -1,16 +1,16 @@
 package CookingPlus;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
+import java.util.Random;
+
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,8 +48,8 @@ public class CookingPlusEventHandler {
 					ItemStack k = new ItemStack(CookingPlusMain.sphereguide, 2);
 					event.craftMatrix.setInventorySlotContents(i, k);
 				}
-				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.chipmoldmold)) {
-					ItemStack k = new ItemStack(CookingPlusMain.chipmoldmold, 2);
+				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.chipguide)) {
+					ItemStack k = new ItemStack(CookingPlusMain.chipguide, 2);
 					event.craftMatrix.setInventorySlotContents(i, k);
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.teapotguide)) {
@@ -61,15 +61,15 @@ public class CookingPlusEventHandler {
 					event.craftMatrix.setInventorySlotContents(i, k);
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.cookiebatter)) {
-					ItemStack k = new ItemStack(Items.bowl, 1);
+					ItemStack k = new ItemStack(Items.BOWL, 1);
 					if(!event.player.inventory.addItemStackToInventory(k)){
-						event.player.dropPlayerItemWithRandomChoice(k, false);
+						event.player.dropItem(k, false);
 					}
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.vanillabuttercream)) {
-					ItemStack k = new ItemStack(Items.bowl, 1);
+					ItemStack k = new ItemStack(Items.BOWL, 1);
 					if(!event.player.inventory.addItemStackToInventory(k)){
-						event.player.dropPlayerItemWithRandomChoice(k, false);
+						event.player.dropItem(k, false);
 					}
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.fryingpanguide)) {
@@ -105,39 +105,45 @@ public class CookingPlusEventHandler {
 					event.craftMatrix.setInventorySlotContents(i, k);
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.vegetableoil)) {
-					ItemStack k = new ItemStack(Items.glass_bottle, 1);
+					ItemStack k = new ItemStack(Items.GLASS_BOTTLE, 1);
 					if(!event.player.inventory.addItemStackToInventory(k)){
-						event.player.dropPlayerItemWithRandomChoice(k, false);
+						event.player.dropItem(k, false);
 					}
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.lemonjuice)) {
-					ItemStack k = new ItemStack(Items.glass_bottle, 1);
+					ItemStack k = new ItemStack(Items.GLASS_BOTTLE, 1);
 					if(!event.player.inventory.addItemStackToInventory(k)){
-						event.player.dropPlayerItemWithRandomChoice(k, false);
+						event.player.dropItem(k, false);
+					}
+				}
+				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.vinegar)) {
+					ItemStack k = new ItemStack(Items.GLASS_BOTTLE, 1);
+					if(!event.player.inventory.addItemStackToInventory(k)){
+						event.player.dropItem(k, false);
 					}
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.vanillaessence)) {
-					ItemStack k = new ItemStack(Items.glass_bottle, 1);
+					ItemStack k = new ItemStack(Items.GLASS_BOTTLE, 1);
 					if(!event.player.inventory.addItemStackToInventory(k)){
-						event.player.dropPlayerItemWithRandomChoice(k, false);
+						event.player.dropItem(k, false);
 					}
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.mintessence)) {
-					ItemStack k = new ItemStack(Items.glass_bottle, 1);
+					ItemStack k = new ItemStack(Items.GLASS_BOTTLE, 1);
 					if(!event.player.inventory.addItemStackToInventory(k)){
-						event.player.dropPlayerItemWithRandomChoice(k, false);
+						event.player.dropItem(k, false);
 					}
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.strawberryjuice)) {
-					ItemStack k = new ItemStack(Items.glass_bottle, 1);
+					ItemStack k = new ItemStack(Items.GLASS_BOTTLE, 1);
 					if(!event.player.inventory.addItemStackToInventory(k)){
-						event.player.dropPlayerItemWithRandomChoice(k, false);
+						event.player.dropItem(k, false);
 					}
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.creambucket)) {
-					ItemStack k = new ItemStack(Items.bucket, 1);
+					ItemStack k = new ItemStack(Items.BUCKET, 1);
 					if(!event.player.inventory.addItemStackToInventory(k)){
-						event.player.dropPlayerItemWithRandomChoice(k, false);
+						event.player.dropItem(k, false);
 					}
 				}
 				if (j.getItem() != null && j.getItem().equals(CookingPlusMain.cuptrayguide)) {
@@ -157,26 +163,44 @@ public class CookingPlusEventHandler {
 	@SubscribeEvent
 	public void onEntityUpdate(LivingUpdateEvent event) 
 	{
-	     //entityLiving in fact refers to EntityLivingBase so to understand everything about this part go to EntityLivingBase instead
-	     if (event.entityLiving.isPotionActive(32)) 
-	     {
-	    	 if(event.entityLiving instanceof EntityPlayer){
-	    		 //System.out.println("hmm");
-	    		 ((EntityPlayer) event.entityLiving).getFoodStats().setFoodSaturationLevel(20);
-	    		 //((EntityPlayer)event.entityLiving).removePotionEffect(32);
+	    ///entityLiving in fact refers to EntityLivingBase so to understand everything about this part go to EntityLivingBase instead
+	    if (event.getEntityLiving().isPotionActive(Potion.getPotionById(32)))
+	    {
+	    	 if(event.getEntityLiving() instanceof EntityPlayer){
+	    		 
+	    		 ((EntityPlayer)event.getEntityLiving()).getFoodStats().setFoodSaturationLevel(20);
+	    		 ((EntityPlayer)event.getEntityLiving()).removePotionEffect(Potion.getPotionById(32));
 	    	 }
-	     }
+	    }
 	}
+	
+	 @SubscribeEvent
+	 public void onDrops(BlockEvent.HarvestDropsEvent event) {
+		 if(CookingPlusConfig.addSeedsToGrassLoot){
+		 Random myRand = new Random();
+		 //System.out.println("A");
+			if(event.getState().getBlock() == Blocks.TALLGRASS){
+				//System.out.println("B");
+				if(event.getDrops().size() == 0){
+					//System.out.println("C");
+					if(myRand.nextInt(10) == 1){
+						//System.out.println("D");
+						event.getDrops().add(new ItemStack(CookingPlusLootHelper.instance().GetRandomSeed(myRand), 1));
+					}
+				}
+		 	}
+		 }
+	 }
 	
 	@SubscribeEvent
 	public void onEntityDrop(LivingDropsEvent event)
 	{
-		 if ((event.entityLiving instanceof EntitySquid))
+		 if ((event.getEntity() instanceof EntitySquid))
 		 {
-			 if (!event.entityLiving.worldObj.isRemote)
+			 if (!event.getEntity().worldObj.isRemote)
 			 {
 				 //if(event.entity == true){
-					 event.entityLiving.dropItem(CookingPlusMain.rawsquid, event.entityLiving.worldObj.rand.nextInt(3) + 1);
+					 event.getEntity().dropItem(CookingPlusMain.rawsquid, event.getEntity().worldObj.rand.nextInt(3) + 1);
 				 //}
 			 }
 		 }

@@ -2,14 +2,12 @@ package CookingPlus.blocks.tileentity;
 
 import java.util.List;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.tiles.NetBlockTileEntity;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,14 +16,16 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.Explosion;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.tiles.NetBlockTileEntity;
 
 public class CookingPlusNetBlock extends CookingPlusCustomTileEntityBlock {
 
@@ -36,10 +36,10 @@ public class CookingPlusNetBlock extends CookingPlusCustomTileEntityBlock {
 		public static final PropertyInteger LEVEL = PropertyInteger.create("level",0, 15);
 		
         public CookingPlusNetBlock() {
-                super(Material.water);
+                super(Material.WATER);
                 this.setUnlocalizedName("netblock");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        		this.setStepSound(soundTypeWood);
+        		this.setSoundType(SoundType.WOOD);
         		this.setTickRandomly(true);
         		this.setDefaultState(this.blockState.getBaseState().withProperty(LEVEL,Integer.valueOf(0)));
         		GameRegistry.registerBlock(this, name);
@@ -70,11 +70,11 @@ public class CookingPlusNetBlock extends CookingPlusCustomTileEntityBlock {
 		@Override
 		public boolean canPlaceBlockAt(World parWorld, BlockPos myPos)
 	    {
-			if(parWorld.getBlockState(myPos.east()).getBlock().getMaterial() == Material.water){
-				if(parWorld.getBlockState(myPos.west()).getBlock().getMaterial() == Material.water){
-					if(parWorld.getBlockState(myPos.north()).getBlock().getMaterial() == Material.water){
-						if(parWorld.getBlockState(myPos.south()).getBlock().getMaterial() == Material.water){
-							if(parWorld.getBlockState(myPos.up()).getBlock().getMaterial() == Material.water){
+			if(parWorld.getBlockState(myPos.east()).getBlock().getMaterial(parWorld.getBlockState(myPos.east())) == Material.WATER){
+				if(parWorld.getBlockState(myPos.west()).getBlock().getMaterial(parWorld.getBlockState(myPos.west())) == Material.WATER){
+					if(parWorld.getBlockState(myPos.north()).getBlock().getMaterial(parWorld.getBlockState(myPos.north())) == Material.WATER){
+						if(parWorld.getBlockState(myPos.south()).getBlock().getMaterial(parWorld.getBlockState(myPos.south())) == Material.WATER){
+							if(parWorld.getBlockState(myPos.up()).getBlock().getMaterial(parWorld.getBlockState(myPos.up())) == Material.WATER){
 								return true;
 							}
 						}
@@ -126,7 +126,7 @@ public class CookingPlusNetBlock extends CookingPlusCustomTileEntityBlock {
 	    }
 		
 		@Override
-		public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ){
+		public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
         	if(!worldIn.isRemote)
             {
         		NetBlockTileEntity t = (NetBlockTileEntity) worldIn.getTileEntity(pos);
@@ -137,11 +137,11 @@ public class CookingPlusNetBlock extends CookingPlusCustomTileEntityBlock {
         }
 		 
 		private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-			myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+			myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 		}
 		
 		private Block GetWorldBlock(World myWorld, int x, int y, int z){
-			return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+			return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 		}
 		
 		@Override
@@ -154,10 +154,10 @@ public class CookingPlusNetBlock extends CookingPlusCustomTileEntityBlock {
 			return ((Integer) state.getValue(LEVEL)).intValue();
 		}
 
-		@Override
-		protected BlockState createBlockState() {
-			return new BlockState(this, new IProperty[] { LEVEL });
-		}
+		protected BlockStateContainer createBlockState()
+	    {
+	        return new BlockStateContainer(this, new IProperty[] {LEVEL});
+	    }
 		
 		@Override
 		public IBlockState getStateFromMeta(int meta)
@@ -179,20 +179,20 @@ public class CookingPlusNetBlock extends CookingPlusCustomTileEntityBlock {
 	    }
 
 		@Override
-	    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+	    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock)
 	    {
-			if(worldIn.getBlockState(pos.up()).getBlock().getMaterial() != Material.water){
-				worldIn.setBlockState(pos, Blocks.water.getDefaultState());
+			if(worldIn.getBlockState(pos.up()).getBlock().getMaterial(worldIn.getBlockState(pos.up())) != Material.WATER){
+				worldIn.setBlockState(pos, Blocks.WATER.getDefaultState());
 				this.dropBlockAsItemWithChance(worldIn, pos, getDefaultState(), 1, 0);
 				this.breakBlock(worldIn, pos, getDefaultState());
 			}
 	    }
 
 		@Override
-		public boolean isReplaceable(World world, BlockPos pos)
-		{
-		   return false;
-		}
+		public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos)
+	    {
+	        return false;
+	    }
 		
 		@Override
 		public List<ItemStack> getDrops(IBlockAccess world, BlockPos myPos, IBlockState myState, int fortune)

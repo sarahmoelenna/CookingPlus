@@ -1,8 +1,7 @@
 package CookingPlus.items.foods;
 
-import CookingPlus.items.CookingPlusCustomEdibleFood;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomEdibleFood;
 
 public class CookingPlusCookedLobster extends CookingPlusCustomEdibleFood {
 	

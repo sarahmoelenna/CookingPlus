@@ -1,18 +1,13 @@
 package CookingPlus.items;
 
-import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -25,33 +20,34 @@ private final String name = "waterorb";
 		setUnlocalizedName(name);
 	}
 	
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) 
     {
-        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, false);
+        RayTraceResult movingobjectposition = this.rayTrace(worldIn, playerIn, false);
 
         if (movingobjectposition == null)
         {
-            return itemStackIn;
+            return new ActionResult(EnumActionResult.PASS, itemStackIn);
         }
         else
         {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+            if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
             {
                 BlockPos blockpos = movingobjectposition.getBlockPos();
                 BlockPos blockpos1 = blockpos.offset(movingobjectposition.sideHit);
-                worldIn.setBlockState(blockpos1, Blocks.water.getDefaultState());
+                worldIn.setBlockState(blockpos1, Blocks.WATER.getDefaultState());
                 if(itemStackIn.stackSize > 1){
                 	--itemStackIn.stackSize;
                 }
                 else{
-                	return new ItemStack(itemStackIn.getItem(), 0);
+                	return new ActionResult(EnumActionResult.PASS, new ItemStack(itemStackIn.getItem(), 0));
                 }
             }
 
            
         }
         
-        return itemStackIn;
+        return new ActionResult(EnumActionResult.PASS, itemStackIn);
     }
 	
 	@Override

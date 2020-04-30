@@ -1,14 +1,16 @@
 package CookingPlus.items;
 
-import CookingPlus.CookingPlusGenericHelper;
-import CookingPlus.CookingPlusMain;
-import ibxm.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import CookingPlus.CookingPlusGenericHelper;
+import CookingPlus.CookingPlusMain;
 
 public class CookingPlusTeleportCrystal extends CookingPlusSingleStackItem {
 
@@ -26,9 +28,10 @@ public class CookingPlusTeleportCrystal extends CookingPlusSingleStackItem {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn){
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+	{
 		ProcessTeleport(false, itemStackIn, null, playerIn);
-		return itemStackIn;
+		return new ActionResult(EnumActionResult.PASS, itemStackIn);
 		
 	}
 	
@@ -46,7 +49,7 @@ public class CookingPlusTeleportCrystal extends CookingPlusSingleStackItem {
 			myStack.getTagCompound().setInteger("CrystalX", myPos.getX());
 			myStack.getTagCompound().setInteger("CrystalY", myPos.getY());
 			myStack.getTagCompound().setInteger("CrystalZ", myPos.getZ());
-			myPlayer.addChatMessage(new ChatComponentTranslation("msg.teleportbound.txt"));
+			myPlayer.addChatMessage(new TextComponentTranslation("msg.teleportbound.txt"));
 		}
 		else{
 			NBTTagCompound myTag = myStack.getTagCompound();
@@ -58,15 +61,15 @@ public class CookingPlusTeleportCrystal extends CookingPlusSingleStackItem {
 						myPlayer.setPositionAndUpdate(TeleportPos.getX() + 0.5f, TeleportPos.getY(), TeleportPos.getZ() + 0.5f);
 					}
 					else{
-						myPlayer.addChatMessage(new ChatComponentTranslation("msg.teleportobstructed.txt"));
+						myPlayer.addChatMessage(new TextComponentTranslation("msg.teleportobstructed.txt"));
 					}
 				}
 				else{
-					myPlayer.addChatMessage(new ChatComponentTranslation("msg.teleportmissing.txt"));
+					myPlayer.addChatMessage(new TextComponentTranslation("msg.teleportmissing.txt"));
 				}
 			}
 			else{
-				myPlayer.addChatMessage(new ChatComponentTranslation("msg.teleportunbound.txt"));
+				myPlayer.addChatMessage(new TextComponentTranslation("msg.teleportunbound.txt"));
 			}
 		}
 

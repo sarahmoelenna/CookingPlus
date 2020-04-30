@@ -1,10 +1,9 @@
 package CookingPlus.models;
 
-import ModelBoxes.CookingPlusChestModelBox;
-import ModelBoxes.CookingPlusCustomModelBox;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import ModelBoxes.CookingPlusChestModelBox;
 
 public class CookingPlusOrnateChest extends ModelBase
 {

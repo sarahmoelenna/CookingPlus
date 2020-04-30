@@ -1,15 +1,13 @@
 package CookingPlus.blocks.crops;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.blocks.CookingPlusCustomRopeCrop;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.blocks.CookingPlusCustomRopeCrop;
 
 public class CookingPlusVanillaCrop extends CookingPlusCustomRopeCrop {
 

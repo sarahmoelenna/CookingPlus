@@ -1,6 +1,5 @@
 package CookingPlus.items;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CookingPlusCocoaPowder extends CookingPlusCustomItem {

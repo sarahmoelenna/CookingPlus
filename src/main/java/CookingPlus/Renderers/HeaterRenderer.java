@@ -1,16 +1,17 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusHeater;
-import CookingPlus.tiles.HeaterTileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusHeater;
+import CookingPlus.tiles.HeaterTileEntity;
+
 public class HeaterRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/heatermap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/heatermap.png");
 	
 	private CookingPlusHeater model;
 	

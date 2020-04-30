@@ -1,10 +1,7 @@
 package CookingPlus.items.foods;
 
-import CookingPlus.items.CookingPlusCustomEdibleFood;
-import CookingPlus.items.CookingPlusCustomJuice;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomEdibleFood;
 
 public class CookingPlusSeafoodPlatter extends CookingPlusCustomEdibleFood
 {

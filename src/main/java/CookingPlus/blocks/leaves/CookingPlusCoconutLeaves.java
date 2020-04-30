@@ -1,21 +1,12 @@
 package CookingPlus.blocks.leaves;
 
-import java.util.List;
-import java.util.Random;
-
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.blocks.CookingPlusCustomLeaves;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class CookingPlusCoconutLeaves extends CookingPlusCustomLeaves {
+public class CookingPlusCoconutLeaves extends CookingPlusTropicalLeaves {
 
 	private final String name = "coconutleaves";
 	
@@ -32,6 +23,11 @@ public class CookingPlusCoconutLeaves extends CookingPlusCustomLeaves {
 	@Override
 	public Block getLeaves(){
 		return CookingPlusMain.blockCoconutLeaves;
+	}
+	
+	@Override
+	public int getDecayRange(){
+		return 1;
 	}
 	
 	@Override

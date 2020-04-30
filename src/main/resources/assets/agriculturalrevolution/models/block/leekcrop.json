@@ -1,0 +1,6 @@
+{
+	"parent": "block/crop",
+	"textures": {
+		"crop": "agriculturalrevolution:blocks/leekcrop_stage_0"
+	}
+}

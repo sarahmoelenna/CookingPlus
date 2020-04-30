@@ -2,20 +2,17 @@ package CookingPlus.GUIs;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.Containers.CookingPlusFryingPanContainer;
-import CookingPlus.Slots.CookingPlusOutputSlot;
-import CookingPlus.Slots.CookingPlusSingleSlot;
 import CookingPlus.tiles.FryingPanTileEntity;
 
 @SideOnly(Side.CLIENT)
 public class CookingPlusFryingPanGUI  extends GuiContainer
 {
-    private static final ResourceLocation GuiTextures = new ResourceLocation("cookingplus:textures/gui/fryingpangui.png");
+    private static final ResourceLocation GuiTextures = new ResourceLocation("agriculturalrevolution:textures/gui/fryingpangui.png");
     private final InventoryPlayer inventoryPlayer;
     private final FryingPanTileEntity tileGrinder;
 

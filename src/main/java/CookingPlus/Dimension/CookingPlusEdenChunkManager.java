@@ -4,48 +4,36 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import CookingPlus.CookingPlusConfig;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeProvider;
 import CookingPlus.generation.CookingPlusOrchardBiome;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.biome.BiomeCache;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.WorldChunkManager;
 
-public class CookingPlusEdenChunkManager extends WorldChunkManager {
+public class CookingPlusEdenChunkManager extends BiomeProvider {
 
-	private BiomeGenBase biomeGenerator;
+	private Biome biomeGenerator;
 	private float rainfall;
 	
 	public CookingPlusEdenChunkManager()
     {
-        this.biomeGenerator = new CookingPlusOrchardBiome(CookingPlusConfig.OrchardID);
+		Biome.BiomeProperties properties = new Biome.BiomeProperties("Orchard").setRainfall(0.3f).setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(0.8F);
+        this.biomeGenerator = new CookingPlusOrchardBiome(properties);
         this.rainfall = 0.1f;
     }
 	
 	@Override
-	public BiomeGenBase getBiomeGenerator(BlockPos p_180631_1_)
+	public Biome getBiomeGenerator(BlockPos p_180631_1_)
     {
         return this.biomeGenerator;
     }
 	
-	 @Override
-	 public float[] getRainfall(float[] listToReuse, int x, int z, int width, int length)
-	    {
-	        if (listToReuse == null || listToReuse.length < width * length)
-	        {
-	            listToReuse = new float[width * length];
-	        }
-
-	        Arrays.fill(listToReuse, 0, width * length, this.rainfall);
-	        return listToReuse;
-	    }
 	
 	@Override
-	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] BiomeArray, int p_76937_2_, int p_76937_3_, int fromindex, int toindex)
+	public Biome[] getBiomesForGeneration(Biome[] BiomeArray, int p_76937_2_, int p_76937_3_, int fromindex, int toindex)
     {
         if (BiomeArray == null || BiomeArray.length < fromindex * toindex)
         {
-        	BiomeArray = new BiomeGenBase[fromindex * toindex];
+        	BiomeArray = new Biome[fromindex * toindex];
         }
 
         Arrays.fill(BiomeArray, 0, fromindex * toindex, this.biomeGenerator);
@@ -57,11 +45,11 @@ public class CookingPlusEdenChunkManager extends WorldChunkManager {
      * WorldChunkManager Args: oldBiomeList, x, z, width, depth
      */
 	@Override
-    public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] oldBiomeList, int x, int z, int width, int depth)
+    public Biome[] loadBlockGeneratorData(Biome[] oldBiomeList, int x, int z, int width, int depth)
     {
         if (oldBiomeList == null || oldBiomeList.length < width * depth)
         {
-            oldBiomeList = new BiomeGenBase[width * depth];
+            oldBiomeList = new Biome[width * depth];
         }
 
         Arrays.fill(oldBiomeList, 0, width * depth, this.biomeGenerator);
@@ -69,7 +57,7 @@ public class CookingPlusEdenChunkManager extends WorldChunkManager {
     }
 	
 	@Override
-	public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] listToReuse, int x, int z, int width, int length, boolean cacheFlag)
+	public Biome[] getBiomeGenAt(Biome[] listToReuse, int x, int z, int width, int length, boolean cacheFlag)
     {
         return this.loadBlockGeneratorData(listToReuse, x, z, width, length);
     }

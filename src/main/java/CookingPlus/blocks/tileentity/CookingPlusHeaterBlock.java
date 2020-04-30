@@ -1,38 +1,37 @@
 package CookingPlus.blocks.tileentity;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.tiles.HeaterTileEntity;
 
-public class CookingPlusHeaterBlock extends BlockContainer {
+public class CookingPlusHeaterBlock extends CookingPlusCustomTileEntityBlock {
 
         //Treat it like a normal block here. The Block Bounds are a good idea - the first three are X Y and Z of the botton-left corner,
         //And the second three are the top-right corner.
 		private final String name = "heater";
 	
         public CookingPlusHeaterBlock() {
-                super(Material.iron);
+                super(Material.IRON);
                 this.setUnlocalizedName("heater");
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         		this.setHardness(2.0F);
         		this.setResistance(6.0F);
         		this.setHarvestLevel("pickaxe", 0);
-        		this.setStepSound(soundTypeMetal);
+        		this.setSoundType(SoundType.METAL);
         		//this.setBlockTextureName("cookingplus:salt");
         		this.setTickRandomly(false);
         		GameRegistry.registerBlock(this, name);
@@ -72,7 +71,7 @@ public class CookingPlusHeaterBlock extends BlockContainer {
 		}
 			
 		@Override
-		public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+		public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	    {
 	        if (!worldIn.isRemote)
 	        {
@@ -83,11 +82,11 @@ public class CookingPlusHeaterBlock extends BlockContainer {
 	    }
 		 
 		private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-			myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+			myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 		}
 		
 		private Block GetWorldBlock(World myWorld, int x, int y, int z){
-			return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+			return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 		}
 		
 		public String getName(){

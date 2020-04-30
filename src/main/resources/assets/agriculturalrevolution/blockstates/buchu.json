@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:buchu" },
+		"placed=0": { "model": "agriculturalrevolution:buchu" },
+		"placed=1": { "model": "agriculturalrevolution:buchu" }
+	}
+}

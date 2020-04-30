@@ -2,12 +2,12 @@ package CookingPlus.prebuiltstructures;
 
 import java.util.Random;
 
-import CookingPlus.generation.CookingPlusWorldGen;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import CookingPlus.generation.CookingPlusWorldGen;
 
 public class CookingPlusPreBuiltTropicalHut extends
 		CookingPlusPreBuiltStructure {
@@ -121,11 +121,11 @@ public class CookingPlusPreBuiltTropicalHut extends
 	public void setBlock(World worldIn, Random randIn, BlockPos myPos, int i,int j, int k, int rotation) {
 
 		if (this.MyStructureArray[i][j][k] == 1) {
-			worldIn.setBlockState(myPos, Blocks.planks.getDefaultState());
+			worldIn.setBlockState(myPos, Blocks.PLANKS.getDefaultState());
 		} else if (this.MyStructureArray[i][j][k] == 2) {
-			worldIn.setBlockState(myPos, Blocks.hay_block.getDefaultState());
+			worldIn.setBlockState(myPos, Blocks.HAY_BLOCK.getDefaultState());
 		} else if (this.MyStructureArray[i][j][k] == 3) {
-			worldIn.setBlockState(myPos, Blocks.sand.getDefaultState());
+			worldIn.setBlockState(myPos, Blocks.SAND.getDefaultState());
 		} else if (this.MyStructureArray[i][j][k] == 4) {
 			GenChest(worldIn, randIn, myPos, rotation);
 		}
@@ -133,16 +133,16 @@ public class CookingPlusPreBuiltTropicalHut extends
 
 	public void GenChest(World worldIn, Random random, BlockPos myPos, int rotation) {
 		if(rotation == 1){
-			worldIn.setBlockState(myPos, Blocks.chest.getDefaultState().withProperty(Blocks.chest.FACING, EnumFacing.WEST));
+			worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, EnumFacing.WEST));
 		}
 		else if(rotation == 2){
-			worldIn.setBlockState(myPos, Blocks.chest.getDefaultState().withProperty(Blocks.chest.FACING, EnumFacing.NORTH));
+			worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, EnumFacing.NORTH));
 		}
 		else if(rotation == 3){
-			worldIn.setBlockState(myPos, Blocks.chest.getDefaultState().withProperty(Blocks.chest.FACING, EnumFacing.SOUTH));
+			worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, EnumFacing.SOUTH));
 		}
 		else if(rotation == 4){
-			worldIn.setBlockState(myPos, Blocks.chest.getDefaultState().withProperty(Blocks.chest.FACING, EnumFacing.EAST));
+			worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, EnumFacing.EAST));
 		}
 		
 		CookingPlusWorldGen.FillFarmerChest((TileEntityChest)worldIn.getTileEntity(myPos), random);

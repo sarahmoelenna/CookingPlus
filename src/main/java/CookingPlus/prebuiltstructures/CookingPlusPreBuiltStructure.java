@@ -2,10 +2,8 @@ package CookingPlus.prebuiltstructures;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class CookingPlusPreBuiltStructure {
@@ -45,7 +43,7 @@ public class CookingPlusPreBuiltStructure {
 				for(int j = 0; j < height; j++){
 					for(int k = 0; k < length; k++){
 						if(MyStructureArray[i][j][k] > 0){
-							setBlock(worldIn, randIn, new BlockPos(new Vec3(x + i - offsetX, y + j - offsetY, z + k - offsetZ)), i,j,k, myRotation);
+							setBlock(worldIn, randIn, new BlockPos(new Vec3d(x + i - offsetX, y + j - offsetY, z + k - offsetZ)), i,j,k, myRotation);
 						}
 					}
 				}
@@ -56,7 +54,7 @@ public class CookingPlusPreBuiltStructure {
 				for(int j = 0; j < height; j++){
 					for(int k = 0; k < length; k++){
 						if(MyStructureArray[i][j][k] > 0){
-							setBlock(worldIn, randIn, new BlockPos(new Vec3(x + k - offsetX, y + j - offsetY, z + i - offsetZ)), i,j,k, myRotation);
+							setBlock(worldIn, randIn, new BlockPos(new Vec3d(x + k - offsetX, y + j - offsetY, z + i - offsetZ)), i,j,k, myRotation);
 						}
 					}
 				}
@@ -67,7 +65,7 @@ public class CookingPlusPreBuiltStructure {
 				for(int j = 0; j < height; j++){
 					for(int k = 0; k < length; k++){
 						if(MyStructureArray[width - i - 1][j][k] > 0){
-							setBlock(worldIn, randIn, new BlockPos(new Vec3(x + k - offsetX, y + j - offsetY, z + i - offsetZ)),width - i - 1,j,k, myRotation);
+							setBlock(worldIn, randIn, new BlockPos(new Vec3d(x + k - offsetX, y + j - offsetY, z + i - offsetZ)),width - i - 1,j,k, myRotation);
 						}
 					}
 				}
@@ -78,7 +76,7 @@ public class CookingPlusPreBuiltStructure {
 				for(int j = 0; j < height; j++){
 					for(int k = 0; k < length; k++){
 						if(MyStructureArray[width - i - 1][j][k] > 0){
-							setBlock(worldIn, randIn, new BlockPos(new Vec3(x + i - offsetX, y + j - offsetY, z + k - offsetZ)), width - i - 1,j,k, myRotation);
+							setBlock(worldIn, randIn, new BlockPos(new Vec3d(x + i - offsetX, y + j - offsetY, z + k - offsetZ)), width - i - 1,j,k, myRotation);
 						}
 					}
 				}
@@ -104,7 +102,7 @@ public void Generate(World worldIn, int x, int y, int z, int myoffsetX, int myof
 				for(int j = 0; j < height; j++){
 					for(int k = 0; k < length; k++){
 						if(MyStructureArray[i][j][k] > 0){
-							setBlock(worldIn, randIn, new BlockPos(new Vec3(x + i - offsetX, y + j - offsetY, z + k - offsetZ)), i,j,k, myRotation);
+							setBlock(worldIn, randIn, new BlockPos(new Vec3d(x + i - offsetX, y + j - offsetY, z + k - offsetZ)), i,j,k, myRotation);
 						}
 					}
 				}
@@ -115,7 +113,7 @@ public void Generate(World worldIn, int x, int y, int z, int myoffsetX, int myof
 				for(int j = 0; j < height; j++){
 					for(int k = 0; k < length; k++){
 						if(MyStructureArray[i][j][k] > 0){
-							setBlock(worldIn, randIn, new BlockPos(new Vec3(x + k - offsetX, y + j - offsetY, z + i - offsetZ)), i,j,k, myRotation);
+							setBlock(worldIn, randIn, new BlockPos(new Vec3d(x + k - offsetX, y + j - offsetY, z + i - offsetZ)), i,j,k, myRotation);
 						}
 					}
 				}
@@ -126,7 +124,7 @@ public void Generate(World worldIn, int x, int y, int z, int myoffsetX, int myof
 				for(int j = 0; j < height; j++){
 					for(int k = 0; k < length; k++){
 						if(MyStructureArray[width - i - 1][j][k] > 0){
-							setBlock(worldIn, randIn, new BlockPos(new Vec3(x + k - offsetX, y + j - offsetY, z + i - offsetZ)),width - i - 1,j,k, myRotation);
+							setBlock(worldIn, randIn, new BlockPos(new Vec3d(x + k - offsetX, y + j - offsetY, z + i - offsetZ)),width - i - 1,j,k, myRotation);
 						}
 					}
 				}
@@ -137,7 +135,7 @@ public void Generate(World worldIn, int x, int y, int z, int myoffsetX, int myof
 				for(int j = 0; j < height; j++){
 					for(int k = 0; k < length; k++){
 						if(MyStructureArray[width - i - 1][j][k] > 0){
-							setBlock(worldIn, randIn, new BlockPos(new Vec3(x + i - offsetX, y + j - offsetY, z + k - offsetZ)), width - i - 1,j,k, myRotation);
+							setBlock(worldIn, randIn, new BlockPos(new Vec3d(x + i - offsetX, y + j - offsetY, z + k - offsetZ)), width - i - 1,j,k, myRotation);
 						}
 					}
 				}

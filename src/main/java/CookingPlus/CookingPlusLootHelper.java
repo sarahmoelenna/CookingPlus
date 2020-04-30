@@ -7,16 +7,21 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
-import CookingPlus.recipes.CookingPlusDryingRackRecipe;
+import net.minecraft.tileentity.TileEntityLockable;
 
 public class CookingPlusLootHelper {
 
 	 private static final CookingPlusLootHelper LootHelper = new CookingPlusLootHelper();
 	 private final ArrayList<Item> PotteryGuideList = new ArrayList<Item>();
+	 private final ArrayList<Item> GenericLootItemList = new ArrayList<Item>();
 	 private final ArrayList<Item> PotteryGuideCommonList = new ArrayList<Item>();
 	 private final ArrayList<Item> PotteryGuideRareList = new ArrayList<Item>();
 	 private final ArrayList<Item> FisherList = new ArrayList<Item>();
 	 private final ArrayList<Item> FisherRareList = new ArrayList<Item>();
+	 private final ArrayList<Item> SeedList = new ArrayList<Item>();
+	 
+	 public final ArrayList<String> whiteListedHydrohonicUnlocalisedName = new ArrayList();
+	 public final ArrayList<String> whiteListedHydrohonicOreDictionary = new ArrayList();
 	
 	public static CookingPlusLootHelper instance()
     {
@@ -41,6 +46,15 @@ public class CookingPlusLootHelper {
 		PotteryGuideList.add(myGuide);
 	}
 	
+	public void AddSeed(Item myGuide){
+		SeedList.add(myGuide);
+	}
+	
+	
+	public void AddGenericItem(Item myGuide){
+		GenericLootItemList.add(myGuide);
+	}
+	
 	public void AddFish(Item myItem, boolean Rarity)
 	{
 		if(Rarity == false){
@@ -54,6 +68,16 @@ public class CookingPlusLootHelper {
 	public Item GetRandomCommonGuide(Random myRand){
 		int which = myRand.nextInt(PotteryGuideCommonList.size());
 		return PotteryGuideCommonList.get(which);
+	}
+	
+	public Item GetRandomGenericItem(Random myRand){
+		int which = myRand.nextInt(GenericLootItemList.size());
+		return GenericLootItemList.get(which);
+	}
+	
+	public Item GetRandomSeed(Random myRand){
+		int which = myRand.nextInt(SeedList.size());
+		return SeedList.get(which);
 	}
 	
 	public Item GetRandomRareGuide(Random myRand){
@@ -73,7 +97,7 @@ public class CookingPlusLootHelper {
 		}
 		else{
 			if(myRand.nextFloat() > 0.995f){
-				return Items.leather_boots;
+				return Items.LEATHER_BOOTS;
 			}
 			else{
 				int which = myRand.nextInt(FisherRareList.size());
@@ -95,21 +119,21 @@ public class CookingPlusLootHelper {
 		}
 	}
 	
-	public ItemStack PutItemStackInChest(TileEntityChest myChest, ItemStack myStack){
+	public ItemStack PutItemStackInChest(TileEntityLockable myChest, ItemStack myStack){
 		boolean done = false;
 		 if(myStack.stackSize == 0 || myStack == null){
 			 done = true;
 		 }
-		 for(int i = 0; i < 27 && done == false; i++){
+		 for(int i = 0; i < myChest.getSizeInventory() && done == false; i++){
 			 if(myChest.getStackInSlot(i) != null && myChest.getStackInSlot(i).getItem() != null){
-				 if(myChest.getStackInSlot(i).getItem() == myStack.getItem()){
+				 if(myChest.getStackInSlot(i).getItem() == myStack.getItem() && myChest.getStackInSlot(i).getMetadata() == myStack.getMetadata()){
 				 	if(myChest.getStackInSlot(i).stackSize < myChest.getStackInSlot(i).getItem().getItemStackLimit() - myStack.stackSize){
-					 	myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myChest.getStackInSlot(i).stackSize + myStack.stackSize));
+					 	myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myChest.getStackInSlot(i).stackSize + myStack.stackSize, myStack.getMetadata()));
 					 	done = true;
 				 	}
 				 	else if(myChest.getStackInSlot(i).stackSize < myChest.getStackInSlot(i).getItem().getItemStackLimit()){
 				 		myStack.stackSize -=  (myChest.getStackInSlot(i).getItem().getItemStackLimit() - myChest.getStackInSlot(i).stackSize);
-				 		myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myChest.getStackInSlot(i).getItem().getItemStackLimit()));
+				 		myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myChest.getStackInSlot(i).getItem().getItemStackLimit(), myStack.getMetadata()));
 				 		ItemStack TempStack = PutItemStackInChest(myChest, myStack);
 				 		if(TempStack == null){
 				 			done = true;
@@ -121,9 +145,9 @@ public class CookingPlusLootHelper {
 			 	}
 			 }
 		 }
-		 for(int i = 0; i < 27 && done == false; i++){
+		 for(int i = 0; i < myChest.getSizeInventory() && done == false; i++){
 			 if(myChest.getStackInSlot(i) == null){
-				myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myStack.stackSize));
+				myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myStack.stackSize, myStack.getMetadata()));
 				done = true;
 			 }
 		 }
@@ -131,9 +155,9 @@ public class CookingPlusLootHelper {
 			 return null;
 		 }
 		 else{
-			 
-			 if(myChest.adjacentChestXNeg != null && !myChest.adjacentChestXNeg.isInvalid()){
-				 ItemStack TempStack = PutItemStackInSecondChest(myChest.adjacentChestXNeg, myStack);
+			 if(myChest instanceof TileEntityChest){
+			 if(((TileEntityChest)myChest).adjacentChestXNeg != null && !((TileEntityChest)myChest).adjacentChestXNeg.isInvalid()){
+				 ItemStack TempStack = PutItemStackInSecondChest(((TileEntityChest)myChest).adjacentChestXNeg, myStack);
 				 if(TempStack != null){
 					 myStack = TempStack;
 				 }
@@ -141,8 +165,8 @@ public class CookingPlusLootHelper {
 					 return null;
 				 }
 			 }
-			 if(myChest.adjacentChestXPos != null && !myChest.adjacentChestXPos.isInvalid()){
-				 ItemStack TempStack = PutItemStackInSecondChest(myChest.adjacentChestXPos, myStack);
+			 if(((TileEntityChest)myChest).adjacentChestXPos != null && !((TileEntityChest)myChest).adjacentChestXPos.isInvalid()){
+				 ItemStack TempStack = PutItemStackInSecondChest(((TileEntityChest)myChest).adjacentChestXPos, myStack);
 				 if(TempStack != null){
 					 myStack = TempStack;
 				 }
@@ -150,8 +174,8 @@ public class CookingPlusLootHelper {
 					 return null;
 				 }
 			 }
-			 if(myChest.adjacentChestZNeg != null && !myChest.adjacentChestZNeg.isInvalid()){
-				 ItemStack TempStack = PutItemStackInSecondChest(myChest.adjacentChestZNeg, myStack);
+			 if(((TileEntityChest)myChest).adjacentChestZNeg != null && !((TileEntityChest)myChest).adjacentChestZNeg.isInvalid()){
+				 ItemStack TempStack = PutItemStackInSecondChest(((TileEntityChest)myChest).adjacentChestZNeg, myStack);
 				 if(TempStack != null){
 					 myStack = TempStack;
 				 }
@@ -159,14 +183,15 @@ public class CookingPlusLootHelper {
 					 return null;
 				 }
 			 }
-			 if(myChest.adjacentChestZPos != null && !myChest.adjacentChestZPos.isInvalid()){
-				 ItemStack TempStack = PutItemStackInSecondChest(myChest.adjacentChestZPos, myStack);
+			 if(((TileEntityChest)myChest).adjacentChestZPos != null && !((TileEntityChest)myChest).adjacentChestZPos.isInvalid()){
+				 ItemStack TempStack = PutItemStackInSecondChest(((TileEntityChest)myChest).adjacentChestZPos, myStack);
 				 if(TempStack != null){
 					 myStack = TempStack;
 				 }
 				 else{
 					 return null;
 				 }
+			 }
 			 }
 			 
 			 return myStack;
@@ -178,7 +203,7 @@ public class CookingPlusLootHelper {
 		 if(myStack.stackSize == 0 || myStack == null){
 			 done = true;
 		 }
-		 for(int i = 0; i < 27 && done == false; i++){
+		 for(int i = 0; i < myChest.getSizeInventory() && done == false; i++){
 			 if(myChest.getStackInSlot(i) != null && myChest.getStackInSlot(i).getItem() != null){
 				 if(myChest.getStackInSlot(i).getItem() == myStack.getItem()){
 				 	if(myChest.getStackInSlot(i).stackSize < myChest.getStackInSlot(i).getItem().getItemStackLimit() - myStack.stackSize){
@@ -199,7 +224,7 @@ public class CookingPlusLootHelper {
 			 	}
 			 }
 		 }
-		 for(int i = 0; i < 27 && done == false; i++){
+		 for(int i = 0; i < myChest.getSizeInventory() && done == false; i++){
 			 if(myChest.getStackInSlot(i) == null){
 				myChest.setInventorySlotContents(i, new ItemStack(myStack.getItem(), myStack.stackSize));
 				done = true;

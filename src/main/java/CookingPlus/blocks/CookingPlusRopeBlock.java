@@ -2,26 +2,25 @@ package CookingPlus.blocks;
 
 import java.util.Random;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import CookingPlus.CookingPlusMain;
 
 public class CookingPlusRopeBlock extends CookingPlusCustomBlock{
 
@@ -33,13 +32,14 @@ public class CookingPlusRopeBlock extends CookingPlusCustomBlock{
 	//2 - bottom
 	//3 - top
 	public CookingPlusRopeBlock() {
-		super(Material.plants);
+		super(Material.PLANTS);
 		GameRegistry.registerBlock(this, name);
 		this.setUnlocalizedName("rope");
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		this.setHardness(1.0F);
 		this.setResistance(1.0F);
 		this.setBlockBounds(0.4f, 0, 0.4f, 0.6f, 1, 0.6f);
+		this.setLightOpacity(0);
 	}
 	
 	@Override
@@ -61,10 +61,11 @@ public class CookingPlusRopeBlock extends CookingPlusCustomBlock{
     }
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
-	}
+    @SideOnly(Side.CLIENT)
+	 public BlockRenderLayer getBlockLayer()
+	 {
+	     return BlockRenderLayer.CUTOUT;
+	 }
 
 	@Override
 	public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
@@ -76,8 +77,8 @@ public class CookingPlusRopeBlock extends CookingPlusCustomBlock{
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
 		if( worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos)){
-			if(worldIn.getBlockState(new BlockPos(new Vec3(pos.getX(), pos.getY() + 1, pos.getZ()))).getBlock() != null){
-				if(worldIn.getBlockState(new BlockPos(new Vec3(pos.getX(), pos.getY() + 1, pos.getZ()))).getBlock().isReplaceable(worldIn, new BlockPos(new Vec3(pos.getX(), pos.getY() + 1, pos.getZ())))==false){
+			if(worldIn.getBlockState(new BlockPos(new Vec3d(pos.getX(), pos.getY() + 1, pos.getZ()))).getBlock() != null){
+				if(worldIn.getBlockState(new BlockPos(new Vec3d(pos.getX(), pos.getY() + 1, pos.getZ()))).getBlock().isReplaceable(worldIn, new BlockPos(new Vec3d(pos.getX(), pos.getY() + 1, pos.getZ())))==false){
 					return true;
 				}
 			}
@@ -98,9 +99,9 @@ public class CookingPlusRopeBlock extends CookingPlusCustomBlock{
     }
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, new IProperty[] {ROPETYPE});
+        return new BlockStateContainer(this, new IProperty[] {ROPETYPE});
     }
     
     public void checkRopeStatus(World world, BlockPos myPos){
@@ -253,11 +254,17 @@ public class CookingPlusRopeBlock extends CookingPlusCustomBlock{
     }
 
     @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock)
     {
         checkRopeStatus(worldIn, pos);
     }
     
-    @Override public boolean isLadder(IBlockAccess world, BlockPos pos, EntityLivingBase entity) { return true; }
+    @Override
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
+    {
+        return false;
+    }
+    
+    @Override public boolean isLadder(IBlockState state, IBlockAccess world, BlockPos pos, EntityLivingBase entity) { return true; }
 }
 

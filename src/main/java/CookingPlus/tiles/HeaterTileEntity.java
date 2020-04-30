@@ -11,19 +11,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
-import CookingPlus.recipes.CookingPlusOvenRecipes;
 
-public class HeaterTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class HeaterTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable {
 
 	private ItemStack[] inv;
 	private int FuelTimer;
@@ -88,8 +85,7 @@ public class HeaterTileEntity extends TileEntity implements IInventory, IUpdateP
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		
 		NBTTagList nbttaglist = new NBTTagList();
 
@@ -106,18 +102,19 @@ public class HeaterTileEntity extends TileEntity implements IInventory, IUpdateP
 
 		nbt.setTag("Items", nbttaglist);
 
-
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -156,7 +153,7 @@ public class HeaterTileEntity extends TileEntity implements IInventory, IUpdateP
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -177,7 +174,7 @@ public class HeaterTileEntity extends TileEntity implements IInventory, IUpdateP
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -280,16 +277,16 @@ public class HeaterTileEntity extends TileEntity implements IInventory, IUpdateP
 	 }
 
 	 public int getItemBurnTime(ItemStack myStack){
-		 	if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.log))){
+		 	if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG))){
 				return 80;
 			}
-			if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.log2))){
+			if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG2))){
 				return 80;
 			}
-			if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.planks))){
+			if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.PLANKS))){
 				return 150;
 			}
-			if(myStack.getItem().equals(Items.coal)){
+			if(myStack.getItem().equals(Items.COAL)){
 				return 200;
 			}
 		 return 0;
@@ -299,7 +296,7 @@ public class HeaterTileEntity extends TileEntity implements IInventory, IUpdateP
 			if(!this.getWorld().isRemote){
 				if(newamount != FuelTimer){
 					FuelTimer = newamount;
-					UpdateBlock();
+					UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 				}
 			}
 		}
@@ -307,12 +304,9 @@ public class HeaterTileEntity extends TileEntity implements IInventory, IUpdateP
 	 public void FillSlot(ItemStack myItem, int slot){
 			if(!this.getWorld().isRemote){
 			inv[slot] = myItem;
-			UpdateBlock();
+			UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 			}
 		}
 	 
-	 public void UpdateBlock(){
-			//System.out.println("update tile entity for client");
-			this.worldObj.markBlockForUpdate(this.getPos());
-	}
+
 }

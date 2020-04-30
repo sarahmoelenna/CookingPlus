@@ -1,0 +1,6 @@
+{
+	"parent": "block/crop",
+	"textures": {
+		"crop": "agriculturalrevolution:blocks/grapecrop_stage_1"
+	}
+}

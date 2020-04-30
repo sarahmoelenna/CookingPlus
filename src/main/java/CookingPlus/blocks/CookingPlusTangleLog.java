@@ -3,19 +3,15 @@ package CookingPlus.blocks;
 import java.util.Iterator;
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 
 public class CookingPlusTangleLog extends CookingPlusCustomBlock{
@@ -23,13 +19,13 @@ public class CookingPlusTangleLog extends CookingPlusCustomBlock{
 	private final String name = "tanglelog";
 	
 	public CookingPlusTangleLog() {
-		super(Material.wood);
+		super(Material.WOOD);
 		GameRegistry.registerBlock(this, name);
 		this.setUnlocalizedName(name);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		this.setHardness(1.0F);
 		this.setResistance(1.0F);
-		this.setStepSound(soundTypeWood);
+		this.setSoundType(SoundType.WOOD);
 	}
 	
 	@Override
@@ -70,9 +66,9 @@ public class CookingPlusTangleLog extends CookingPlusCustomBlock{
 	                BlockPos blockpos1 = (BlockPos)iterator.next();
 	                IBlockState iblockstate1 = worldIn.getBlockState(blockpos1);
 
-	                if (iblockstate1.getBlock().isLeaves(worldIn, blockpos1))
+	                if (iblockstate1.getBlock().isLeaves(iblockstate1, worldIn, blockpos1))
 	                {
-	                    iblockstate1.getBlock().beginLeavesDecay(worldIn, blockpos1);
+	                    iblockstate1.getBlock().beginLeavesDecay(iblockstate1, worldIn, blockpos1);
 	                }
 	            }
 	        }

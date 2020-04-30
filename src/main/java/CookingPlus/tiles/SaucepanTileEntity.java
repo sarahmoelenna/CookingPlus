@@ -1,30 +1,24 @@
 package CookingPlus.tiles;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.recipes.CookingPlusFryingPanRecipes;
-import CookingPlus.recipes.CookingPlusSaucePanRecipe;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.recipes.CookingPlusSaucePanRecipe;
 
-public class SaucepanTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class SaucepanTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable {
 
 	private int EntityDirection;
 	private ItemStack[] inv;
@@ -109,8 +103,8 @@ public class SaucepanTileEntity extends TileEntity implements IInventory, IUpdat
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		
 
 		//nbt.setInteger("MyMoveState", MoveState);
 		//nbt.setFloat("MyMovement", MovementTimer);
@@ -133,18 +127,19 @@ public class SaucepanTileEntity extends TileEntity implements IInventory, IUpdat
 
 		nbt.setTag("Items", nbttaglist);
 
-
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -183,7 +178,7 @@ public class SaucepanTileEntity extends TileEntity implements IInventory, IUpdat
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -204,7 +199,7 @@ public class SaucepanTileEntity extends TileEntity implements IInventory, IUpdat
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -340,13 +335,13 @@ public class SaucepanTileEntity extends TileEntity implements IInventory, IUpdat
 		if(inv[slotNum] == null){
 			//System.out.println(MyStack.getItem().getUnlocalizedName());
 			FillSlot(MyStack.copy(), slotNum);
-			UpdateBlock();
+			UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 			return true;
 		}
 		else if(inv[slotNum].getItem().equals(MyStack.getItem()) && inv[slotNum].stackSize < 64 - (MyStack.stackSize - 1)){
 			if(!this.worldObj.isRemote){
 				inv[slotNum].stackSize += MyStack.stackSize;
-				UpdateBlock();
+				UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 			}
 			return true;
 		}
@@ -378,12 +373,8 @@ public class SaucepanTileEntity extends TileEntity implements IInventory, IUpdat
 	 public void FillSlot(ItemStack myItem, int slot){
 			if(!this.getWorld().isRemote){
 			inv[slot] = myItem;
-			UpdateBlock();
+			UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 			}
 		}
-	 
-	 public void UpdateBlock(){
-			//System.out.println("update tile entity for client");
-			this.worldObj.markBlockForUpdate(this.getPos());
-	}
+
 }

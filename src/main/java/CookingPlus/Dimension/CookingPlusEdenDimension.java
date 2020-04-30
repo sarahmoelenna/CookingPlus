@@ -1,11 +1,9 @@
 package CookingPlus.Dimension;
 
-import CookingPlus.CookingPlusConfig;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.WorldChunkManagerHell;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderEnd;
+import net.minecraft.world.chunk.IChunkGenerator;
+import CookingPlus.CookingPlusConfig;
 
 public class CookingPlusEdenDimension extends WorldProvider {
 
@@ -13,35 +11,27 @@ public class CookingPlusEdenDimension extends WorldProvider {
 		super();
 		isHellWorld = false;
 		hasNoSky = false;
-		dimensionId = CookingPlusConfig.EdenDimensionID;
-		worldChunkMgr = new CookingPlusEdenChunkManager();
+		//dimensionId = CookingPlusConfig.EdenDimensionID;
+		//worldChunkMgr = WorldType.DEBUG_WORLD.getBiomeProvider(world);
 	}
 	
 	@Override
-	public IChunkProvider createChunkGenerator()
+	public IChunkGenerator createChunkGenerator()
     {
-        return new CookingPlusEdenDimensionChunkProvider(this.worldObj, this.worldObj.getSeed());
+        return new CookingPlusEdenDimensionChunkProvider(this.worldObj, true, this.worldObj.getSeed());
     }
 	
 	
-	@Override
-	public String getDimensionName() {
-		return "Eden";
-	}
-
-	@Override
-	public String getInternalNameSuffix() {
-		// TODO Auto-generated method stub
-		return "eden";
-	}
 	
-	@Override
 	public void registerWorldChunkManager()
     {
-        this.worldChunkMgr = new CookingPlusEdenChunkManager();
-        this.isHellWorld = false;
-        this.hasNoSky = false;
-        this.dimensionId = CookingPlusConfig.EdenDimensionID;
+        //this.worldChunkMgr = new BiomeProvider(CookingPlusConfig.EdenDimensionID, WorldType.DEFAULT, "Eden");
     }
+
+	@Override
+	public DimensionType getDimensionType() {
+		// TODO Auto-generated method stub
+		return DimensionType.getById(CookingPlusConfig.EdenDimensionID);
+	}
 
 }

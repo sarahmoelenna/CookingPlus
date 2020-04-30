@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>forge-1.8-11.14.3.1499-src</name>
-	<comment/>
-	<projects/>
-	<natures>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-	</natures>
+	<name>forge-1.10.2-12.18.1.2076-mdk</name>
+	<comment></comment>
+	<projects>
+	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments/>
+			<arguments>
+			</arguments>
 		</buildCommand>
 	</buildSpec>
-	<linkedResources/>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>.link1</name>
+			<type>2</type>
+			<location>C:/Users/George/.gradle/caches/minecraft/net/minecraftforge/forge/1.10.2-12.18.1.2076/start</location>
+		</link>
+	</linkedResources>
 </projectDescription>

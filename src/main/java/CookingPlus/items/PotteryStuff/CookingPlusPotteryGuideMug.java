@@ -1,9 +1,8 @@
 package CookingPlus.items.PotteryStuff;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomItem;
 
 public class CookingPlusPotteryGuideMug extends CookingPlusCustomItem {
 
@@ -12,7 +11,7 @@ public class CookingPlusPotteryGuideMug extends CookingPlusCustomItem {
 	public CookingPlusPotteryGuideMug(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("potteryguidemug");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":dough");
 		setMaxStackSize(1);
 	}

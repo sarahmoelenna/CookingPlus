@@ -5,24 +5,25 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.recipes.CookingPlusOvenRecipes;
 
-public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class BrickOvenTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable, ISidedInventory {
 
 	private int EntityDirection;
 	private ItemStack[] inv;
@@ -78,8 +79,7 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 
 		nbt.setInteger("MyDirection", EntityDirection);
 		//System.out.println(EntityDirection + " write");
@@ -104,18 +104,21 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 		// {
 		// compound.setString("CustomName", grinderCustomName);
 		// }
+		
+		return super.writeToNBT(nbt);
 
 	}
-
+	
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -157,7 +160,7 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -190,19 +193,19 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
 		if(slot < 9){
-			if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.log))){
+			if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.LOG))){
 				return false;
 			}
-			else if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.log2))){
+			else if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.LOG2))){
 				return false;
 			}
-			else if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.planks))){
+			else if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.PLANKS))){
 				return false;
 			}
-			else if(itemstack.getItem().equals(Items.coal)){
+			else if(itemstack.getItem().equals(Items.COAL)){
 				return false;
 			}
-			else if(itemstack.getItem().equals(Items.lava_bucket)){
+			else if(itemstack.getItem().equals(Items.LAVA_BUCKET)){
 				return false;
 			}
 			else{
@@ -211,19 +214,19 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 		}
 		else if(slot == 9){
 			//System.out.println(itemstack.getDisplayName());
-			if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.log))){
+			if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.LOG))){
 				return true;
 			}
-			if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.log2))){
+			if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.LOG2))){
 				return true;
 			}
-			if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.planks))){
+			if(itemstack.getItem().equals(Item.getItemFromBlock(Blocks.PLANKS))){
 				return true;
 			}
-			if(itemstack.getItem().equals(Items.coal)){
+			if(itemstack.getItem().equals(Items.COAL)){
 				return true;
 			}
-			if(itemstack.getItem().equals(Items.lava_bucket)){
+			if(itemstack.getItem().equals(Items.LAVA_BUCKET)){
 				return true;
 			}
 		}
@@ -316,7 +319,7 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
         //    this.FuelTimer = 200;
         //}
 
-        return this.FuelTimer * p_145955_1_ / 200;
+        return this.FuelTimer * p_145955_1_ / 320;
     }
 	 
 	 @SideOnly(Side.CLIENT)
@@ -373,7 +376,9 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 			 }
 			 else if(inv[slotNum + 10].stackSize < 64){
 				 if(inv[slotNum + 10].getItem().equals(CookingPlusOvenRecipes.instance().getOvenResult(inv[slotNum]).getItem())){
-					 return true;
+					 if(inv[slotNum + 10].stackSize < inv[slotNum + 10].getItem().getItemStackLimit(inv[slotNum + 10])){
+						 return true;
+					 }
 				 }
 			}
 		 }
@@ -381,20 +386,20 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 	 }
 
 	 public int getItemBurnTime(ItemStack myStack){
-		 	if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.log))){
-				return 40;
+		 	if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG))){
+				return 80;
 			}
-			if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.log2))){
-				return 40;
+			if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG2))){
+				return 80;
 			}
-			if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.planks))){
-				return 40;
+			if(myStack.getItem().equals(Item.getItemFromBlock(Blocks.PLANKS))){
+				return 80;
 			}
-			if(myStack.getItem().equals(Items.coal)){
-				return 100;
+			if(myStack.getItem().equals(Items.COAL)){
+				return 160;
 			}
-			if(myStack.getItem().equals(Items.lava_bucket)){
-				return 200;
+			if(myStack.getItem().equals(Items.LAVA_BUCKET)){
+				return 320;
 			}
 		 return 0;
 	 }
@@ -417,9 +422,9 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 			 return new ItemStack(CookingPlusMain.breadtin);
 		 }
 		 else if(myStack.getItem().equals(CookingPlusMain.cookiebatter)){
-			 return new ItemStack(Items.bowl);
+			 return new ItemStack(Items.BOWL);
 		 }else if(myStack.getItem().equals(CookingPlusMain.pancakemix)){
-			 return new ItemStack(Items.bowl);
+			 return new ItemStack(Items.BOWL);
 		 }else if(myStack.getItem().equals(CookingPlusMain.traysponge)){
 			 return new ItemStack(CookingPlusMain.cupcaketray);
 		 }else if(myStack.getItem().equals(CookingPlusMain.traychocolate)){
@@ -451,7 +456,7 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -491,5 +496,101 @@ public class BrickOvenTileEntity extends TileEntity implements IInventory, IUpda
 		// TODO Auto-generated method stub
 		
 	}
-	 
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
+		int[] mySlotForFace = new int[19];
+		mySlotForFace[0] = 0;
+		mySlotForFace[1] = 1;
+		mySlotForFace[2] = 2;
+		mySlotForFace[3] = 3;
+		mySlotForFace[4] = 4;
+		mySlotForFace[5] = 5;
+		mySlotForFace[6] = 6;
+		mySlotForFace[7] = 7;
+		mySlotForFace[8] = 8;
+		mySlotForFace[9] = 9;
+		mySlotForFace[10] = 10;
+		mySlotForFace[11] = 11;
+		mySlotForFace[12] = 12;
+		mySlotForFace[13] = 13;
+		mySlotForFace[14] = 14;
+		mySlotForFace[15] = 15;
+		mySlotForFace[16] = 16;
+		mySlotForFace[17] = 17;
+		mySlotForFace[18] = 18;
+		return mySlotForFace;
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack itemStackIn,
+			EnumFacing direction) {
+		if(index < 9){
+			if(CookingPlusOvenRecipes.instance().isItemInput(itemStackIn)){
+				if(index == findBestSlotForItem(itemStackIn)){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+		}
+		if(isItemValidForSlot(index, itemStackIn)){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack,EnumFacing direction) {
+		if(index < 9){
+			if(CookingPlusOvenRecipes.instance().isItemInput(stack) == false){
+				return true;
+			}
+		}
+		if(index > 9){
+			return true;
+		}
+		return false;
+	}
+
+	public int findBestSlotForItem(ItemStack myStack){
+		
+		//first lets get rid of slots we cant use
+		boolean[] canSmelt = new boolean[9];
+		for(int i = 0; i < 9; i++){
+			if(inv[i] == null || inv[i].getItem() == myStack.getItem()){
+				ItemStack outputItem = CookingPlusOvenRecipes.instance().getOvenResult(myStack);
+				if(inv[i + 10] == null || inv[i + 10].getItem() == outputItem.getItem()){
+					canSmelt[i] = true;
+				}
+				else{
+					canSmelt[i] = false;
+				}
+			}
+			else{
+				canSmelt[i] = false;
+			}
+		}
+		//now lets find the best from what we have left
+		int smallestSize = 65;
+		int smallestSlot = -1;
+		for(int i = 0; i < 9 && smallestSize != 0; i++){
+			if(canSmelt[i] == true){
+				if(inv[i] == null){
+					smallestSize = 0;
+					smallestSlot = i;
+				}
+				else{
+					if(inv[i].stackSize < smallestSize){
+						smallestSize = inv[i].stackSize;
+						smallestSlot = i;
+					}
+				}
+			}
+		}
+		
+		return smallestSlot;
+	}
+	
 }

@@ -1,0 +1,18 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+	"custom": { "flip-v": true },
+    "model": "agriculturalrevolution:rustedhydrophonic.obj"
+  },
+  "variants": {
+	"normal": [{}],
+	"facing=west": [{"y": 270}],
+	"facing=north": [{}],
+	"facing=south": [{"y": 180}],
+	"facing=east": [{"y": 90}],
+	"inventory": [{
+            "transform": "forge:default-block",
+			"model": "agriculturalrevolution:rustedhydrophonic.obj"
+        }]
+  }
+}

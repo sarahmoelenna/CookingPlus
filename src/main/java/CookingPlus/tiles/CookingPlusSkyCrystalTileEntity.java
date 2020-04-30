@@ -1,13 +1,9 @@
 package CookingPlus.tiles;
 
-import java.util.Random;
-
-import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.items.CookingPlusTeleportCrystal;
@@ -33,9 +29,9 @@ public class CookingPlusSkyCrystalTileEntity extends CystalBaseTileEntity {
 	@Override
 	public void processActivate(EntityPlayer Player) {
 		//Player.setPositionAndUpdate(Player.getBedLocation().getX(), Player.getBedLocation().getY(), Player.getBedLocation().getZ());
-		if(Player.getCurrentEquippedItem().getItem() == CookingPlusMain.teleportcrystal){
-			CookingPlusTeleportCrystal myCrystal = (CookingPlusTeleportCrystal) Player.getCurrentEquippedItem().getItem();
-			myCrystal.ProcessTeleport(true, Player.getCurrentEquippedItem(), this.getPos(), Player);
+		if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == CookingPlusMain.teleportcrystal){
+			CookingPlusTeleportCrystal myCrystal = (CookingPlusTeleportCrystal) Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem();
+			myCrystal.ProcessTeleport(true, Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND), this.getPos(), Player);
 		}
 	}
         

@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:licorice" },
+		"placed=0": { "model": "agriculturalrevolution:licorice" },
+		"placed=1": { "model": "agriculturalrevolution:licorice" }
+	}
+}

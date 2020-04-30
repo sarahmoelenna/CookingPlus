@@ -1,17 +1,16 @@
 package CookingPlus.items.Seeds;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomEdibleSeed;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomEdibleSeed;
 
 public class CookingPlusEasySeed extends CookingPlusCustomEdibleSeed 
 {
@@ -40,35 +39,33 @@ public class CookingPlusEasySeed extends CookingPlusCustomEdibleSeed
     }
     
     @Override
-    public boolean onItemUse(ItemStack parItemStack, EntityPlayer parPlayer, 
-          World parWorld, BlockPos MyPos, EnumFacing myFace, float par8, 
-          float par9, float par10)
+    public EnumActionResult onItemUse(ItemStack parItemStack, EntityPlayer parPlayer, World parWorld, BlockPos MyPos, EnumHand hand, EnumFacing myFace, float par8, float par9, float par10)
     {
      // not sure what this parameter does, copied it from potato
         if (myFace != EnumFacing.UP)
         {
-            return false;
+        	return EnumActionResult.FAIL;
         }
         // check if player has capability to edit
-        else if (parPlayer.canPlayerEdit(new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())), myFace, parItemStack))
+        else if (parPlayer.canPlayerEdit(new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())), myFace, parItemStack))
         {
             // check that the soil block can sustain the plant
             // and that block above is air so there is room for plant to grow
-            if (parWorld.getBlockState(MyPos).getBlock() == myGroundBlock && parWorld.isAirBlock(new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ()))))
+            if (parWorld.getBlockState(MyPos).getBlock() == myGroundBlock && parWorld.isAirBlock(new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ()))))
             {
              // place the plant block
-            	setBlock(parWorld, new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())));
+            	setBlock(parWorld, new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())));
                 --parItemStack.stackSize;
-                return true;
+                return EnumActionResult.PASS;
             }
             else
             {
-                return false;
+            	return EnumActionResult.FAIL;
             }
         }
         else
         {
-            return false;
+        	return EnumActionResult.FAIL;
         }
     }
 }

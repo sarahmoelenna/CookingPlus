@@ -3,20 +3,20 @@ package CookingPlus.blocks;
 import java.util.List;
 import java.util.Random;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -25,6 +25,7 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import CookingPlus.CookingPlusMain;
 
 public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock implements IPlantable {
 
@@ -34,7 +35,7 @@ public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock im
 	public static final PropertyInteger ROPETYPE = PropertyInteger.create("type", 0, 3);
 
 	public CookingPlusCustomRopeCrop() {
-		super(Material.plants);
+		super(Material.PLANTS);
 		this.setTickRandomly(true);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ROPETYPE, Integer.valueOf(0)).withProperty(AGE, Integer.valueOf(0)));
 		
@@ -58,7 +59,7 @@ public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock im
 	}
 
 	@Override
-	protected BlockState createBlockState() {
+	protected BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] { ROPETYPE, AGE },
 				new IUnlistedProperty[] { JAI }); // maybe need to add listed
 													// property?
@@ -187,8 +188,10 @@ public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock im
 		//this.dropBlockAsItem(worldIn, myPos, CookingPlusMain.blockRope.getDefaultState(), 0);
 		this.spawnAsEntity(worldIn, myPos, new ItemStack(Item.getItemFromBlock(CookingPlusMain.blockRope)));
 		this.spawnAsEntity(worldIn, myPos, new ItemStack(GetSeedItem()));
-		if( ((Integer)worldIn.getBlockState(myPos).getValue(AGE)).intValue() == 3 ){
-			this.spawnAsEntity(worldIn, myPos, new ItemStack(GetCropItem()));
+		if(worldIn.getBlockState(myPos).getBlock() instanceof CookingPlusCustomRopeCrop){
+			if( ((Integer)worldIn.getBlockState(myPos).getValue(AGE)).intValue() == 3 ){
+				this.spawnAsEntity(worldIn, myPos, new ItemStack(GetCropItem()));
+			}
 		}
 		worldIn.setBlockToAir(myPos);
 	}
@@ -235,7 +238,7 @@ public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock im
     }
     
     @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock)
     {
     	//System.out.println(((Integer)state.getValue(AGE)).intValue() + " Neighbour");
         if(worldIn.getBlockState(pos.down()).getBlock().equals(CookingPlusMain.blockRope)){
@@ -246,7 +249,7 @@ public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock im
         else if(worldIn.getBlockState(pos.down()).getBlock().equals(GetCropBlock())){
         	//fine
         }
-        else if(worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.farmland)){
+        else if(worldIn.getBlockState(pos.down()).getBlock().equals(Blocks.FARMLAND)){
         	//fine
         }
         else{
@@ -282,14 +285,15 @@ public class CookingPlusCustomRopeCrop extends CookingPlusCustomRenderedBlock im
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
     	if(!worldIn.isRemote)
         {
     		if(((Integer)state.getValue(AGE)).intValue() >= 3){
     			worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(1)), 2);
-    			//playerIn.dropPlayerItemWithRandomChoice(new ItemStack(GetCropItem()), false);
-    			this.spawnAsEntity(worldIn, pos, new ItemStack(GetCropItem()));
+    			//playerIn.dropItem(new ItemStack(GetCropItem()), false);
+    			//this.spawnAsEntity(worldIn, pos, new ItemStack(GetCropItem()));
+    			playerIn.dropItem(new ItemStack(GetCropItem()), false);
     		}
         }
     	return true;

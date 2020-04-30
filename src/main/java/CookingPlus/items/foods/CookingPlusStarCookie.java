@@ -1,9 +1,8 @@
 package CookingPlus.items.foods;
 
-import CookingPlus.items.CookingPlusCustomEdibleFood;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomEdibleFood;
 
 public class CookingPlusStarCookie extends CookingPlusCustomEdibleFood
 {
@@ -15,7 +14,7 @@ public class CookingPlusStarCookie extends CookingPlusCustomEdibleFood
         super(1, 0.3F);
         GameRegistry.registerItem(this, name);
         setUnlocalizedName("starcookie");
-        setCreativeTab(CreativeTabs.tabFood);
+        setCreativeTab(CreativeTabs.FOOD);
         setPotionEffect(32, 20, 0, 100);
     }
     

@@ -1,9 +1,8 @@
 package CookingPlus.blocks.tileentity;
 
-import CookingPlus.tiles.CookingPlusGrowthCrystalTileEntity;
-import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import CookingPlus.tiles.CookingPlusWaterCrystalTileEntity;
 public class CookingPlusWaterCrystalBlock extends CookingPlusCyrtsalBaseTileEntityBlock {
 
 	public CookingPlusWaterCrystalBlock() {

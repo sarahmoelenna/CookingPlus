@@ -1,11 +1,10 @@
 package CookingPlus.blocks.leaves;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.blocks.CookingPlusCustomLeaves;
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.blocks.CookingPlusCustomLeaves;
 
 public class CookingPlusPeachLeaves extends CookingPlusCustomLeaves {
 

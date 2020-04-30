@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:lemonsapling" },
+		"age=0": { "model": "agriculturalrevolution:lemonsapling" },
+		"age=1": { "model": "agriculturalrevolution:lemonsapling" },
+		"age=2": { "model": "agriculturalrevolution:lemonsapling" },
+		"age=3": { "model": "agriculturalrevolution:lemonsapling" },
+		"age=4": { "model": "agriculturalrevolution:lemonsapling" },
+		"age=5": { "model": "agriculturalrevolution:lemonsapling" },
+		"age=6": { "model": "agriculturalrevolution:lemonsapling" },
+		"age=7": { "model": "agriculturalrevolution:lemonsapling" },
+		"inventory": { "model": "agriculturalrevolution:lemonsapling" }
+	}
+}

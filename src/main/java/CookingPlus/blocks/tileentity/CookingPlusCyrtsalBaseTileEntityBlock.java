@@ -1,32 +1,26 @@
 package CookingPlus.blocks.tileentity;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.tiles.ButterChurnTileEntity;
-import CookingPlus.tiles.CystalBaseTileEntity;
-import CookingPlus.tiles.SpongeTileEntity;
-import CookingPlus.tiles.VanillaTileEntity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.tiles.CystalBaseTileEntity;
 
 public class CookingPlusCyrtsalBaseTileEntityBlock extends CookingPlusCustomTileEntityBlock {
 
 	private String name;
 	
 	public CookingPlusCyrtsalBaseTileEntityBlock(String myname) {
-		super(Material.rock);
+		super(Material.ROCK);
 		name = myname;
 		this.setUnlocalizedName(name);
 		this.setTickRandomly(false);
@@ -45,7 +39,7 @@ public class CookingPlusCyrtsalBaseTileEntityBlock extends CookingPlusCustomTile
     {
 		if(myPos.getY() < 252){
 			if(parWorld.getBlockState(myPos).getBlock().isReplaceable(parWorld, myPos)){
-				if(parWorld.getBlockState(new BlockPos(new Vec3(myPos.getX(), myPos.getY()+1, myPos.getZ()))).getBlock().isReplaceable(parWorld, new BlockPos(new Vec3(myPos.getX(), myPos.getY()+1, myPos.getZ())))){
+				if(parWorld.getBlockState(new BlockPos(new Vec3d(myPos.getX(), myPos.getY()+1, myPos.getZ()))).getBlock().isReplaceable(parWorld, new BlockPos(new Vec3d(myPos.getX(), myPos.getY()+1, myPos.getZ())))){
 					return true;
 				}
 			}
@@ -54,7 +48,7 @@ public class CookingPlusCyrtsalBaseTileEntityBlock extends CookingPlusCustomTile
     }
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
 		if(!worldIn.isRemote)
         {

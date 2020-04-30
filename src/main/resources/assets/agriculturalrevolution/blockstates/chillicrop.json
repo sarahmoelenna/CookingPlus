@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:chillicrop" },
+		"age=0": { "model": "agriculturalrevolution:chillicrop" },
+		"age=1": { "model": "agriculturalrevolution:chillicrop" },
+		"age=2": { "model": "agriculturalrevolution:chillicrop_1" },
+		"age=3": { "model": "agriculturalrevolution:chillicrop_1" },
+		"age=4": { "model": "agriculturalrevolution:chillicrop_2" },
+		"age=5": { "model": "agriculturalrevolution:chillicrop_2" },
+		"age=6": { "model": "agriculturalrevolution:chillicrop_2" },
+		"age=7": { "model": "agriculturalrevolution:chillicrop_3" }
+	}
+}

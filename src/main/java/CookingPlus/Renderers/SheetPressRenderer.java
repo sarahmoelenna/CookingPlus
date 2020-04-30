@@ -2,6 +2,7 @@ package CookingPlus.Renderers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +15,7 @@ import CookingPlus.tiles.SheetPressTileEntity;
 
 public class SheetPressRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/sheetpressmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/sheetpressmap.png");
 	EntityItem entItem;
 	
 	private CookingPlusSheetPress model;
@@ -33,6 +34,7 @@ public class SheetPressRenderer extends TileEntitySpecialRenderer {
 		
 		SheetPressTileEntity MyOven = (SheetPressTileEntity) entity;
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven != null){
 		if(MyOven.getDirection() == 4){
 			GL11.glRotatef(0, 0, 1, 0);
 		}
@@ -45,14 +47,20 @@ public class SheetPressRenderer extends TileEntitySpecialRenderer {
 		else if(MyOven.getDirection() == 2){
 			GL11.glRotatef(270, 0, 1, 0);
 		}
+		}
 		
 		this.bindTexture(texture);
 		
 		GL11.glPushMatrix();
-		this.model.RenderModel(0.0625f, MyOven.getPressAmount() / 350);
+		if(MyOven != null){
+			this.model.RenderModel(0.0625f, MyOven.getPressAmount() / 350);
+		}
+		else{
+			this.model.RenderModel(0.0625f, 0);
+		}
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-		
+		if(MyOven != null){
 			if(MyOven.hasWorldObj() == true){
 				 int slot = 1; //Example: int slot = 1;
 				 if(MyOven.getStackInSlot(slot) != null){
@@ -78,10 +86,12 @@ public class SheetPressRenderer extends TileEntitySpecialRenderer {
 					 RenderHelper.disableStandardItemLighting();
 					 if(MyOven.getStackInSlot(slot).stackSize > 0){
 						 	GL11.glPushMatrix();//item two
-						 	GL11.glTranslatef(0.0F, 0.24f, -0.35f);
+						 	GL11.glTranslatef(0.0F, 0.24f, -0.0f);
 						 	GL11.glRotatef(90, 1, 0, 0);
-						 	//GL11.glScalef(0.7f, 0.7f, 0.7f);
-						 	Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+						 	GL11.glScalef(0.5f, 0.5f, 0.5f);
+						 	Minecraft.getMinecraft().getRenderItem().renderItem(MyOven.getStackInSlot(slot), ItemCameraTransforms.TransformType.NONE);
+						 	//Minecraft.getMinecraft().getRenderManager().renderEntityStatic(this.entItem, 0, true);
+						 	//Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 						 	GL11.glPopMatrix();
 					 }
 					 RenderHelper.enableStandardItemLighting();
@@ -114,10 +124,12 @@ public class SheetPressRenderer extends TileEntitySpecialRenderer {
 					 RenderHelper.disableStandardItemLighting();
 					 if(MyOven.getStackInSlot(slot).stackSize > 0){
 						 	GL11.glPushMatrix();//item two
-						 	GL11.glTranslatef(0.0F, 0.54f - MyOven.getPressAmount() / 350, -0.35f);
+						 	GL11.glTranslatef(0.0F, 0.54f - MyOven.getPressAmount() / 350, -0.0f);
 						 	GL11.glRotatef(90, 1, 0, 0);
-						 	//GL11.glScalef(0.7f, 0.7f, 0.7f);
-						 	Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+						 	GL11.glScalef(0.5f, 0.5f, 0.5f);
+						 	Minecraft.getMinecraft().getRenderItem().renderItem(MyOven.getStackInSlot(slot), ItemCameraTransforms.TransformType.NONE);
+						 	//Minecraft.getMinecraft().getRenderManager().renderEntityStatic(this.entItem, 0, true);
+						 	//Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 						 	GL11.glPopMatrix();
 					 }
 					 RenderHelper.enableStandardItemLighting();
@@ -126,6 +138,7 @@ public class SheetPressRenderer extends TileEntitySpecialRenderer {
 				 }
 				 
 				}
+		}
 			
 	}
 

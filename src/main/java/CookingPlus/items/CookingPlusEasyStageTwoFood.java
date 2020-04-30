@@ -1,8 +1,5 @@
 package CookingPlus.items;
 
-import CookingPlus.items.CookingPlusCustomEdibleFood;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CookingPlusEasyStageTwoFood extends CookingPlusCustomEdibleFood

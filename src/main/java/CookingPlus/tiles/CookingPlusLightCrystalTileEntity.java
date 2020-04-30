@@ -1,14 +1,9 @@
 package CookingPlus.tiles;
 
-import java.util.Random;
-
-import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import CookingPlus.CookingPlusMain;
 
@@ -30,7 +25,7 @@ public class CookingPlusLightCrystalTileEntity extends CystalBaseTileEntity {
 						for(int y = 0; y < 15; y++){
 							BlockPos LightPos = new BlockPos(x - 7, y - 7, z - 7);
 							if(this.getWorld().getBlockState(this.getPos().add(LightPos.getX(), LightPos.getY(), LightPos.getZ())).getBlock() == CookingPlusMain.blockLightAir){
-								this.getWorld().setBlockState(this.getPos().add(LightPos.getX(), LightPos.getY(), LightPos.getZ()), Blocks.air.getDefaultState(), 1);
+								this.getWorld().setBlockState(this.getPos().add(LightPos.getX(), LightPos.getY(), LightPos.getZ()), Blocks.AIR.getDefaultState(), 1);
 							}
 						}
 					}
@@ -42,7 +37,7 @@ public class CookingPlusLightCrystalTileEntity extends CystalBaseTileEntity {
 	
 	@Override
 	public void processActivate(EntityPlayer Player) {
-		//Player.dropPlayerItemWithRandomChoice(new ItemStack(CookingPlusMain.waterorb), false);
+		//Player.dropItem(new ItemStack(CookingPlusMain.waterorb), false);
 	}
 	
 	@Override
@@ -52,7 +47,7 @@ public class CookingPlusLightCrystalTileEntity extends CystalBaseTileEntity {
 			for(int z = 0; z < 15; z++){
 				for(int y = 0; y < 15; y++){
 					BlockPos LightPos = new BlockPos(x - 7, y - 7, z - 7);
-					if(this.getWorld().getBlockState(this.getPos().add(LightPos.getX(), LightPos.getY(), LightPos.getZ())).getBlock() == Blocks.air){
+					if(this.getWorld().getBlockState(this.getPos().add(LightPos.getX(), LightPos.getY(), LightPos.getZ())).getBlock() == Blocks.AIR){
 						this.getWorld().setBlockState(this.getPos().add(LightPos.getX(), LightPos.getY(), LightPos.getZ()), CookingPlusMain.blockLightAir.getDefaultState(), 1);
 					}
 				}

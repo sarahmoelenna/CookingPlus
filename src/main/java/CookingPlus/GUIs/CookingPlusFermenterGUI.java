@@ -6,14 +6,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import CookingPlus.Containers.CookingPlusBrickOvenContainer;
 import CookingPlus.Containers.CookingPlusFermenterContainer;
 import CookingPlus.tiles.FermenterTileEntity;
 
 @SideOnly(Side.CLIENT)
 public class CookingPlusFermenterGUI  extends GuiContainer
 {
-    private static final ResourceLocation GuiTextures = new ResourceLocation("cookingplus:textures/gui/fermentergui.png");
+    private static final ResourceLocation GuiTextures = new ResourceLocation("agriculturalrevolution:textures/gui/fermentergui.png");
     private final InventoryPlayer inventoryPlayer;
     private final FermenterTileEntity tileGrinder;
 

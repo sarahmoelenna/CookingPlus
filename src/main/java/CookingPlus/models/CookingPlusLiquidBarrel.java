@@ -1,15 +1,10 @@
 package CookingPlus.models;
 
-import ModelBoxes.CookingPlusChestModelBox;
-import ModelBoxes.CookingPlusCustomModelBox;
-import ModelBoxes.CookingPlusDryingRackModelBox;
-import ModelBoxes.CookingPlusFryingPanModelBox;
-import ModelBoxes.CookingPlusLiquidBarrelModelBox;
-import ModelBoxes.CookingPlusLiquidModelBox;
-import ModelBoxes.CookingPlusPlateModelBox;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import ModelBoxes.CookingPlusLiquidBarrelModelBox;
+import ModelBoxes.CookingPlusLiquidModelBox;
 
 public class CookingPlusLiquidBarrel extends ModelBase
 {

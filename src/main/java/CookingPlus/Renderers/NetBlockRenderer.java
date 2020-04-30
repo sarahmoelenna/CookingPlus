@@ -1,20 +1,22 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusPlainCube;
-import CookingPlus.tiles.NetBlockTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusPlainCube;
+import CookingPlus.tiles.NetBlockTileEntity;
+
 public class NetBlockRenderer extends TileEntitySpecialRenderer {
 	
 	EntityItem entItem;
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/netblock.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/netblock.png");
 	
 	private CookingPlusPlainCube model;
 	
@@ -41,6 +43,7 @@ public class NetBlockRenderer extends TileEntitySpecialRenderer {
 		
 		if(entity instanceof NetBlockTileEntity){
 		NetBlockTileEntity MyOven = (NetBlockTileEntity) entity;
+		if(MyOven != null){
 		if(MyOven.hasWorldObj() == true){
 			 int slot = 0;
 			 if(MyOven.getStackInSlot(slot) != null){
@@ -53,14 +56,16 @@ public class NetBlockRenderer extends TileEntitySpecialRenderer {
 				 RenderHelper.disableStandardItemLighting();
 				 if(MyOven.getStackInSlot(slot).stackSize > 0){
 					 	GL11.glPushMatrix();//item two
-					 	GL11.glTranslatef(0.0F, -0.3f, 0.0F);
+					 	GL11.glTranslatef(0.0F, 0.5f, 0.0F);
 					 	//GL11.glRotatef(90, 1, 0, 0);
-					 	GL11.glScalef(2.0f, 2.0f, 2.0f);
+					 	GL11.glScalef(0.9f, 0.9f, 0.9f);
 					 	float Angle = 0;
 						Angle = (float)Math.atan2(x + 0.5f,z +0.5f);
 						float MyAngle = (float) (Angle*(180/Math.PI));
 						GL11.glRotatef(MyAngle, 0, 1, 0);
-					 	Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+						//Minecraft.getMinecraft().getRenderManager().renderEntityStatic(this.entItem, 0, true);
+						Minecraft.getMinecraft().getRenderItem().renderItem(MyOven.getStackInSlot(slot), ItemCameraTransforms.TransformType.NONE);
+					 	
 					 	GL11.glPopMatrix();
 				 }
 				 RenderHelper.enableStandardItemLighting();
@@ -68,6 +73,7 @@ public class NetBlockRenderer extends TileEntitySpecialRenderer {
 				 GL11.glPopMatrix();
 			 }
 			}
+		}
 		}
 	}
 

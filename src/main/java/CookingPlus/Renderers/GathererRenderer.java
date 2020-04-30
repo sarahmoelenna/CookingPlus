@@ -1,16 +1,17 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusGatherer;
-import CookingPlus.tiles.CookingPlusGathererTileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusGatherer;
+import CookingPlus.tiles.CookingPlusGathererTileEntity;
+
 public class GathererRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/gatherermap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/gatherermap.png");
 	
 	private CookingPlusGatherer model;
 	
@@ -28,7 +29,12 @@ public class GathererRenderer extends TileEntitySpecialRenderer {
 		this.bindTexture(texture);
 		
 		GL11.glPushMatrix();
-		this.model.RenderModel(0.0625f, myentity.getType());
+		if(myentity != null){
+			this.model.RenderModel(0.0625f, myentity.getType());
+		}
+		else{
+			this.model.RenderModel(0.0625f, 0);
+		}
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}

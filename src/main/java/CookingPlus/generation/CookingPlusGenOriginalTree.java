@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
@@ -91,7 +91,7 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
                         {
                             block = GetWorldBlock(par1World, j1, i1, k1);
 
-                            if (!this.isReplaceable(par1World, new BlockPos(new Vec3(j1, i1, k1))))
+                            if (!this.isReplaceable(par1World, new BlockPos(new Vec3d(j1, i1, k1))))
                             {
                                 flag = false;
                             }
@@ -112,11 +112,11 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
             {
                 Block block2 = GetWorldBlock(par1World, par3, par4 - 1, par5);
 
-                boolean isSoil = block2.canSustainPlant(par1World, new BlockPos(new Vec3(par3, par4 - 1, par5)), EnumFacing.UP, (BlockSapling)Blocks.sapling);
+                boolean isSoil = block2.canSustainPlant(par1World.getBlockState(new BlockPos(new Vec3d(par3, par4 - 1, par5))), par1World, new BlockPos(new Vec3d(par3, par4 - 1, par5)), EnumFacing.UP, (BlockSapling)Blocks.SAPLING);
                 
                 if (isSoil && par4 < 256 - l - 1)
                 {
-                    block2.onPlantGrow(par1World, new BlockPos(new Vec3(par3, par4 - 1, par5)), new BlockPos(new Vec3(par3, par4, par5)));
+                    block2.onPlantGrow(par1World.getBlockState(new BlockPos(new Vec3d(par3, par4 - 1, par5))), par1World, new BlockPos(new Vec3d(par3, par4 - 1, par5)), new BlockPos(new Vec3d(par3, par4, par5)));
                     b0 = 3;
                     byte b1 = 0;
                     int l1;
@@ -141,9 +141,9 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
                                 {
                                     Block block1 = GetWorldBlock(par1World, i2, k1, k2);
 
-                                    if (block1.isAir(par1World, new BlockPos(new Vec3(i2, k1, k2))) || block1.isLeaves(par1World, new BlockPos(new Vec3(i2, k1, k2))))
+                                    if (block1.isAir(par1World.getBlockState(new BlockPos(new Vec3d(i2, k1, k2))), par1World, new BlockPos(new Vec3d(i2, k1, k2))) || block1.isLeaves(par1World.getBlockState(new BlockPos(new Vec3d(i2, k1, k2))), par1World, new BlockPos(new Vec3d(i2, k1, k2))))
                                     {                                    	
-                                        this.func_175905_a(par1World, new BlockPos(new Vec3(i2, k1, k2)), this.leaves, this.metaLeaves);	////////hmmm
+                                        this.setBlockAndNotifyAdequately(par1World, new BlockPos(new Vec3d(i2, k1, k2)), this.leaves.getDefaultState());	////////hmmm
                                     }
                                 }
                             }
@@ -154,30 +154,30 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
                     {
                         block = GetWorldBlock(par1World, par3, par4 + k1, par5);
 
-                        if (block.isAir(par1World, new BlockPos(new Vec3(par3, par4 + k1, par5))) || block.isLeaves(par1World,new BlockPos(new Vec3(par3, par4 + k1, par5))))
+                        if (block.isAir(par1World.getBlockState(new BlockPos(new Vec3d(par3, par4 + k1, par5))), par1World, new BlockPos(new Vec3d(par3, par4 + k1, par5))) || block.isLeaves(par1World.getBlockState(new BlockPos(new Vec3d(par3, par4 + k1, par5))), par1World,new BlockPos(new Vec3d(par3, par4 + k1, par5))))
                         {
-                            this.func_175905_a(par1World, new BlockPos(new Vec3(par3, par4 + k1, par5)), this.wood, this.metaWood);
+                            this.setBlockAndNotifyAdequately(par1World, new BlockPos(new Vec3d(par3, par4 + k1, par5)), this.wood.getDefaultState());
 
                             if (this.vinesGrow && k1 > 0)
                             {
-                                if (par2Random.nextInt(3) > 0 && par1World.isAirBlock(new BlockPos(new Vec3(par3 - 1, par4 + k1, par5))))
+                                if (par2Random.nextInt(3) > 0 && par1World.isAirBlock(new BlockPos(new Vec3d(par3 - 1, par4 + k1, par5))))
                                 {
-                                    this.func_175905_a(par1World, new BlockPos(new Vec3(par3 - 1, par4 + k1, par5)), Blocks.vine, 8);
+                                    this.setBlockAndNotifyAdequately(par1World, new BlockPos(new Vec3d(par3 - 1, par4 + k1, par5)), Blocks.VINE.getDefaultState());
                                 }
 
-                                if (par2Random.nextInt(3) > 0 && par1World.isAirBlock(new BlockPos(new Vec3(par3 + 1, par4 + k1, par5))))
+                                if (par2Random.nextInt(3) > 0 && par1World.isAirBlock(new BlockPos(new Vec3d(par3 + 1, par4 + k1, par5))))
                                 {
-                                    this.func_175905_a(par1World, new BlockPos(new Vec3(par3 + 1, par4 + k1, par5)), Blocks.vine, 2);
+                                    this.setBlockAndNotifyAdequately(par1World, new BlockPos(new Vec3d(par3 + 1, par4 + k1, par5)), Blocks.VINE.getDefaultState());
                                 }
 
-                                if (par2Random.nextInt(3) > 0 && par1World.isAirBlock(new BlockPos(new Vec3(par3, par4 + k1, par5 - 1))))
+                                if (par2Random.nextInt(3) > 0 && par1World.isAirBlock(new BlockPos(new Vec3d(par3, par4 + k1, par5 - 1))))
                                 {
-                                    this.func_175905_a(par1World, new BlockPos(new Vec3(par3, par4 + k1, par5 - 1)), Blocks.vine, 1);
+                                    this.setBlockAndNotifyAdequately(par1World, new BlockPos(new Vec3d(par3, par4 + k1, par5 - 1)), Blocks.VINE.getDefaultState());
                                 }
 
-                                if (par2Random.nextInt(3) > 0 && par1World.isAirBlock(new BlockPos(new Vec3(par3, par4 + k1, par5 + 1))))
+                                if (par2Random.nextInt(3) > 0 && par1World.isAirBlock(new BlockPos(new Vec3d(par3, par4 + k1, par5 + 1))))
                                 {
-                                    this.func_175905_a(par1World, new BlockPos(new Vec3(par3, par4 + k1, par5 + 1)), Blocks.vine, 4);
+                                    this.setBlockAndNotifyAdequately(par1World, new BlockPos(new Vec3d(par3, par4 + k1, par5 + 1)), Blocks.VINE.getDefaultState());
                                 }
                             }
                         }
@@ -198,7 +198,7 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
 
                             if (fruit.isAir(par1World, (par3 - 2) + f1, par4 + f2, (par5 - 2) + f3) && GetWorldBlock(par1World, (par3 - 2) + f1, par4 + (f2 + 1), (par5 - 2) + f3).isLeaves(par1World, (par3 - 2) + f1, par4 + (f2 + 1), (par5 - 2) + f3))
                             {
-                            	this.func_175905_a(par1World, (par3 - 2) + f1, par4 + f2, (par5 - 2) + f3, CookingPlusMain.blockSalt, this.metaFruit);
+                            	this.setBlockAndNotifyAdequately(par1World, (par3 - 2) + f1, par4 + f2, (par5 - 2) + f3, CookingPlusMain.blockSalt, this.metaFruit);
                             }
                     	}
                     }*/
@@ -214,24 +214,24 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
                             {
                                 for (j2 = par5 - l1; j2 <= par5 + l1; ++j2)
                                 {
-                                    if (GetWorldBlock(par1World, i2, k1, j2).isLeaves(par1World, new BlockPos(new Vec3(i2, k1, j2))))
+                                    if (GetWorldBlock(par1World, i2, k1, j2).isLeaves(par1World.getBlockState(new BlockPos(new Vec3d(i2, k1, j2))), par1World, new BlockPos(new Vec3d(i2, k1, j2))))
                                     {
-                                        if (par2Random.nextInt(4) == 0 && GetWorldBlock(par1World, i2 - 1, k1, j2).isAir(par1World, new BlockPos(new Vec3(i2 - 1, k1, j2))))
+                                        if (par2Random.nextInt(4) == 0 && GetWorldBlock(par1World, i2 - 1, k1, j2).isAir(par1World.getBlockState(new BlockPos(new Vec3d(i2 - 1, k1, j2))), par1World, new BlockPos(new Vec3d(i2 - 1, k1, j2))))
                                         {
                                             this.growVines(par1World, i2 - 1, k1, j2, 8);
                                         }
 
-                                        if (par2Random.nextInt(4) == 0 && GetWorldBlock(par1World, i2 + 1, k1, j2).isAir(par1World, new BlockPos(new Vec3(i2 + 1, k1, j2))))
+                                        if (par2Random.nextInt(4) == 0 && GetWorldBlock(par1World, i2 + 1, k1, j2).isAir(par1World.getBlockState(new BlockPos(new Vec3d(i2 + 1, k1, j2))), par1World, new BlockPos(new Vec3d(i2 + 1, k1, j2))))
                                         {
                                             this.growVines(par1World, i2 + 1, k1, j2, 2);
                                         }
 
-                                        if (par2Random.nextInt(4) == 0 && GetWorldBlock(par1World, i2, k1, j2 - 1).isAir(par1World, new BlockPos(new Vec3(i2, k1, j2 - 1))))
+                                        if (par2Random.nextInt(4) == 0 && GetWorldBlock(par1World, i2, k1, j2 - 1).isAir(par1World.getBlockState(new BlockPos(new Vec3d(i2, k1, j2 - 1))), par1World, new BlockPos(new Vec3d(i2, k1, j2 - 1))))
                                         {
                                             this.growVines(par1World, i2, k1, j2 - 1, 1);
                                         }
 
-                                        if (par2Random.nextInt(4) == 0 && GetWorldBlock(par1World, i2, k1, j2 + 1).isAir(par1World, new BlockPos(new Vec3(i2, k1, j2 + 1))))
+                                        if (par2Random.nextInt(4) == 0 && GetWorldBlock(par1World, i2, k1, j2 + 1).isAir(par1World.getBlockState(new BlockPos(new Vec3d(i2, k1, j2 + 1))), par1World, new BlockPos(new Vec3d(i2, k1, j2 + 1))))
                                         {
                                             this.growVines(par1World, i2, k1, j2  + 1, 4);
                                         }
@@ -249,7 +249,7 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
                                     if (par2Random.nextInt(4 - k1) == 0)
                                     {
                                         l1 = par2Random.nextInt(3);
-                                        //this.func_175905_a(par1World, par3 + Direction.offsetX[Direction.rotateOpposite[i3]], par4 + l - 5 + k1, par5 + Direction.offsetZ[Direction.rotateOpposite[i3]], Blocks.cocoa, l1 << 2 | i3);
+                                        //this.setBlockAndNotifyAdequately(par1World, par3 + Direction.offsetX[Direction.rotateOpposite[i3]], par4 + l - 5 + k1, par5 + Direction.offsetZ[Direction.rotateOpposite[i3]], Blocks.cocoa, l1 << 2 | i3);
                                     }
                                 }
                             }
@@ -273,7 +273,7 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
 	private void growVines(World world, int x, int y, int z, int flag)
 	{
 		//TODO:	setBlockAndMetadata()
-		this.func_175905_a(world, new BlockPos(new Vec3(x, y, z)), Blocks.vine, 4);
+		this.setBlockAndNotifyAdequately(world, new BlockPos(new Vec3d(x, y, z)), Blocks.VINE.getDefaultState());
 		int i1 = 4;
 
 		while (true)
@@ -281,26 +281,26 @@ public class CookingPlusGenOriginalTree extends WorldGenAbstractTree
 			--y;
 
 			//TODO:		getBlock()
-			if (GetWorldBlock(world, x, y, z).isAir(world, new BlockPos(new Vec3(x, y, z))) || i1 <= 0)
+			if (GetWorldBlock(world, x, y, z).isAir(world.getBlockState(new BlockPos(new Vec3d(x, y, z))), world, new BlockPos(new Vec3d(x, y, z))) || i1 <= 0)
 			{
 				return;
 			}
 
 			//TODO:	setBlockAndMetadata()
-			this.func_175905_a(world, new BlockPos(new Vec3(x, y, z)), Blocks.vine, 4);
+			this.setBlockAndNotifyAdequately(world, new BlockPos(new Vec3d(x, y, z)), Blocks.VINE.getDefaultState());
 			--i1;
 		}
 	}
 	
 	private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-		myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+		myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 	}
 	
 	private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta){
-		myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+		myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 	}
 	
 	private Block GetWorldBlock(World myWorld, int x, int y, int z){
-		return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+		return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 	}
 }

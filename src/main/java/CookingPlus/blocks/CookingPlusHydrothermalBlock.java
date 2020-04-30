@@ -3,15 +3,14 @@ package CookingPlus.blocks;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import CookingPlus.CookingPlusMain;
 
@@ -20,33 +19,33 @@ public class CookingPlusHydrothermalBlock extends CookingPlusCustomBlock{
 	private final String name = "hydrothermalvein";
 	
 	public CookingPlusHydrothermalBlock() {
-		super(Material.sand);
+		super(Material.SAND);
 		GameRegistry.registerBlock(this, name);
 		this.setUnlocalizedName("hydrothermalvein");
 		this.setHardness(1.0F);
 		this.setResistance(1.0F);
 		this.setHarvestLevel("shovel", 0);
-		this.setStepSound(soundTypeGravel);
+		this.setSoundType(SoundType.SAND);
 	}
 	
 	@Override
 	public Item getItemDropped(IBlockState state, Random random, int fortune) {
 		int which = random.nextInt(100);
 	    if(which > 97){
-	    	return Items.diamond;
+	    	return Items.DIAMOND;
 	    }
 	    else if(which > 77 && which <= 97){
-	    	return Items.redstone;
+	    	return Items.REDSTONE;
 	    }
 	    else if(which > 57 && which <= 77){
 	    	return CookingPlusMain.silicondust;
 	    }
 	    else{
 	    	if(random.nextInt(2) == 0){
-	    		return Items.coal;
+	    		return Items.COAL;
 	    	}
 	    	else{
-	    		return Items.flint;
+	    		return Items.FLINT;
 	    	}
 	    }
 	}

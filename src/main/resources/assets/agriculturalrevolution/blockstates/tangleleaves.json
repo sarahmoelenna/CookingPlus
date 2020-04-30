@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:tangleleaves" },
+		"check_decay=false,decayable=false": { "model": "agriculturalrevolution:tangleleaves" },
+		"check_decay=true,decayable=false": { "model": "agriculturalrevolution:tangleleaves" },
+		"check_decay=true,decayable=true": { "model": "agriculturalrevolution:tangleleaves" },
+		"check_decay=false,decayable=true": { "model": "agriculturalrevolution:tangleleaves" }
+	}
+}

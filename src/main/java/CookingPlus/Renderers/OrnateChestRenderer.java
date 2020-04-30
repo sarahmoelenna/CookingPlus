@@ -1,22 +1,17 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusBrickOven;
-import CookingPlus.models.CookingPlusFermenter;
-import CookingPlus.models.CookingPlusOrnateChest;
-import CookingPlus.models.CookingPlusTeapot;
-import CookingPlus.tiles.BrickOvenTileEntity;
-import CookingPlus.tiles.FermenterTileEntity;
-import CookingPlus.tiles.OrnateChestTileEntity;
-import CookingPlus.tiles.TeapotTileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusOrnateChest;
+import CookingPlus.tiles.OrnateChestTileEntity;
+
 public class OrnateChestRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/chestmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/chestmap.png");
 	
 	private CookingPlusOrnateChest model;
 	
@@ -35,6 +30,7 @@ public class OrnateChestRenderer extends TileEntitySpecialRenderer {
 		//System.out.println(MyOven.getDirection());
 		//System.out.println(MyOven.getDirection());
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven != null){
 		if(MyOven.getDirection() == 3){
 			GL11.glRotatef(270, 0, 1, 0);
 		}
@@ -46,6 +42,7 @@ public class OrnateChestRenderer extends TileEntitySpecialRenderer {
 		}
 		else if(MyOven.getDirection() == 5){
 			GL11.glRotatef(180, 0, 1, 0);
+		}
 		}
 		
 		this.bindTexture(texture);

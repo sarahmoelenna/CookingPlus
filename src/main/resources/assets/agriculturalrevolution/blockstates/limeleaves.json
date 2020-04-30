@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:limeleaves" },
+		"check_decay=false,decayable=false": { "model": "agriculturalrevolution:limeleaves" },
+		"check_decay=true,decayable=false": { "model": "agriculturalrevolution:limeleaves" },
+		"check_decay=true,decayable=true": { "model": "agriculturalrevolution:limeleaves" },
+		"check_decay=false,decayable=true": { "model": "agriculturalrevolution:limeleaves" }
+	}
+}

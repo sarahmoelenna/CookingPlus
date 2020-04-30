@@ -2,27 +2,26 @@ package CookingPlus.prebuiltstructures;
 
 import java.util.Random;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.generation.CookingPlusWorldGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.generation.CookingPlusWorldGen;
 
 public class CookingPlusPrebuiltFarmhouse extends CookingPlusPreBuiltStructure {
 
-	Block BuildingBlock = Blocks.brick_block;
-	IBlockState LogBlock = Blocks.log.getDefaultState();
-	IBlockState FloorBlock = Blocks.planks.getDefaultState();
-	Block StairBlock = Blocks.birch_stairs;
-	IBlockState SlabBlock = Blocks.wooden_slab.getDefaultState();
+	Block BuildingBlock = Blocks.BRICK_BLOCK;
+	IBlockState LogBlock = Blocks.LOG.getDefaultState();
+	IBlockState FloorBlock = Blocks.PLANKS.getDefaultState();
+	Block StairBlock = Blocks.BIRCH_STAIRS;
+	IBlockState SlabBlock = Blocks.WOODEN_SLAB.getDefaultState();
 	
 	public CookingPlusPrebuiltFarmhouse() {
 		super(7, 7, 11);
@@ -30,10 +29,10 @@ public class CookingPlusPrebuiltFarmhouse extends CookingPlusPreBuiltStructure {
 		Random myRand = new Random();
 		int myNum = myRand.nextInt(3);
 		if(myNum == 0){
-			BuildingBlock = Blocks.brick_block;
+			BuildingBlock = Blocks.BRICK_BLOCK;
 		}
 		else if(myNum == 1){
-			BuildingBlock = Blocks.stonebrick;
+			BuildingBlock = Blocks.STONEBRICK;
 		}
 		else if(myNum == 2){
 			BuildingBlock = CookingPlusMain.blockBasaltSmooth;
@@ -41,38 +40,49 @@ public class CookingPlusPrebuiltFarmhouse extends CookingPlusPreBuiltStructure {
 		
 		myNum = myRand.nextInt(3);
 		if(myNum == 0){
-			LogBlock = Blocks.log2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA);
-			FloorBlock = Blocks.planks.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA);
+			//System.out.print("Acacia Log");
+			LogBlock = Blocks.LOG2.getDefaultState();
+			//LogBlock = Blocks.LOG2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA);
+			FloorBlock = Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA);
 		}
 		else if(myNum == 1){
-			LogBlock = Blocks.log.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK);
-			FloorBlock = Blocks.planks.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK);
+			//System.out.print("Oak Log");
+			LogBlock = Blocks.LOG.getDefaultState();
+			//LogBlock = Blocks.LOG.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK);
+			FloorBlock = Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK);
 		}
 		else if(myNum == 2){
-			LogBlock = Blocks.log.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE);
-			FloorBlock = Blocks.planks.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE);
+			//System.out.print("Spruce Log");
+			LogBlock = Blocks.LOG.getDefaultState();
+			//LogBlock = Blocks.LOG.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE);
+			FloorBlock = Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE);
 		}
 		
 		myNum = myRand.nextInt(5);
 		if(myNum == 0){
-			SlabBlock = Blocks.wooden_slab.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA);
-			StairBlock = Blocks.acacia_stairs;
+			//System.out.print("Acacia Stairs");
+			SlabBlock = Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA);
+			StairBlock = Blocks.ACACIA_STAIRS;
 		}
 		else if(myNum == 1){
-			SlabBlock = Blocks.wooden_slab.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK);
-			StairBlock = Blocks.oak_stairs;
+			//System.out.print("Oak Stairs");
+			SlabBlock = Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK);
+			StairBlock = Blocks.OAK_STAIRS;
 		}
 		else if(myNum == 2){
-			SlabBlock = Blocks.wooden_slab.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE);
-			StairBlock = Blocks.spruce_stairs;
+			//System.out.print("Spruce Stairs");
+			SlabBlock = Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE);
+			StairBlock = Blocks.SPRUCE_STAIRS;
 		}
 		else if(myNum == 3){
-			SlabBlock = Blocks.wooden_slab.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH);
-			StairBlock = Blocks.birch_stairs;
+			//System.out.print("Birch Stairs");
+			SlabBlock = Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH);
+			StairBlock = Blocks.BIRCH_STAIRS;
 		}
 		else if(myNum == 4){
-			SlabBlock = Blocks.wooden_slab.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK);
-			StairBlock = Blocks.dark_oak_stairs;
+			//System.out.print("Dark Oak Stairs");
+			SlabBlock = Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK);
+			StairBlock = Blocks.DARK_OAK_STAIRS;
 		}
 		 
 		//floor
@@ -312,7 +322,7 @@ public class CookingPlusPrebuiltFarmhouse extends CookingPlusPreBuiltStructure {
 		} else if (this.MyStructureArray[i][j][k] == 2) {
 			worldIn.setBlockState(myPos, FloorBlock);
 		} else if (this.MyStructureArray[i][j][k] == 3) {
-			worldIn.setBlockState(myPos, Blocks.glass_pane.getDefaultState());
+			worldIn.setBlockState(myPos, Blocks.GLASS_PANE.getDefaultState());
 		} else if (this.MyStructureArray[i][j][k] == 8) {
 			if(rotation == 1){
 				worldIn.setBlockState(myPos, StairBlock.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST));
@@ -351,8 +361,8 @@ public class CookingPlusPrebuiltFarmhouse extends CookingPlusPreBuiltStructure {
 			Boolean Done = false;
 			for(int y = myPos.getY() - 1; y > 0 && Done == false; y--){
 				BlockPos myCheckPos = new BlockPos(myPos.getX(), y, myPos.getZ());
-				Material myMat = worldIn.getBlockState(myCheckPos).getBlock().getMaterial();
-				if(myMat == Material.air || myMat == Material.plants || myMat == Material.lava || myMat == Material.water || myMat == Material.grass){
+				Material myMat = worldIn.getBlockState(myCheckPos).getBlock().getMaterial(worldIn.getBlockState(myCheckPos));
+				if(myMat == Material.AIR || myMat == Material.PLANTS || myMat == Material.LAVA || myMat == Material.WATER || myMat == Material.GRASS){
 					worldIn.setBlockState(myCheckPos, BuildingBlock.getDefaultState());
 				}
 				else{
@@ -364,16 +374,16 @@ public class CookingPlusPrebuiltFarmhouse extends CookingPlusPreBuiltStructure {
 
 	public void GenChest(World worldIn, Random random, BlockPos myPos, int rotation) {
 		if(rotation == 1){
-			worldIn.setBlockState(myPos, Blocks.chest.getDefaultState().withProperty(Blocks.chest.FACING, EnumFacing.WEST));
+			worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, EnumFacing.WEST));
 		}
 		else if(rotation == 2){
-			worldIn.setBlockState(myPos, Blocks.chest.getDefaultState().withProperty(Blocks.chest.FACING, EnumFacing.NORTH));
+			worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, EnumFacing.NORTH));
 		}
 		else if(rotation == 3){
-			worldIn.setBlockState(myPos, Blocks.chest.getDefaultState().withProperty(Blocks.chest.FACING, EnumFacing.SOUTH));
+			worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, EnumFacing.SOUTH));
 		}
 		else if(rotation == 4){
-			worldIn.setBlockState(myPos, Blocks.chest.getDefaultState().withProperty(Blocks.chest.FACING, EnumFacing.EAST));
+			worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, EnumFacing.EAST));
 		}
 		
 		CookingPlusWorldGen.FillFarmerChest((TileEntityChest)worldIn.getTileEntity(myPos), random);

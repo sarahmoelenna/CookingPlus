@@ -1,12 +1,11 @@
 package CookingPlus.Dimension;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CellularAutomationIslands {
@@ -303,8 +302,8 @@ public class CellularAutomationIslands {
 			for(int j = 0; j < h; j++){
 				for(int k = 0; k < l; k++){
 					if(IslandArray[i][j][k] == 1){
-						if(currentWorld.getBlockState(new BlockPos(i + x, j + y, k + z)).getBlock().getMaterial() == Material.air){
-							myWorld.setBlockState(new BlockPos(i + x, j + y, k + z), Blocks.stone.getDefaultState());
+						if(currentWorld.getBlockState(new BlockPos(i + x, j + y, k + z)).getBlock().getMaterial(currentWorld.getBlockState(new BlockPos(i + x, j + y, k + z))) == Material.AIR){
+							myWorld.setBlockState(new BlockPos(i + x, j + y, k + z), Blocks.STONE.getDefaultState());
 						}
 					}
 				}

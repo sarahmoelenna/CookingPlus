@@ -1,7 +1,5 @@
 package CookingPlus.Renderers;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +12,7 @@ import CookingPlus.tiles.UnfiredFryingPanTileEntity;
 
 public class UnfiredFryingPanRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/unfiredfryingpanmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/unfiredfryingpanmap.png");
 	EntityItem entItem;
 	
 	private CookingPlusFryingPan model;
@@ -35,6 +33,7 @@ public class UnfiredFryingPanRenderer extends TileEntitySpecialRenderer {
 		//System.out.println(MyOven.getDirection());
 		//System.out.println(MyOven.getDirection());
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven != null){
 		if(MyOven.getDirection() == 3){
 			GL11.glRotatef(0, 0, 1, 0);
 		}
@@ -46,6 +45,7 @@ public class UnfiredFryingPanRenderer extends TileEntitySpecialRenderer {
 		}
 		else if(MyOven.getDirection() == 5){
 			GL11.glRotatef(270, 0, 1, 0);
+		}
 		}
 		
 		this.bindTexture(texture);

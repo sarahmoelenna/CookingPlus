@@ -2,6 +2,14 @@ package CookingPlus.generation;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeBeach;
+import net.minecraft.world.biome.BiomeOcean;
 import CookingPlus.CookingPlusConfig;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.blocks.CookingPlusCustomSpreadingCoral;
@@ -11,55 +19,52 @@ import CookingPlus.prebuiltstructures.CookingPlusPreBuiltSphereCoral;
 import CookingPlus.prebuiltstructures.CookingPlusPreBuiltSpikyCoral;
 import CookingPlus.prebuiltstructures.CookingPlusPreBuiltStructure;
 import CookingPlus.prebuiltstructures.CookingPlusUnderwaterTempleStructure;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.gen.feature.WorldGenSand;
-import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class CookingPlusUnderwaterGen {
 
 	static void GenerateUnderwaterStructures(World worldIn, Random randIn,int ChunkX, int ChunkZ) {
 
 		
-		BiomeGenBase biome = worldIn.getBiomeGenForCoords(new BlockPos(new Vec3(ChunkX * 16 + 8, 0, ChunkZ * 16 + 8)));
-		if (biome.biomeID == 0 || biome.biomeID == 24 || biome.biomeID == 16) {
+		Biome biome = worldIn.getBiomeGenForCoords(new BlockPos(new Vec3d(ChunkX * 16 + 8, 0, ChunkZ * 16 + 8)));
+		if(biome instanceof BiomeOcean || biome instanceof BiomeBeach)
+		{
 			for (int x = 0; x < 16; x++) {
 				for (int z = 0; z < 16; z++) {
-					if (randIn.nextInt(CookingPlusConfig.SeaweedSpawnRate) == 0 && CookingPlusConfig.SeaweedSpawnRate != 0) {
+					if (CookingPlusConfig.SeaweedSpawnRate != 0) {
+					if (randIn.nextInt(CookingPlusConfig.SeaweedSpawnRate) == 0 ) {
 						if (randIn.nextInt(50) > 48){
-							int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
+							int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
 							GenerateUnderwaterGrowingPlant(worldIn, ChunkX * 16+ x, y, ChunkZ * 16 + z, randIn, 2, 5, CookingPlusMain.blockKelpCrop);
 						}
 						else{
-							int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
+							int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
 							GenerateUnderwaterGrowingPlant(worldIn, ChunkX * 16+ x, y, ChunkZ * 16 + z, randIn, 2, 5, CookingPlusMain.blockSeaweedCrop);
 						}
+					}
 					}
 				}
 			}
 		}
 		
 		
-		if (biome.biomeID == CookingPlusConfig.KelpForestID) {
-			//System.out.println("kelp forest");
-			
+		//if (biome.biomeID == CookingPlusConfig.KelpForestID)
+		if (biome instanceof CookingPlusKelpForestBiome)
+		{
 			 int mx = ChunkX * 16 + randIn.nextInt(16);
 	         int mz = ChunkZ * 16 + randIn.nextInt(16);
-	         int my = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(mx, 0, mz))).getY();
+	         int my = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(mx, 0, mz))).getY();
 			
-			if(randIn.nextInt(CookingPlusConfig.TempleSpawnRate) == 0 && CookingPlusConfig.TempleSpawnRate != 0){
+	        if(CookingPlusConfig.TempleSpawnRate != 0){
+			if(randIn.nextInt(CookingPlusConfig.TempleSpawnRate) == 0){
         	 	CookingPlusPreBuiltStructure myTempStructure = new CookingPlusUnderwaterTempleStructure();
             	myTempStructure.Generate(worldIn, mx, my + 1, mz, true, 0, randIn);
         	}
+	        }
 			
 			for (int x = 0; x < 16; x++) {
 				for (int z = 0; z < 16; z++) {
 					if (randIn.nextInt(2) == 0) {
-						int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
+						int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
 						GenerateUnderwaterGrowingPlant(worldIn, ChunkX * 16+ x, y, ChunkZ * 16 + z, randIn, 2, 5, CookingPlusMain.blockKelpCrop);
 					}
 				}
@@ -67,29 +72,38 @@ public class CookingPlusUnderwaterGen {
 			
 			 int x = ChunkX * 16 + randIn.nextInt(16);
 	         int z = ChunkZ * 16 + randIn.nextInt(16);
-	         int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(x, 0,z))).getY();
-	            
-	         if(randIn.nextInt(CookingPlusConfig.ShipWreckSpawnRate) == 0  && CookingPlusConfig.ShipWreckSpawnRate != 0){
+	         int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(x, 0,z))).getY();
+	         
+	         if(CookingPlusConfig.ShipWreckSpawnRate != 0){
+	         if(randIn.nextInt(CookingPlusConfig.ShipWreckSpawnRate) == 0){
 	        	 if(y < 62 - 9){
 	            	CookingPlusPreBuiltStructure myTempStructure = new CookingPlusPreBuiltShipFront();
 	            	myTempStructure.Generate(worldIn, x, y, z, true, 0, randIn);
 	        	 }
 	         }
+	         }
 		}
 		
-		if (biome.biomeID == CookingPlusConfig.CoralReefID) {
+		//if (biome.biomeID == CookingPlusConfig.CoralReefID) 
+		if(biome instanceof CookingPlusCoralReefBiome)
+		{
 			int x = ChunkX * 16 + randIn.nextInt(16);
             int z = ChunkZ * 16 + randIn.nextInt(16);
-            int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(x, 0,z))).getY();
+            int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(x, 0,z))).getY();
             
             if(randIn.nextInt(4) == 0){
             	
-            	if(randIn.nextInt(CookingPlusConfig.TempleSpawnRate) == 0 && CookingPlusConfig.TempleSpawnRate != 0){
-                	CookingPlusPreBuiltStructure myTempStructure = new CookingPlusUnderwaterTempleStructure();
-                	myTempStructure.Generate(worldIn, x, y + 1, z, true, 0, randIn);
+            	if(CookingPlusConfig.TempleSpawnRate != 0){
+            		if(randIn.nextInt(CookingPlusConfig.TempleSpawnRate) == 0 ){
+            			CookingPlusPreBuiltStructure myTempStructure = new CookingPlusUnderwaterTempleStructure();
+                		myTempStructure.Generate(worldIn, x, y + 1, z, true, 0, randIn);
+            		}
+            		else{
+            			GeneratePatch(worldIn, randIn, new BlockPos(new Vec3d(x, y, z)), 20, CookingPlusMain.blockCoralRock);
+            		}
             	}
             	else{
-            		GeneratePatch(worldIn, randIn, new BlockPos(new Vec3(x, y, z)), 20, CookingPlusMain.blockCoralRock);
+            		GeneratePatch(worldIn, randIn, new BlockPos(new Vec3d(x, y, z)), 20, CookingPlusMain.blockCoralRock);
             	}
             	
             }
@@ -99,27 +113,36 @@ public class CookingPlusUnderwaterGen {
             
             x = ChunkX * 16 + randIn.nextInt(16);
             z = ChunkZ * 16 + randIn.nextInt(16);
-            y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(x, 0,z))).getY();
+            y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(x, 0,z))).getY();
             
-            if(randIn.nextInt(CookingPlusConfig.ShipWreckSpawnRate) == 0  && CookingPlusConfig.ShipWreckSpawnRate != 0){
+            if(CookingPlusConfig.ShipWreckSpawnRate != 0){
+            if(randIn.nextInt(CookingPlusConfig.ShipWreckSpawnRate) == 0){
             	if(y < 62 - 9){
             		CookingPlusPreBuiltStructure myTempStructure = new CookingPlusPreBuiltShipFront();
             		myTempStructure.Generate(worldIn, x, y, z, true, 0, randIn);
             	}
             }
+            }
             
             AddCoral(worldIn, randIn, ChunkX, ChunkZ);
 		}
 		
-		if (biome.biomeID == CookingPlusConfig.DeepReefID) {
+		//if (biome.biomeID == CookingPlusConfig.DeepReefID) 
+		if(biome instanceof CookingPlusDeepReefBiome)
+		{
 			
 			int x = ChunkX * 16 + randIn.nextInt(16);
             int z = ChunkZ * 16 + randIn.nextInt(16);
-            int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(x, 0,z))).getY();
+            int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(x, 0,z))).getY();
 			
-            		 GeneratePatch(worldIn, randIn, new BlockPos(new Vec3(x, y, z)), 20, CookingPlusMain.blockCoralRock);
-            		 if(randIn.nextInt(CookingPlusConfig.UnderwaterVentSpawnRate) == 0 && CookingPlusConfig.UnderwaterVentSpawnRate != 0){
+            		 GeneratePatch(worldIn, randIn, new BlockPos(new Vec3d(x, y, z)), 20, CookingPlusMain.blockCoralRock);
+            		 if(CookingPlusConfig.UnderwaterVentSpawnRate != 0){
+            		 if(randIn.nextInt(CookingPlusConfig.UnderwaterVentSpawnRate) == 0){
             			 GenerateVent(worldIn, x, y, z, randIn);
+            		 }
+            		 else{
+            			 AddGiantCorals(CookingPlusConfig.GiantCoralDensity, ChunkX, ChunkZ, worldIn, randIn);
+            		 }
             		 }
             		 else{
             			 AddGiantCorals(CookingPlusConfig.GiantCoralDensity, ChunkX, ChunkZ, worldIn, randIn);
@@ -132,39 +155,36 @@ public class CookingPlusUnderwaterGen {
 
 	static void GenerateUnderwaterGrowingPlant(World worldIn, int x, int y, int z, Random randIn, int min, int max, Block myBlock){
 			
-		if(myBlock.canPlaceBlockAt(worldIn, new BlockPos(new Vec3(x, y, z)))){
+		if(myBlock.canPlaceBlockAt(worldIn, new BlockPos(new Vec3d(x, y, z)))){
 			
 			int Height = randIn.nextInt(max - min) + min;
 			
 			for(int i = 0; i< Height; i++){
-				if(myBlock.canPlaceBlockAt(worldIn, new BlockPos(new Vec3(x, y + i, z)))){
-					worldIn.setBlockState(new BlockPos(new Vec3(x, y + i, z)),myBlock.getDefaultState());
+				if(myBlock.canPlaceBlockAt(worldIn, new BlockPos(new Vec3d(x, y + i, z)))){
+					worldIn.setBlockState(new BlockPos(new Vec3d(x, y + i, z)),myBlock.getDefaultState());
 				}
 			}
 		}
 	}
 	
 	static void GenerateCoralReef(World worldIn, int x, int y, int z, Random randIn, int min, int max, Block myBlock, Block BaseBlock, int heightBelowSea){
-		//int prevWidthX = randIn.nextInt(5) + 3;
-		//int prevWidthZ = randIn.nextInt(5) + 3;
-		
-		GeneratePatch(worldIn, randIn, new BlockPos(new Vec3(x, y, z)), 20, BaseBlock);
+		GeneratePatch(worldIn, randIn, new BlockPos(new Vec3d(x, y, z)), 20, BaseBlock);
 		
 		float prevWidthX = 6;
 		float prevWidthZ = 4;
 		
-		boolean SizeState = false; //false = grow
+		boolean SizeState = false;
 		
 		for(int myY = 0; myY < max; myY++){
 			
-			if(worldIn.getBlockState(new BlockPos(new Vec3(x, y + myY + 2 + heightBelowSea, z))).getBlock() == Blocks.water){
+			if(worldIn.getBlockState(new BlockPos(new Vec3d(x, y + myY + 2 + heightBelowSea, z))).getBlock() == Blocks.WATER){
 			
 				for(int myX = -7; myX <7; myX++){	
 					for(int myZ = -7; myZ < 7; myZ++){
 						if(((myX/(prevWidthX))*(myX/(prevWidthX)))+((myZ/(prevWidthZ))*(myZ/(prevWidthZ)))<=2){
-							worldIn.setBlockState(new BlockPos(new Vec3(x + myX, y + myY, z + myZ)),myBlock.getDefaultState());
+							worldIn.setBlockState(new BlockPos(new Vec3d(x + myX, y + myY, z + myZ)),myBlock.getDefaultState());
 							if(randIn.nextInt(3) == 0){
-								AddCoralBlock(worldIn, getCoralBlock(randIn), new BlockPos(new Vec3(x + myX, y + myY + 1, z + myZ)));
+								AddCoralBlock(worldIn, getCoralBlock(randIn), new BlockPos(new Vec3d(x + myX, y + myY + 1, z + myZ)));
 							}
 						} 
 					}
@@ -223,10 +243,12 @@ public class CookingPlusUnderwaterGen {
                     for (int j1 = p_180709_3_.getY() - b0; j1 <= p_180709_3_.getY() + b0; ++j1)
                     {
                         BlockPos blockpos1 = new BlockPos(j, j1, k);
+                        if(worldIn.getChunkFromBlockCoords(blockpos1).isTerrainPopulated()){
                         Block block = worldIn.getBlockState(blockpos1).getBlock();
-                        if(blockpos1.getY() < 62){
-                        	if(block != Blocks.water && block != Blocks.air && (block instanceof CookingPlusCustomUnderwaterPlant) == false && (block == Blocks.sand || block == Blocks.dirt || block == Blocks.stone || block == Blocks.gravel || block == CookingPlusMain.blockCoralRock)){
-                        		worldIn.setBlockState(blockpos1, myBlock.getDefaultState(), 2);
+                        	if(blockpos1.getY() < 62){
+                        		if(block != Blocks.WATER && block != Blocks.AIR && (block instanceof CookingPlusCustomUnderwaterPlant) == false && (block == Blocks.SAND || block == Blocks.DIRT || block == Blocks.STONE || block == Blocks.GRAVEL || block == CookingPlusMain.blockCoralRock)){
+                        			worldIn.setBlockState(blockpos1, myBlock.getDefaultState(), 2);
+                        		}
                         	}
                         }
                     }
@@ -239,11 +261,10 @@ public class CookingPlusUnderwaterGen {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				if (randIn.nextInt(3) == 0) {
-					//System.out.println("spawn seaweed");
-					int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
+					int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(ChunkX * 16 + x, 0,ChunkZ * 16 + z))).getY();
 					Block CoralBlock = getCoralBlock(randIn);
-					if(((CookingPlusCustomSpreadingCoral) CoralBlock).canBlockStay(worldIn, new BlockPos(new Vec3(ChunkX * 16 + x, y,ChunkZ * 16 + z)))){
-						worldIn.setBlockState(new BlockPos(new Vec3(ChunkX * 16 + x, y,ChunkZ * 16 + z)), CoralBlock.getDefaultState());
+					if(((CookingPlusCustomSpreadingCoral) CoralBlock).canBlockStay(worldIn, new BlockPos(new Vec3d(ChunkX * 16 + x, y,ChunkZ * 16 + z)))){
+						worldIn.setBlockState(new BlockPos(new Vec3d(ChunkX * 16 + x, y,ChunkZ * 16 + z)), CoralBlock.getDefaultState());
 					}
 				}
 			}
@@ -286,7 +307,7 @@ public class CookingPlusUnderwaterGen {
 	boolean done = false;
 	int myY = y;
 	int layer = randIn.nextInt(12);
-	Block myFillingBlock = Blocks.lava;
+	Block myFillingBlock = Blocks.LAVA;
 	if(randIn.nextInt(2) == 0){
 		myFillingBlock = CookingPlusMain.blockHydrothermal;
 	}
@@ -294,290 +315,290 @@ public class CookingPlusUnderwaterGen {
 	while(done == false){
 		
 		if(layer < 4){
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 4, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 4, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 4, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 4, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 4, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 4, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 4)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 4)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 4)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 4)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 4)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 4)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 4, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 4, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 4, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 4, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 4, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 4, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 4)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 4)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 4)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 4)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 4)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 4)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
 		
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
 			
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 3)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 3)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 3)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 3)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 3)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 3)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z - 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z + 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z - 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 3)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 3)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 3)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 3)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 3)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 3)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z + 2)), myFillingBlock.getDefaultState());
 		}
 		
 		if(layer >= 4 && layer < 6){
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 4, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 4, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 4)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 4)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 4, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 4, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 4)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 4)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 3)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 3)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 3)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 3)), myFillingBlock.getDefaultState());
 		}
 		
 		if(layer >= 6 && layer < 10){
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 3, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 3, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 3, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 3, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 3)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 2)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 2)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 2)), myFillingBlock.getDefaultState());
 		}
 		
 		if(layer >= 10 && layer < 13){
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z )), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z )), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x , myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x , myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z )), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z )), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x , myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x , myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z)), myFillingBlock.getDefaultState());
 		}
 		
 		if(layer >= 13 && layer < 15){
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 2, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 2, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 2, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 2, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 2)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY + 1, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z + 1)), myFillingBlock.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z - 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z + 1)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z - 1)), myFillingBlock.getDefaultState());
 		}
 		
 		if(layer >= 15 && layer < 18){
-			worldIn.setBlockState(new BlockPos(new Vec3(x + 1, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x - 1, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x , myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
-			worldIn.setBlockState(new BlockPos(new Vec3(x , myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x + 1, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x - 1, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x , myY, z + 1)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x , myY, z - 1)), CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY + 1, z)),  CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY + 1, z)),  CookingPlusMain.blockBasalt.getDefaultState());
 			
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z)), myFillingBlock.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z)), myFillingBlock.getDefaultState());
 		}
 		
 		if(layer >= 18 && layer < 21){
-			worldIn.setBlockState(new BlockPos(new Vec3(x, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
+			worldIn.setBlockState(new BlockPos(new Vec3d(x, myY, z)), CookingPlusMain.blockBasalt.getDefaultState());
 		}
 		
 		
@@ -597,9 +618,9 @@ public class CookingPlusUnderwaterGen {
 		for(int i = 0; i < Attempts; i++){
 		int x = chunkX * 16 + randIn.nextInt(16);
         int z = chunkZ * 16 + randIn.nextInt(16);
-        int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3(x, 0, z))).getY();
+        int y = worldIn.getTopSolidOrLiquidBlock(new BlockPos(new Vec3d(x, 0, z))).getY();
 		
-		if(worldIn.getBlockState(new BlockPos(new Vec3(x, y - 1, z))).getBlock() == CookingPlusMain.blockCoralRock){
+		if(worldIn.getBlockState(new BlockPos(new Vec3d(x, y - 1, z))).getBlock() == CookingPlusMain.blockCoralRock){
 			 if(randIn.nextInt(3) == 0){
 				 CookingPlusPreBuiltStructure myTempStructure = new CookingPlusPreBuiltSphereCoral(GetRandomCoralBlock(randIn));
 				 myTempStructure.Generate(worldIn, x, y, z, true, 0, randIn);

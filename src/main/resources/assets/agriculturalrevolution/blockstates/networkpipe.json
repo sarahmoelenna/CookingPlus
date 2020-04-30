@@ -1,0 +1,52 @@
+{
+    "multipart": [
+        {   "when": { "north": true },
+            "apply": { "model": "agriculturalrevolution:network_pipe_side" }
+        },
+        {   "when": { "east": true },
+            "apply": { "model": "agriculturalrevolution:network_pipe_side", "y": 90, "uvlock": true }
+        },
+        {   "when": { "south": true },
+            "apply": { "model": "agriculturalrevolution:network_pipe_side", "y": 180, "uvlock": true }
+        },
+        {   "when": { "west": true },
+            "apply": { "model": "agriculturalrevolution:network_pipe_side", "y": 270, "uvlock": true }
+        },
+        {   "when": { "up": true },
+            "apply": { "model": "agriculturalrevolution:network_pipe_side", "x": 270, "uvlock": true }
+        },
+        {   "when": { "down": true },
+            "apply": { "model": "agriculturalrevolution:network_pipe_side", "x": 90, "uvlock": true }
+        },
+        {   "when": { "north": false },
+            "apply": [
+                { "model": "agriculturalrevolution:network_pipe_center"}
+            ]
+        },
+        {   "when": { "east": false },
+            "apply": [
+                { "model": "agriculturalrevolution:network_pipe_center"}
+            ]
+        },
+        {   "when": { "south": false },
+            "apply": [
+                { "model": "agriculturalrevolution:network_pipe_center"}
+            ]
+        },
+        {   "when": { "west": false },
+            "apply": [
+                { "model": "agriculturalrevolution:network_pipe_center"}
+            ]
+        },
+        {   "when": { "up": false },
+            "apply": [
+                { "model": "agriculturalrevolution:network_pipe_center"}
+            ]
+        },
+        {   "when": { "down": false },
+            "apply": [
+                { "model": "agriculturalrevolution:network_pipe_center"}
+            ]
+        }
+    ]
+}

@@ -1,10 +1,8 @@
 package CookingPlus.items.foods;
 
-import CookingPlus.items.CookingPlusCustomEdibleFood;
-import CookingPlus.items.CookingPlusCustomJuice;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomEdibleFood;
 
 public class CookingPlusPancake extends CookingPlusCustomEdibleFood
 {
@@ -16,7 +14,7 @@ public class CookingPlusPancake extends CookingPlusCustomEdibleFood
         super(3, 1F);	//change this
         GameRegistry.registerItem(this, name);
         setUnlocalizedName("pancake");
-        setCreativeTab(CreativeTabs.tabFood);
+        setCreativeTab(CreativeTabs.FOOD);
         setPotionEffect(32, 40, 5, 100);
     }
     

@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:battery_stage_5" },
+		"power_level=0": { "model": "agriculturalrevolution:battery_stage_0" },
+		"power_level=1": { "model": "agriculturalrevolution:battery_stage_1" },
+		"power_level=2": { "model": "agriculturalrevolution:battery_stage_2" },
+		"power_level=3": { "model": "agriculturalrevolution:battery_stage_3" },
+		"power_level=4": { "model": "agriculturalrevolution:battery_stage_4" },
+		"power_level=5": { "model": "agriculturalrevolution:battery_stage_5" },
+		"power_level=6": { "model": "agriculturalrevolution:battery_stage_6" },
+		"power_level=7": { "model": "agriculturalrevolution:battery_stage_7" },
+		"inventory": { "model": "agriculturalrevolution:battery_stage_5" }
+	}
+}

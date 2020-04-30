@@ -2,23 +2,21 @@ package CookingPlus.blocks;
 
 import java.util.Random;
 
-import CookingPlus.blocks.tileentity.CookingPlusGathererBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import CookingPlus.blocks.tileentity.CookingPlusGathererBlock;
 
 public class CookingPlusCustomUnderwaterCrop extends CookingPlusCustomUnderwaterPlant {
 
 public CookingPlusCustomUnderwaterCrop(){
 	super();
 	this.setTickRandomly(true);
-	this.setLightOpacity(Blocks.water.getLightOpacity());
+	this.setLightOpacity(Blocks.WATER.getLightOpacity(Blocks.WATER.getDefaultState()));
 }
 
 public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
@@ -33,7 +31,7 @@ public boolean canPlaceBlockAt(World world, BlockPos pos)
 }
 
 @Override
-public boolean isReplaceable(World world, BlockPos pos)
+public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos)
 {
    return false;
 }
@@ -42,7 +40,7 @@ public boolean isReplaceable(World world, BlockPos pos)
 public void updateTick(World myWorld, BlockPos myPos, IBlockState myState, Random myRand)
 {
 	if(myRand.nextInt(5) == 0){
-		if(myWorld.getBlockState(myPos.up()).getBlock() == Blocks.water){
+		if(myWorld.getBlockState(myPos.up()).getBlock() == Blocks.WATER){
 			if(canBlockStay(myWorld, myPos.up())){
 				myWorld.setBlockState(myPos.up(), GetCropBlock().getDefaultState());
 			}
@@ -50,7 +48,7 @@ public void updateTick(World myWorld, BlockPos myPos, IBlockState myState, Rando
 	}
 		
 		if(!canBlockStay(myWorld, myPos)){
-			myWorld.setBlockState(myPos, Blocks.water.getDefaultState());
+			myWorld.setBlockState(myPos, Blocks.WATER.getDefaultState());
 			this.dropBlockAsItem(myWorld, myPos, this.getDefaultState(), 0);
 		}
 }
@@ -65,9 +63,9 @@ public boolean isValidBlock(World world, BlockPos pos){
 	
 	Block myBlock = world.getBlockState(pos).getBlock();
 	//System.out.println(myBlock.getUnlocalizedName());
-	if(myBlock == Blocks.water)
+	if(myBlock == Blocks.WATER)
 	{
-		//System.out.println("water");
+		//System.out.println("WATER");
 		return true;
 	}
 	else if(myBlock instanceof CookingPlusCustomUnderwaterPlant)
@@ -104,7 +102,7 @@ public boolean isValidDown(World world, BlockPos pos){
 
 public boolean isValidTop(World world, BlockPos pos){
 	Block myBlock = world.getBlockState(pos).getBlock();
-	if(myBlock == Blocks.water){
+	if(myBlock == Blocks.WATER){
 		return true;
 	}
 	else if(myBlock == GetCropBlock()){
@@ -113,13 +111,14 @@ public boolean isValidTop(World world, BlockPos pos){
 	return false;
 }
 
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock)
 	{
 		if(!isValidDown(worldIn, pos.down())){
-			worldIn.setBlockState(pos, Blocks.water.getDefaultState());
+			worldIn.setBlockState(pos, Blocks.WATER.getDefaultState());
 			this.dropBlockAsItem(worldIn, pos, this.getDefaultState(), 0);
 		}
 	}
+	
 
 
 }

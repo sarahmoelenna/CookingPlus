@@ -1,7 +1,5 @@
 package CookingPlus.items;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -12,7 +10,7 @@ public class CookingPlusCupcakeTraySponge extends CookingPlusCustomItem {
 	public CookingPlusCupcakeTraySponge(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("traysponge");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":dough");
 		setMaxStackSize(1);
 	}

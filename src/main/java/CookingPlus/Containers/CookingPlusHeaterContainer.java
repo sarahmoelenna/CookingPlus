@@ -5,7 +5,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
@@ -66,12 +65,12 @@ public class CookingPlusHeaterContainer extends Container {
 		}
 	}
 
-	@Override
-	public void addCraftingToCrafters(ICrafting listener) {
-		super.addCraftingToCrafters(listener);
-		listener.sendContainerAndContentsToPlayer(this,
-				this.inventoryItemStacks);
-	}
+	//@Override
+		//public void addCraftingToCrafters(ICrafting listener) {
+		//	super.addCraftingToCrafters(listener);
+		//	listener.sendContainerAndContentsToPlayer(this,
+		//			this.inventoryItemStacks);
+		//}
 
 	/**
 	 * Looks for changes made in the container, sends them to every listener.
@@ -135,16 +134,16 @@ public class CookingPlusHeaterContainer extends Container {
 	}
 	
 	public boolean isitemStackFuel(ItemStack MyStack){
-		if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.log))){
+		if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.log2))){
+		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG2))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.planks))){
+		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.PLANKS))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Items.coal)){
+		else if(MyStack.getItem().equals(Items.COAL)){
 			return true;
 		}
 		else return false;

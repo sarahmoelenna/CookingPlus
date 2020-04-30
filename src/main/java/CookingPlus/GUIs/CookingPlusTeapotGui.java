@@ -12,7 +12,7 @@ import CookingPlus.tiles.TeapotTileEntity;
 @SideOnly(Side.CLIENT)
 public class CookingPlusTeapotGui  extends GuiContainer
 {
-    private static final ResourceLocation GuiTextures = new ResourceLocation("cookingplus:textures/gui/teapotgui.png");
+    private static final ResourceLocation GuiTextures = new ResourceLocation("agriculturalrevolution:textures/gui/teapotgui.png");
     private final InventoryPlayer inventoryPlayer;
     private final TeapotTileEntity tileGrinder;
 

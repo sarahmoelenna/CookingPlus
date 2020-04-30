@@ -12,7 +12,7 @@ import CookingPlus.tiles.BrickOvenTileEntity;
 @SideOnly(Side.CLIENT)
 public class CookingPlusBrickOvenGUI  extends GuiContainer
 {
-    private static final ResourceLocation GuiTextures = new ResourceLocation("cookingplus:textures/gui/brickovengui.png");
+    private static final ResourceLocation GuiTextures = new ResourceLocation("agriculturalrevolution:textures/gui/brickovengui.png");
     private final InventoryPlayer inventoryPlayer;
     private final BrickOvenTileEntity tileGrinder;
 

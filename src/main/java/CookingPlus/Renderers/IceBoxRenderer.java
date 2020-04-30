@@ -1,43 +1,18 @@
 package CookingPlus.Renderers;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockModelRenderer;
-import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderFallingBlock;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.renderer.vertex.VertexFormatElement;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.blocks.CookingPlusCustomCrops;
 import CookingPlus.models.CookingPlusIceBox;
-import CookingPlus.tiles.HydrophonicTileEntity;
 import CookingPlus.tiles.IceBoxTileEntity;
 
 public class IceBoxRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/iceboxmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/iceboxmap.png");
 	EntityItem entItem;
 	
 	private CookingPlusIceBox model;
@@ -56,6 +31,7 @@ public class IceBoxRenderer extends TileEntitySpecialRenderer {
 		
 		IceBoxTileEntity MyOven = (IceBoxTileEntity) entity;//change
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven != null){
 		if(MyOven.getDirection() == 3){
 			GL11.glRotatef(90, 0, 1, 0);
 		}
@@ -68,7 +44,7 @@ public class IceBoxRenderer extends TileEntitySpecialRenderer {
 		else if(MyOven.getDirection() == 5){
 			GL11.glRotatef(0, 0, 1, 0);
 		}
-		
+		}
 		this.bindTexture(texture);
 		
 		GL11.glPushMatrix();

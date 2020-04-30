@@ -17,16 +17,16 @@ public class CookingPlusFuelSlot extends Slot {
 	 @Override
 	 public boolean isItemValid(ItemStack stack)
 	 {
-		 	if(stack.getItem().equals(Item.getItemFromBlock(Blocks.log))){
+		 	if(stack.getItem().equals(Item.getItemFromBlock(Blocks.LOG))){
 				return true;
 			}
-		 	else if(stack.getItem().equals(Item.getItemFromBlock(Blocks.log2))){
+		 	else if(stack.getItem().equals(Item.getItemFromBlock(Blocks.LOG2))){
 				return true;
 			}
-		 	else if(stack.getItem().equals(Item.getItemFromBlock(Blocks.planks))){
+		 	else if(stack.getItem().equals(Item.getItemFromBlock(Blocks.PLANKS))){
 				return true;
 			}
-		 	else if(stack.getItem().equals(Items.coal)){
+		 	else if(stack.getItem().equals(Items.COAL)){
 				return true;
 			}
 		 	else return false;

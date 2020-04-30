@@ -1,0 +1,6 @@
+{
+	"parent": "block/cross",
+	"textures": {
+		"cross": "agriculturalrevolution:blocks/lettucecrop_stage_2"
+	}
+}

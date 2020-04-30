@@ -1,18 +1,17 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusBrickOven;
-import CookingPlus.models.CookingPlusFermenter;
-import CookingPlus.tiles.BrickOvenTileEntity;
-import CookingPlus.tiles.FermenterTileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusFermenter;
+import CookingPlus.tiles.FermenterTileEntity;
+
 public class CookingPlusFermenterRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/fermentermap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/fermentermap.png");
 	
 	private CookingPlusFermenter model;
 	
@@ -31,6 +30,7 @@ public class CookingPlusFermenterRenderer extends TileEntitySpecialRenderer {
 		//System.out.println(MyOven.getDirection());
 		//System.out.println(MyOven.getDirection());
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven != null){
 		if(MyOven.getDirection() == 3){
 			GL11.glRotatef(0, 0, 1, 0);
 		}
@@ -42,6 +42,7 @@ public class CookingPlusFermenterRenderer extends TileEntitySpecialRenderer {
 		}
 		else if(MyOven.getDirection() == 5){
 			GL11.glRotatef(270, 0, 1, 0);
+		}
 		}
 		
 		this.bindTexture(texture);

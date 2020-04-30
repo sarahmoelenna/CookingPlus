@@ -4,23 +4,25 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
+import CookingPlus.recipes.CookingPlusSheetPressRecipes;
 
-public class FermenterTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class FermenterTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable, ISidedInventory {
 
 	private int EntityDirection;
 	private ItemStack[] inv;
@@ -65,13 +67,13 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 				if(LiquidIn.equals("blank") == false && LiquidInAmount < 10){
 					if(LiquidIn.equals("grape")){
 						SetLiquidInAmount(LiquidInAmount + 1);
-						FillSlot(new ItemStack(Items.glass_bottle), 0);
+						FillSlot(new ItemStack(Items.GLASS_BOTTLE), 0);
 					}
 				}
 				else if(LiquidInAmount == 0){
 					SetLiquidInAmount(LiquidInAmount + 1);
 					SetLiquidIn("grape");
-					FillSlot(new ItemStack(Items.glass_bottle), 0);
+					FillSlot(new ItemStack(Items.GLASS_BOTTLE), 0);
 				}
 			}
 			//apple
@@ -79,13 +81,13 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 				if(LiquidIn.equals("blank") == false && LiquidInAmount < 10){
 					if(LiquidIn.equals("apple")){
 						SetLiquidInAmount(LiquidInAmount + 1);
-						FillSlot(new ItemStack(Items.glass_bottle), 0);
+						FillSlot(new ItemStack(Items.GLASS_BOTTLE), 0);
 					}
 				}
 				else if(LiquidInAmount == 0){
 					SetLiquidInAmount(LiquidInAmount + 1);
 					SetLiquidIn("apple");
-					FillSlot(new ItemStack(Items.glass_bottle), 0);
+					FillSlot(new ItemStack(Items.GLASS_BOTTLE), 0);
 				}
 			}
 			//hops
@@ -105,7 +107,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 		}
 		
 		if(inv[1] != null){
-			if(inv[1].getItem().equals(Items.glass_bottle)){
+			if(inv[1].getItem().equals(Items.GLASS_BOTTLE)){
 				if(LiquidOut.equals("wine")){
 					if(LiquidOutAmount > 1){
 						SetLiquidOutAmount(LiquidOutAmount - 1);
@@ -202,8 +204,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 
 		//nbt.setInteger("MyMoveState", MoveState);
 		//nbt.setFloat("MyMovement", MovementTimer);
@@ -229,18 +230,19 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 
 		nbt.setTag("Items", nbttaglist);
 
-
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -279,7 +281,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -300,7 +302,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -327,8 +329,24 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		// TODO Auto-generated method stub
-		return true;
+		Item myItem = stack.getItem();
+		if(index == 0 && inv[0] == null){
+			if(myItem == CookingPlusMain.hops){
+				return true;
+			}
+			if(myItem == CookingPlusMain.grapejuice){
+				return true;
+			}
+			if(myItem == CookingPlusMain.applejuice){
+				return true;
+			}
+		}
+		if(index == 1 && inv[1] == null){
+			if(myItem == Items.GLASS_BOTTLE){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -382,7 +400,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 	protected void ProcessLiquid(){
 		if(canFerment()){
 			FermentTimer++;
-			//UpdateBlock();
+			//UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 		}
 		else{
 			FermentTimer = 0;
@@ -399,7 +417,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 						if(LiquidInAmount == 0){
 							SetLiquidIn("blank");
 						}
-						//UpdateBlock();
+						//UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 					}
 				}
 			}
@@ -414,7 +432,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 						if(LiquidInAmount == 0){
 							SetLiquidIn("blank");
 						}
-						//UpdateBlock();
+						//UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 					}
 				}
 			}
@@ -429,7 +447,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 						if(LiquidInAmount == 0){
 							SetLiquidIn("blank");
 						}
-						//UpdateBlock();
+						//UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 					}
 				}
 			}
@@ -470,7 +488,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 		if(!this.getWorld().isRemote){
 			if(newamount != LiquidInAmount){
 				LiquidInAmount = newamount;
-				UpdateBlock();
+				UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 			}
 		}
 	}
@@ -479,7 +497,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 		if(!this.getWorld().isRemote){
 		if(newamount != LiquidOutAmount){
 			LiquidOutAmount = newamount;
-			UpdateBlock();
+			UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 		}
 		}
 	}
@@ -487,7 +505,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 	public void FillSlot(ItemStack myItem, int slot){
 		if(!this.getWorld().isRemote){
 		inv[slot] = myItem;
-		UpdateBlock();
+		UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 		}
 	}
 	
@@ -495,7 +513,7 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 		if(!this.getWorld().isRemote){
 		if(newType != LiquidIn){
 			LiquidIn = newType;
-			UpdateBlock();
+			UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 		}
 		}
 	}
@@ -504,13 +522,57 @@ public class FermenterTileEntity extends TileEntity implements IInventory, IUpda
 		if(!this.getWorld().isRemote){
 		if(newType != LiquidOut){
 			LiquidOut = newType;
-			UpdateBlock();
+			UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 		}
 		}
 	}
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
+		int[] mySlotForFace = new int[2];
+		mySlotForFace[0] = 0;
+		mySlotForFace[1] = 1;
+		return mySlotForFace;
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack itemStackIn,EnumFacing direction) {
+		return true;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack,EnumFacing direction) {
+		Item myItem = stack.getItem();
+		if(index == 0){
+			if(myItem == Items.GLASS_BOTTLE){
+				return true;
+			}
+		}
+		if(index == 1){
+			if(myItem == CookingPlusMain.wine){
+				return true;
+			}
+			if(myItem == CookingPlusMain.beer){
+				return true;
+			}
+			if(myItem == CookingPlusMain.cider){
+				return true;
+			}
+		}
+		return false;
+	}
 	
-	public void UpdateBlock(){
-		//System.out.println("update tile entity for client");
-		this.worldObj.markBlockForUpdate(this.getPos());
+	public boolean[] getAppropriateSlot(Item myItem){
+		boolean[] mySlotUseage = new boolean[2];
+    	mySlotUseage[0] = false;
+    	mySlotUseage[1] = false;
+    	if(myItem == CookingPlusMain.applejuice || myItem == CookingPlusMain.grapejuice || myItem == CookingPlusMain.hops){
+    		mySlotUseage[0] = true;
+    	}
+    	if(myItem == Items.GLASS_BOTTLE){
+    		mySlotUseage[1] = true;
+    	}
+    	
+    	return mySlotUseage;
 	}
 }

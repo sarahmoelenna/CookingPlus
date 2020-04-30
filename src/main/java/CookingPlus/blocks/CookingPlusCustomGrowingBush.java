@@ -1,6 +1,5 @@
 package CookingPlus.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -9,19 +8,18 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush implements IGrowable {
 	 
@@ -38,13 +36,13 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
 	public boolean canBlockStay(World world, BlockPos myPos, IBlockState myState)
     {
 		Block parBlock = world.getBlockState(myPos).getBlock();
-    	if(parBlock == Blocks.dirt){
+    	if(parBlock == Blocks.DIRT){
     		return true;
     	}
-    	else if(parBlock == Blocks.grass){
+    	else if(parBlock == Blocks.GRASS){
     		return true;
     	}
-    	else if(parBlock == Blocks.farmland){
+    	else if(parBlock == Blocks.FARMLAND){
     		return true;
     	}
     	else if(parBlock == getBushBlock()){
@@ -56,14 +54,14 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
 	public boolean canBlockGrow(World world, BlockPos myPos, IBlockState myState)
     {
 		//System.out.println(world.getBlockState(myPos).getBlock().getLocalizedName());
-		Block parBlock = world.getBlockState(new BlockPos(new Vec3(myPos.getX(), myPos.getY()-1, myPos.getZ()))).getBlock();
-    	if(parBlock == Blocks.dirt){
+		Block parBlock = world.getBlockState(new BlockPos(new Vec3d(myPos.getX(), myPos.getY()-1, myPos.getZ()))).getBlock();
+    	if(parBlock == Blocks.DIRT){
     		return true;
     	}
-    	else if(parBlock == Blocks.grass){
+    	else if(parBlock == Blocks.GRASS){
     		return true;
     	}
-    	else if(parBlock == Blocks.farmland){
+    	else if(parBlock == Blocks.GRASS){
     		return true;
     	}
     	else return false;
@@ -71,13 +69,10 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
 	
 	@Override
 	protected boolean canPlaceBlockOn(Block parBlock) {
-		if(parBlock == Blocks.dirt){
+		if(parBlock == Blocks.DIRT){
     		return true;
     	}
-    	else if(parBlock == Blocks.grass){
-    		return true;
-    	}
-    	else if(parBlock == Blocks.farmland){
+    	else if(parBlock == Blocks.GRASS){
     		return true;
     	}
     	else if(parBlock == getBushBlock()){
@@ -85,12 +80,6 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
     	}
     	else return false;
 	}
-    
-    @Override
-    public int getRenderType()
-    {
-        return 3;
-    }
     
     @Override
     public boolean canUseBonemeal(World p_149852_1_, Random parRand, BlockPos pos, IBlockState state)
@@ -113,9 +102,9 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
     		//System.out.println("B");
     		if(GetWorldBlock(parWorld, parX, parY + 1, parZ) != null){
     			//System.out.println("C");
-    			if(parWorld.getBlockState(new BlockPos(parX, parY + 1, parZ)).getBlock().getMaterial() == Material.air){
+    			if(parWorld.getBlockState(new BlockPos(parX, parY + 1, parZ)).getBlock().getMaterial(parWorld.getBlockState(new BlockPos(parX, parY + 1, parZ))) == Material.AIR){
     				//System.out.println("D");
-    				if(canGrow(parWorld, new BlockPos(new Vec3(parX, parY + 1, parZ)), state)){
+    				if(canGrow(parWorld, new BlockPos(new Vec3d(parX, parY + 1, parZ)), state)){
     					//System.out.println("E");
     					SetWorldBlock(parWorld, parX, parY + 1, parZ, getBushBlock(), 0, 2);
     				}
@@ -129,7 +118,6 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
     {
         super.updateTick(worldIn, pos, myState, rand);
         int growStage = ((Integer)myState.getValue(AGE)).intValue() + 1;
-        //System.out.println(growStage);
         if (growStage >= 7)
         {
         	growBush(worldIn, rand, pos.getX(), pos.getY(), pos.getZ(), myState);
@@ -137,6 +125,11 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
         }
         
         worldIn.setBlockState(pos, myState.withProperty(AGE, Integer.valueOf(growStage)), 2);
+        
+        if(!canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock())){
+			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+			this.dropBlockAsItem(worldIn, pos, this.getDefaultState(), 0);
+		}
     }
 
     @Override
@@ -181,13 +174,13 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
     	//System.out.println("A");
     	if(GetWorldBlock(parWorld, parX, parY - 2, parZ) != null){
     		//System.out.println("B");
-			if(canBlockGrow(parWorld, new BlockPos(new Vec3(parX, parY - 1, parZ)), state)){
+			if(canBlockGrow(parWorld, new BlockPos(new Vec3d(parX, parY - 1, parZ)), state)){
 				//System.out.println("C");
 				return true;
 			}
 			else if(GetWorldBlock(parWorld, parX, parY - 2, parZ).equals(getBushBlock())){
 				if(GetWorldBlock(parWorld, parX, parY - 3, parZ) != null){
-					if(canBlockGrow(parWorld, new BlockPos(new Vec3(parX, parY - 2, parZ)), state)){
+					if(canBlockGrow(parWorld, new BlockPos(new Vec3d(parX, parY - 2, parZ)), state)){
 						return true;
 					}
 				}
@@ -208,14 +201,15 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if(!worldIn.isRemote)
         {
     		if(((Integer)state.getValue(AGE)).intValue() >= 6){
     			worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 2);
-    			//playerIn.dropPlayerItemWithRandomChoice(new ItemStack(getBushDrop()), false);
-    			this.spawnAsEntity(worldIn, pos, new ItemStack(getBushDrop()));
+    			//playerIn.dropItem(new ItemStack(getBushDrop()), false);
+    			//this.spawnAsEntity(worldIn, pos, new ItemStack(getBushDrop()));
+    			playerIn.dropItem(new ItemStack(getBushDrop()), false);
     		}
         }
     	return true;
@@ -225,7 +219,7 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
 		//System.out.println("X");
 		if(GetWorldBlock(parWorld, myPos.getX(), myPos.getY() - 2, myPos.getZ()) != null){
 			//System.out.println("Y");
-			if(canBlockGrow(parWorld, new BlockPos(new Vec3(myPos.getX(), myPos.getY() - 1, myPos.getZ())), myState)){
+			if(canBlockGrow(parWorld, new BlockPos(new Vec3d(myPos.getX(), myPos.getY() - 1, myPos.getZ())), myState)){
 				//System.out.println("Z");
 				return true;
 			}
@@ -233,7 +227,7 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
 				//System.out.println("ZZ");
 				if(GetWorldBlock(parWorld, myPos.getX(), myPos.getY() - 3, myPos.getZ()) != null){
 					//System.out.println("ZY");
-					if(canBlockGrow(parWorld, new BlockPos(new Vec3(myPos.getX(), myPos.getY() - 2, myPos.getZ())), myState)){
+					if(canBlockGrow(parWorld, new BlockPos(new Vec3d(myPos.getX(), myPos.getY() - 2, myPos.getZ())), myState)){
 						//System.out.println("ZX");
 						return true;
 					}
@@ -244,11 +238,11 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
 	}
 
 	private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-		myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+		myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 	}
 	
 	private Block GetWorldBlock(World myWorld, int x, int y, int z){
-		return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+		return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 	}
 
 	public String getName(){
@@ -268,11 +262,17 @@ public class CookingPlusCustomGrowingBush extends CookingPlusCustomBlockBush imp
     }
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, new IProperty[] {AGE});
+        return new BlockStateContainer(this, new IProperty[] {AGE});
     }
     
-    
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block neighborBlock)
+	{
+		if(!canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock())){
+			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+			this.dropBlockAsItem(worldIn, pos, this.getDefaultState(), 0);
+		}
+	}
 	
 }

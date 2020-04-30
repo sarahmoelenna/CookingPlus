@@ -2,6 +2,7 @@ package CookingPlus.Renderers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +15,7 @@ import CookingPlus.tiles.FryingPanTileEntity;
 
 public class FryingPanRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/fryingpanmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/fryingpanmap.png");
 	EntityItem entItem;
 	
 	private CookingPlusFryingPan model;
@@ -35,6 +36,7 @@ public class FryingPanRenderer extends TileEntitySpecialRenderer {
 		//System.out.println(MyOven.getDirection());
 		//System.out.println(MyOven.getDirection());
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven != null){
 		if(MyOven.getDirection() == 3){
 			GL11.glRotatef(0, 0, 1, 0);
 		}
@@ -47,6 +49,7 @@ public class FryingPanRenderer extends TileEntitySpecialRenderer {
 		else if(MyOven.getDirection() == 5){
 			GL11.glRotatef(270, 0, 1, 0);
 		}
+		}
 		
 		this.bindTexture(texture);
 		
@@ -55,6 +58,7 @@ public class FryingPanRenderer extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 		
+		if(MyOven != null){
 			if(MyOven.hasWorldObj() == true){
 				 int slot = 2; //Example: int slot = 1;
 				 if(MyOven.getStackInSlot(slot) != null){
@@ -81,10 +85,11 @@ public class FryingPanRenderer extends TileEntitySpecialRenderer {
 					 RenderHelper.disableStandardItemLighting();
 					 if(MyOven.getStackInSlot(slot).stackSize > 0){
 						 	GL11.glPushMatrix();//item two
-						 	GL11.glTranslatef(0.0F, 0.05f, -0.55F);
+						 	GL11.glTranslatef(0.0F, 0.05f, -0.2F);
 						 	GL11.glRotatef(90, 1, 0, 0);
-						 	//GL11.glScalef(0.7f, 0.7f, 0.7f);
-						 	Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+						 	GL11.glScalef(0.6f, 0.6f, 0.6f);
+						 	Minecraft.getMinecraft().getRenderItem().renderItem(MyOven.getStackInSlot(slot), ItemCameraTransforms.TransformType.NONE);
+						 	//Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 						 	GL11.glPopMatrix();
 					 }
 					 RenderHelper.enableStandardItemLighting();
@@ -92,6 +97,7 @@ public class FryingPanRenderer extends TileEntitySpecialRenderer {
 					 GL11.glPopMatrix();
 				 }
 				}
+		}
 			
 	}
 

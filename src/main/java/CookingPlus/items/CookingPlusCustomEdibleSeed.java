@@ -5,9 +5,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -30,37 +32,35 @@ public class CookingPlusCustomEdibleSeed extends ItemFood implements IPlantable
     }
 
     @Override
-    public boolean onItemUse(ItemStack parItemStack, EntityPlayer parPlayer, 
-          World parWorld, BlockPos MyPos, EnumFacing myFace, float par8, 
-          float par9, float par10)
+    public EnumActionResult onItemUse(ItemStack parItemStack, EntityPlayer parPlayer, World parWorld, BlockPos MyPos, EnumHand hand, EnumFacing myFace, float par8, float par9, float par10)
     {
      // not sure what this parameter does, copied it from potato
         if (myFace != EnumFacing.UP)
         {
-            return false;
+        	return EnumActionResult.FAIL;
         }
         // check if player has capability to edit
-        else if (parPlayer.canPlayerEdit(new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())), myFace, parItemStack))
+        else if (parPlayer.canPlayerEdit(new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())), myFace, parItemStack))
         {
             // check that the soil block can sustain the plant
             // and that block above is air so there is room for plant to grow
-            if (parWorld.getBlockState(MyPos).getBlock().canSustainPlant(parWorld, MyPos, myFace, this) && parWorld.isAirBlock(new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ()))))
+            if (parWorld.getBlockState(MyPos).getBlock().canSustainPlant(parWorld.getBlockState(MyPos), parWorld, MyPos, myFace, this) && parWorld.isAirBlock(new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ()))))
             {
              // place the plant block
-            	setBlock(parWorld, new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())));
-                //parWorld.setBlock(new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())), theBlockPlant);
+            	setBlock(parWorld, new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())));
+                //parWorld.setBlock(new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())), theBlockPlant);
                 // decrement the stack of seed items
                 --parItemStack.stackSize;
-                return true;
+                return EnumActionResult.PASS;
             }
             else
             {
-                return false;
+            	return EnumActionResult.FAIL;
             }
         }
         else
         {
-            return false;
+        	return EnumActionResult.FAIL;
         }
     }
 

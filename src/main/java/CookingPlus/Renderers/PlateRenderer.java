@@ -1,28 +1,22 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusBrickOven;
-import CookingPlus.models.CookingPlusFermenter;
-import CookingPlus.models.CookingPlusOrnateChest;
-import CookingPlus.models.CookingPlusPlate;
-import CookingPlus.models.CookingPlusTeapot;
-import CookingPlus.tiles.BrickOvenTileEntity;
-import CookingPlus.tiles.FermenterTileEntity;
-import CookingPlus.tiles.OrnateChestTileEntity;
-import CookingPlus.tiles.PlateTileEntity;
-import CookingPlus.tiles.TeapotTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusPlate;
+import CookingPlus.tiles.PlateTileEntity;
+
 public class PlateRenderer extends TileEntitySpecialRenderer {
 	
 	EntityItem entItem;
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/platemap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/platemap.png");
 	
 	private CookingPlusPlate model;
 	
@@ -47,6 +41,7 @@ public class PlateRenderer extends TileEntitySpecialRenderer {
 		
 		if(entity instanceof PlateTileEntity){
 		PlateTileEntity MyOven = (PlateTileEntity) entity;
+		if(MyOven != null){
 		if(MyOven.hasWorldObj() == true){
 			 int slot = 0; //Example: int slot = 1;
 			 if(MyOven.getStackInSlot(slot) != null){
@@ -59,10 +54,14 @@ public class PlateRenderer extends TileEntitySpecialRenderer {
 				 
 				 RenderHelper.disableStandardItemLighting();
 				 if(MyOven.getStackInSlot(slot).stackSize > 0){
+					 	RenderHelper.enableStandardItemLighting();
 					 	GL11.glPushMatrix();//item two
-					 	GL11.glTranslatef(0.0F, 0.05f, -0.35F);
+					 	GL11.glTranslatef(0.0F, 0.05f, 0.0F);
 					 	GL11.glRotatef(90, 1, 0, 0);
-					 	Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+					 	GL11.glScalef(0.7f, 0.7f, 0.7f);
+					 	Minecraft.getMinecraft().getRenderItem().renderItem(MyOven.getStackInSlot(slot), ItemCameraTransforms.TransformType.NONE);
+					 	//Minecraft.getMinecraft().getRenderManager().renderEntityStatic(this.entItem, 0, true);
+					 	//Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 					 	GL11.glPopMatrix();
 				 }
 				 RenderHelper.enableStandardItemLighting();
@@ -70,6 +69,7 @@ public class PlateRenderer extends TileEntitySpecialRenderer {
 				 GL11.glPopMatrix();
 			 }
 			}
+		}
 		}
 	}
 

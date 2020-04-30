@@ -1,7 +1,5 @@
 package CookingPlus.items;
 
-import CookingPlus.CookingPlusMain;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CookingPlusRack extends CookingPlusCustomItem {
@@ -11,7 +9,7 @@ public class CookingPlusRack extends CookingPlusCustomItem {
 	public CookingPlusRack(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("rack");
-		//setCreativeTab(CreativeTabs.tabMisc);
+		//setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":rack");
 	}
 	

@@ -1,13 +1,11 @@
 package CookingPlus.models;
 
-import org.lwjgl.opengl.GL11;
-
-import ModelBoxes.CookingPlusFetusGrownModelBox;
-import ModelBoxes.CookingPlusFetusSmallModelBox;
-import ModelBoxes.CookingPlusVatModelBox;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import ModelBoxes.CookingPlusFetusGrownModelBox;
+import ModelBoxes.CookingPlusFetusSmallModelBox;
+import ModelBoxes.CookingPlusVatModelBox;
 
 public class CookingPlusVat extends ModelBase
 {

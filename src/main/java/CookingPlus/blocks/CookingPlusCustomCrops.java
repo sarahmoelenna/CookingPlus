@@ -1,23 +1,24 @@
 package CookingPlus.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class CookingPlusCustomCrops extends BlockCrops implements IGrowable
 {
     protected int maxGrowthStage = 7;
-    
+    AxisAlignedBB MY_FULL_BLOCK_AABB;
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 7);
 
     //@SideOnly(Side.CLIENT)
@@ -40,7 +41,7 @@ public class CookingPlusCustomCrops extends BlockCrops implements IGrowable
         setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
         //setCreativeTab((CreativeTabs)null);
         setHardness(0.0F);
-        setStepSound(soundTypeGrass);
+        setSoundType(SoundType.GROUND);
         disableStats();
         this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
     }
@@ -49,9 +50,10 @@ public class CookingPlusCustomCrops extends BlockCrops implements IGrowable
      * is the block grass, dirt or farmland
      */
     @Override
-    protected boolean canPlaceBlockOn(Block parBlock)
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        return parBlock == Blocks.farmland;
+        Block soil = worldIn.getBlockState(pos.down()).getBlock();
+        return soil == Blocks.FARMLAND;
     }
 
     public void incrementGrowStage(World parWorld, Random parRand, BlockPos myPos, IBlockState myState)
@@ -129,7 +131,7 @@ public class CookingPlusCustomCrops extends BlockCrops implements IGrowable
     	//System.out.println("A");
     	if(GetWorldBlock(parWorld, parX, parY - 1, parZ) != null){
     		//System.out.println("B");
-    		if(GetWorldBlock(parWorld, parX, parY - 1, parZ).equals(Blocks.farmland)){
+    		if(GetWorldBlock(parWorld, parX, parY - 1, parZ).equals(Blocks.FARMLAND)){
     			//System.out.println("C");
     			return true;
     		}
@@ -143,7 +145,7 @@ public class CookingPlusCustomCrops extends BlockCrops implements IGrowable
     }
     
     protected Block GetWorldBlock(World myWorld, int x, int y, int z){
-		return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+		return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 	}
 
     protected Item GetSeedItem(){
@@ -204,9 +206,70 @@ public class CookingPlusCustomCrops extends BlockCrops implements IGrowable
     }
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, new IProperty[] {AGE});
+        return new BlockStateContainer(this, new IProperty[] {AGE});
     }
 	
+    
+    
+    public void setBlockBounds(float x1, float y1, float z1, float x2, float y2, float z2){
+		MY_FULL_BLOCK_AABB = new AxisAlignedBB(x1, y1, z1, x2, y2, z2);
+	}
+	
+    @Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    {
+		if(MY_FULL_BLOCK_AABB != null){
+			return MY_FULL_BLOCK_AABB;
+		}
+		else{
+			return super.getBoundingBox(state, source, pos);
+		}
+    }
+    
+    
+  //LETS FIX THESE OPAQUE CUBES
+    public boolean isVisuallyOpaque()
+    {
+        return isOpaqueCube();
+    }
+	
+	public boolean isOpaqueCube()
+    {
+        return false;
+    }
+	
+	
+	//LETS FIX THESE FULL CUBES
+	@Override
+	public boolean isFullCube(IBlockState state)
+    {
+        return isFullCube();
+    }
+	
+    public boolean isFullCube()
+    {
+        return false;
+    }
+	
+    
+    //LETS FIX OUR LEAVES
+    @Override
+    public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+        return canSustainLeaves(world, pos);
+    }
+    
+	public boolean canSustainLeaves(IBlockAccess world, BlockPos pos)
+    {
+        return true;
+    }
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+	 public BlockRenderLayer getBlockLayer()
+	 {
+	     return BlockRenderLayer.CUTOUT;
+	 }
 }

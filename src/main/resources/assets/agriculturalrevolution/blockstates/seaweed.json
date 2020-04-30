@@ -1,0 +1,21 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:seaweed" },
+		"level=0": { "model": "agriculturalrevolution:seaweed" },
+		"level=1": { "model": "agriculturalrevolution:seaweed" },
+		"level=2": { "model": "agriculturalrevolution:seaweed" },
+		"level=3": { "model": "agriculturalrevolution:seaweed" },
+		"level=4": { "model": "agriculturalrevolution:seaweed" },
+		"level=5": { "model": "agriculturalrevolution:seaweed" },
+		"level=6": { "model": "agriculturalrevolution:seaweed" },
+		"level=7": { "model": "agriculturalrevolution:seaweed" },
+		"level=8": { "model": "agriculturalrevolution:seaweed" },
+		"level=9": { "model": "agriculturalrevolution:seaweed" },
+		"level=10": { "model": "agriculturalrevolution:seaweed" },
+		"level=11": { "model": "agriculturalrevolution:seaweed" },
+		"level=12": { "model": "agriculturalrevolution:seaweed" },
+		"level=13": { "model": "agriculturalrevolution:seaweed" },
+		"level=14": { "model": "agriculturalrevolution:seaweed" },
+		"level=15": { "model": "agriculturalrevolution:seaweed" }
+	}
+}

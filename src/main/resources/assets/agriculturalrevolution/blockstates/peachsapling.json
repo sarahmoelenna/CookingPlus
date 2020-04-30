@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:peachsapling" },
+		"age=0": { "model": "agriculturalrevolution:peachsapling" },
+		"age=1": { "model": "agriculturalrevolution:peachsapling" },
+		"age=2": { "model": "agriculturalrevolution:peachsapling" },
+		"age=3": { "model": "agriculturalrevolution:peachsapling" },
+		"age=4": { "model": "agriculturalrevolution:peachsapling" },
+		"age=5": { "model": "agriculturalrevolution:peachsapling" },
+		"age=6": { "model": "agriculturalrevolution:peachsapling" },
+		"age=7": { "model": "agriculturalrevolution:peachsapling" },
+		"inventory": { "model": "agriculturalrevolution:peachsapling" }
+	}
+}

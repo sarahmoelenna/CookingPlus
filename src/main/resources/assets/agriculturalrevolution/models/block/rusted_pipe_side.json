@@ -1,0 +1,52 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "texture": "agriculturalrevolution:blocks/rustedpipe",
+        "particle": "agriculturalrevolution:blocks/rustedpipe"
+    },
+	"display": {
+        "gui": {
+            "rotation": [ 30, 225, 0 ],
+            "translation": [ 0, 0, 0],
+            "scale":[ 0.625, 0.625, 0.625 ]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 3, 0],
+            "scale":[ 0.25, 0.25, 0.25 ]
+        },
+        "fixed": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 0, 0],
+            "scale":[ 0.5, 0.5, 0.5 ]
+        },
+        "thirdperson_righthand": {
+            "rotation": [ 75, 45, 0 ],
+            "translation": [ 0, 2.5, 0],
+            "scale": [ 0.375, 0.375, 0.375 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, 45, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.40, 0.40, 0.40 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ 0, 225, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.40, 0.40, 0.40 ]
+        }
+    },
+    "elements": [
+        {   "from": [ 5, 5, 0 ],
+            "to": [ 11, 11, 5 ],
+            "faces": {
+                "north":  { "uv": [ 5, 5, 11, 11 ], "texture": "#texture"},
+                "south":    { "uv": [ 5, 5, 11, 11 ], "texture": "#texture" },
+                "up": { "uv": [ 5, 0, 11, 5 ], "texture": "#texture" },
+                "down": { "uv": [ 5, 0, 11, 5 ], "texture": "#texture" },
+                "west":  { "uv": [ 0, 5, 5, 11 ], "texture": "#texture" },
+                "east":  { "uv": [ 0, 5, 5, 11 ], "texture": "#texture" }
+            }
+        }
+    ]
+}

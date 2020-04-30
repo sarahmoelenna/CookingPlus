@@ -1,0 +1,22 @@
+{
+	"parent": "block/block",
+    "textures": {
+        "particle": "agriculturalrevolution:blocks/diamond_scaff_side",
+	"texture": "agriculturalrevolution:blocks/diamond_scaff_side",
+	"top": "agriculturalrevolution:blocks/diamondtop"
+    },
+    "elements": [
+        {   "from":[ 16, 16, 16 ],
+            "to": [ 0, 0, 0 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "top" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "top" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture" }
+            },
+            "__comment": "Center post"
+        }
+    ]
+}

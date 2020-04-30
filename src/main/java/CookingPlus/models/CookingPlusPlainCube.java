@@ -1,14 +1,9 @@
 package CookingPlus.models;
 
-import org.lwjgl.opengl.GL11;
-
-import ModelBoxes.CookingPlusChestModelBox;
-import ModelBoxes.CookingPlusCubeModelBox;
-import ModelBoxes.CookingPlusCustomModelBox;
-import ModelBoxes.CookingPlusPlateModelBox;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import ModelBoxes.CookingPlusCubeModelBox;
 
 public class CookingPlusPlainCube extends ModelBase
 {

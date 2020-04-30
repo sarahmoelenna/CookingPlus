@@ -3,18 +3,16 @@ package CookingPlus.blocks;
 import java.util.Iterator;
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 
 public class CookingPlusPalmLog extends CookingPlusCustomBlock{
@@ -22,14 +20,14 @@ public class CookingPlusPalmLog extends CookingPlusCustomBlock{
 	private final String name = "palmlog";
 	
 	public CookingPlusPalmLog() {
-		super(Material.wood);
+		super(Material.WOOD);
 		GameRegistry.registerBlock(this, name);
 		this.setUnlocalizedName(name);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		this.setHardness(1.0F);
 		this.setResistance(1.0F);
-		this.setStepSound(soundTypeWood);
-		Blocks.fire.setFireInfo(this, 5, 5);
+		this.setSoundType(SoundType.WOOD);
+		Blocks.FIRE.setFireInfo(this, 5, 5);
 	}
 	
 	@Override
@@ -70,9 +68,9 @@ public class CookingPlusPalmLog extends CookingPlusCustomBlock{
 	                BlockPos blockpos1 = (BlockPos)iterator.next();
 	                IBlockState iblockstate1 = worldIn.getBlockState(blockpos1);
 
-	                if (iblockstate1.getBlock().isLeaves(worldIn, blockpos1))
+	                if (iblockstate1.getBlock().isLeaves(iblockstate1, worldIn, blockpos1))
 	                {
-	                    iblockstate1.getBlock().beginLeavesDecay(worldIn, blockpos1);
+	                    iblockstate1.getBlock().beginLeavesDecay(iblockstate1, worldIn, blockpos1);
 	                }
 	            }
 	        }

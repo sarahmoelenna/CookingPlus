@@ -1,0 +1,21 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=0": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=1": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=2": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=3": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=4": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=5": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=6": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=7": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=8": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=9": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=10": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=11": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=12": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=13": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=14": { "model": "agriculturalrevolution:blackcoralblock" },
+		"level=15": { "model": "agriculturalrevolution:blackcoralblock" }
+	}
+}

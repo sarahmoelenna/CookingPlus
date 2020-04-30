@@ -1,9 +1,8 @@
 package CookingPlus.items.PotteryStuff;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomItem;
 
 public class CookingPlusPotteryGuideCupcakeTrayMold extends CookingPlusCustomItem {
 
@@ -12,7 +11,7 @@ public class CookingPlusPotteryGuideCupcakeTrayMold extends CookingPlusCustomIte
 	public CookingPlusPotteryGuideCupcakeTrayMold(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("potteryguidecupcaketraymold");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":dough");
 		setMaxStackSize(1);
 	}

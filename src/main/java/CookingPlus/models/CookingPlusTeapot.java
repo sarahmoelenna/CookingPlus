@@ -1,9 +1,9 @@
 package CookingPlus.models;
 
-import ModelBoxes.CookingPlusCustomModelBox;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import ModelBoxes.CookingPlusCustomModelBox;
 
 public class CookingPlusTeapot extends ModelBase
 {

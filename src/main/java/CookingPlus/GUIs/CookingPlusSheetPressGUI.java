@@ -12,7 +12,7 @@ import CookingPlus.tiles.SheetPressTileEntity;
 @SideOnly(Side.CLIENT)
 public class CookingPlusSheetPressGUI  extends GuiContainer
 {
-    private static final ResourceLocation GuiTextures = new ResourceLocation("cookingplus:textures/gui/sheetpressgui.png");
+    private static final ResourceLocation GuiTextures = new ResourceLocation("agriculturalrevolution:textures/gui/sheetpressgui.png");
     private final InventoryPlayer inventoryPlayer;
     private final SheetPressTileEntity tileGrinder;
 

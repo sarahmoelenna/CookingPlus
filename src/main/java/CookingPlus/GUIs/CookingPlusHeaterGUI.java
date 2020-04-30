@@ -12,7 +12,7 @@ import CookingPlus.tiles.HeaterTileEntity;
 @SideOnly(Side.CLIENT)
 public class CookingPlusHeaterGUI  extends GuiContainer
 {
-    private static final ResourceLocation GuiTextures = new ResourceLocation("cookingplus:textures/gui/heatergui.png");
+    private static final ResourceLocation GuiTextures = new ResourceLocation("agriculturalrevolution:textures/gui/heatergui.png");
     private final InventoryPlayer inventoryPlayer;
     private final HeaterTileEntity tileGrinder;
 

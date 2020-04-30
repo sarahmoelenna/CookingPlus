@@ -1,7 +1,6 @@
 package CookingPlus.items;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import CookingPlus.CookingPlusMain;
 
 public class CookingPlusButterNugget extends CookingPlusCustomItem {
 

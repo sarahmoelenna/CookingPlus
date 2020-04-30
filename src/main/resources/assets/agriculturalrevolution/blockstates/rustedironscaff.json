@@ -1,0 +1,6 @@
+{
+    "multipart": [
+        {   "apply": { "model": "agriculturalrevolution:rustedironscaff" }},
+		{   "apply": { "model": "agriculturalrevolution:invertrustedironscaff" }}
+    ]
+}

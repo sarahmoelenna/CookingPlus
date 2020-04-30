@@ -1,6 +1,5 @@
 package CookingPlus.items;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -11,7 +10,7 @@ public class CookingPlusCreamBucket extends CookingPlusCustomItem {
 	public CookingPlusCreamBucket(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("creambucket");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		setMaxStackSize(1);
 	}
 	

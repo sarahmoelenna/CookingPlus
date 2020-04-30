@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:coffeecrop" },
+		"age=0": { "model": "agriculturalrevolution:coffeecrop" },
+		"age=1": { "model": "agriculturalrevolution:coffeecrop" },
+		"age=2": { "model": "agriculturalrevolution:coffeecrop_1" },
+		"age=3": { "model": "agriculturalrevolution:coffeecrop_1" },
+		"age=4": { "model": "agriculturalrevolution:coffeecrop_2" },
+		"age=5": { "model": "agriculturalrevolution:coffeecrop_2" },
+		"age=6": { "model": "agriculturalrevolution:coffeecrop_2" },
+		"age=7": { "model": "agriculturalrevolution:coffeecrop_3" }
+	}
+}

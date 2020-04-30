@@ -1,10 +1,8 @@
 package CookingPlus.items.foods;
 
-import CookingPlus.items.CookingPlusCustomEdibleFood;
-import CookingPlus.items.CookingPlusCustomJuice;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomEdibleFood;
 
 public class CookingPlusHalloumiWedge extends CookingPlusCustomEdibleFood
 {
@@ -16,7 +14,7 @@ public class CookingPlusHalloumiWedge extends CookingPlusCustomEdibleFood
         super(8, 6F);
         GameRegistry.registerItem(this, name);
         setUnlocalizedName(name);
-        setCreativeTab(CreativeTabs.tabFood);
+        setCreativeTab(CreativeTabs.FOOD);
         setPotionEffect(32, 200, 15, 100);
     }
     

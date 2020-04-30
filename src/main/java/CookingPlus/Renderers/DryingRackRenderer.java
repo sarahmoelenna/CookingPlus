@@ -1,7 +1,9 @@
 package CookingPlus.Renderers;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +16,7 @@ import CookingPlus.tiles.DryingRackTileEntity;
 
 public class DryingRackRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/dryingrack.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/dryingrack.png");
 	EntityItem entItem;
 	
 	private CookingPlusDryingRack model;
@@ -34,6 +36,7 @@ public class DryingRackRenderer extends TileEntitySpecialRenderer {
 		DryingRackTileEntity MyOven = (DryingRackTileEntity) entity;//change
 		//System.out.println(MyOven.getDirection());
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven != null){
 		if(MyOven.getDirection() == 3){
 			GL11.glRotatef(0, 0, 1, 0);
 		}
@@ -46,6 +49,7 @@ public class DryingRackRenderer extends TileEntitySpecialRenderer {
 		else if(MyOven.getDirection() == 5){
 			GL11.glRotatef(270, 0, 1, 0);
 		}
+		}
 		
 		this.bindTexture(texture);
 		
@@ -53,7 +57,7 @@ public class DryingRackRenderer extends TileEntitySpecialRenderer {
 		this.model.RenderModel(0.0625f);
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-		
+		if(MyOven != null){
 			if(MyOven.hasWorldObj() == true){
 				 int slot = 0;
 				 if(MyOven.getStackInSlot(slot) != null){
@@ -79,10 +83,14 @@ public class DryingRackRenderer extends TileEntitySpecialRenderer {
 					 
 					 RenderHelper.disableStandardItemLighting();
 					 if(MyOven.getStackInSlot(slot).stackSize > 0){
+						 	RenderHelper.enableStandardItemLighting();
 						 	GL11.glPushMatrix();//item two
-						 	GL11.glTranslatef(0.0F, 0.05f, 0.06F);
+						 	GL11.glTranslatef(0.0F, 0.5f, 0.12F);
 						 	GL11.glRotatef(8, 1, 0, 0);
-						 	Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(this.entItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+						 	if(Block.getBlockFromItem(MyOven.getStackInSlot(slot).getItem()) != null){
+						 		GL11.glScaled(0.4f, 0.4f, 0.4f);
+						 	}
+						 	Minecraft.getMinecraft().getRenderItem().renderItem(MyOven.getStackInSlot(slot), ItemCameraTransforms.TransformType.NONE);
 						 	GL11.glPopMatrix();
 					 }
 					 RenderHelper.enableStandardItemLighting();
@@ -90,6 +98,7 @@ public class DryingRackRenderer extends TileEntitySpecialRenderer {
 					 GL11.glPopMatrix();
 				 }
 				}
+		}
 			
 	}
 

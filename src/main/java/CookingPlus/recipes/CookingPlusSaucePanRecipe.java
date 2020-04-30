@@ -1,10 +1,10 @@
 package CookingPlus.recipes;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Maps;
@@ -16,6 +16,8 @@ public class CookingPlusSaucePanRecipe
     private final Map sheetList = Maps.newHashMap();
     private final Map experienceList = Maps.newHashMap();
 
+    public final ArrayList<ItemStack> recipeList = new ArrayList();
+    
     public static CookingPlusSaucePanRecipe instance()
     {
         return pressBase;
@@ -28,6 +30,10 @@ public class CookingPlusSaucePanRecipe
 
     public void addSaucePanRecipe(ItemStack parItemStackIn, ItemStack parItemStackSheetIn, ItemStack parItemStackOut, float parExperience)
     {
+    	recipeList.add(parItemStackIn);
+    	recipeList.add(parItemStackSheetIn);
+    	recipeList.add(parItemStackOut);
+    	
         grindingList.put(parItemStackIn, parItemStackOut);
         sheetList.put(parItemStackOut, parItemStackSheetIn);
         experienceList.put(parItemStackOut, Float.valueOf(parExperience));

@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:orangesapling" },
+		"age=0": { "model": "agriculturalrevolution:orangesapling" },
+		"age=1": { "model": "agriculturalrevolution:orangesapling" },
+		"age=2": { "model": "agriculturalrevolution:orangesapling" },
+		"age=3": { "model": "agriculturalrevolution:orangesapling" },
+		"age=4": { "model": "agriculturalrevolution:orangesapling" },
+		"age=5": { "model": "agriculturalrevolution:orangesapling" },
+		"age=6": { "model": "agriculturalrevolution:orangesapling" },
+		"age=7": { "model": "agriculturalrevolution:orangesapling" },
+		"inventory": { "model": "agriculturalrevolution:orangesapling" }
+	}
+}

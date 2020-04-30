@@ -1,21 +1,22 @@
 package CookingPlus.items;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.blocks.CookingPlusCustomRopeCrop;
-import CookingPlus.blocks.CookingPlusRopeBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.blocks.CookingPlusCustomRopeCrop;
+import CookingPlus.blocks.CookingPlusRopeBlock;
 
 public class CookingPlusCustomEdibleRopeCropSeed extends ItemFood implements IPlantable
 {
@@ -34,22 +35,22 @@ public class CookingPlusCustomEdibleRopeCropSeed extends ItemFood implements IPl
     }
 
     @Override
-    public boolean onItemUse(ItemStack parItemStack, EntityPlayer parPlayer, World parWorld, BlockPos MyPos, EnumFacing myFace, float par8, float par9, float par10)
+    public EnumActionResult onItemUse(ItemStack parItemStack, EntityPlayer parPlayer, World parWorld, BlockPos MyPos, EnumHand hand, EnumFacing myFace, float par8, float par9, float par10)
     {
     	//System.out.println("rawr");
-        if (parWorld.getBlockState(MyPos).getBlock().equals(CookingPlusMain.blockRope) && parWorld.getBlockState(MyPos.down()).getBlock().equals(Blocks.farmland))
+        if (parWorld.getBlockState(MyPos).getBlock().equals(CookingPlusMain.blockRope) && parWorld.getBlockState(MyPos.down()).getBlock().equals(Blocks.FARMLAND))
             {
              // place the plant block
-            	//setBlock(parWorld, new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())));
-                //parWorld.setBlock(new BlockPos(new Vec3(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())), theBlockPlant);
+            	//setBlock(parWorld, new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())));
+                //parWorld.setBlock(new BlockPos(new Vec3d(MyPos.getX(), MyPos.getY()+1, MyPos.getZ())), theBlockPlant);
             	int currentrope = ((Integer)parWorld.getBlockState(MyPos).getValue(CookingPlusRopeBlock.ROPETYPE)).intValue();
             	
             	parWorld.setBlockState(MyPos, GetCropBlock().getDefaultState().withProperty(CookingPlusCustomRopeCrop.ROPETYPE, currentrope).withProperty(CookingPlusCustomRopeCrop.AGE, 0),3);
             	// decrement the stack of seed items
                 --parItemStack.stackSize;
-                return true;
+                return EnumActionResult.PASS;
             }
-        return false;
+        return EnumActionResult.FAIL;
     }
 
     @Override

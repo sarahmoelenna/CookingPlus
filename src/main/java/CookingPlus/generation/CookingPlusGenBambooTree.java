@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
@@ -92,7 +92,7 @@ public class CookingPlusGenBambooTree extends WorldGenAbstractTree
                         {
                             block = GetWorldBlock(par1World, j1, i1, k1);
 
-                            if (!this.isReplaceable(par1World, new BlockPos(new Vec3(j1, i1, k1))))
+                            if (!this.isReplaceable(par1World, new BlockPos(new Vec3d(j1, i1, k1))))
                             {
                                 flag = false;
                             }
@@ -113,11 +113,11 @@ public class CookingPlusGenBambooTree extends WorldGenAbstractTree
             {
                 Block block2 = GetWorldBlock(par1World, myX, myY - 1, myZ);
 
-                boolean isSoil = block2.canSustainPlant(par1World, new BlockPos(new Vec3(myX, myY - 1, myZ)), EnumFacing.UP, (BlockSapling)Blocks.sapling);
+                boolean isSoil = block2.canSustainPlant(par1World.getBlockState(new BlockPos(new Vec3d(myX, myY - 1, myZ))), par1World, new BlockPos(new Vec3d(myX, myY - 1, myZ)), EnumFacing.UP, (BlockSapling)Blocks.SAPLING);
                 
                 if (isSoil && myY < 256 - l - 1)
                 {
-                    //block2.onPlantGrow(par1World, new BlockPos(new Vec3(myX, myY - 1, myZ)), new BlockPos(new Vec3(myX, myY, myZ)));
+                    //block2.onPlantGrow(par1World, new BlockPos(new Vec3d(myX, myY - 1, myZ)), new BlockPos(new Vec3d(myX, myY, myZ)));
                     b0 = 3;
                     byte b1 = 0;
                     int l1;
@@ -142,9 +142,9 @@ public class CookingPlusGenBambooTree extends WorldGenAbstractTree
                                 {
                                     Block block1 = GetWorldBlock(par1World, i2, k1, k2);
 
-                                    if (block1.isAir(par1World, new BlockPos(new Vec3(i2, k1, k2))) || block1.isLeaves(par1World, new BlockPos(new Vec3(i2, k1, k2))))
+                                    if (block1.isAir(par1World, new BlockPos(new Vec3d(i2, k1, k2))) || block1.isLeaves(par1World, new BlockPos(new Vec3d(i2, k1, k2))))
                                     {                                    	
-                                        this.func_175905_a(par1World, new BlockPos(new Vec3(i2, k1, k2)), this.leaves, this.metaLeaves);	////////hmmm
+                                        this.func_175905_a(par1World, new BlockPos(new Vec3d(i2, k1, k2)), this.leaves, this.metaLeaves);	////////hmmm
                                     }
                                 }
                             }
@@ -155,9 +155,9 @@ public class CookingPlusGenBambooTree extends WorldGenAbstractTree
                     {
                         block = GetWorldBlock(par1World, myX, myY + k1, myZ);
 
-                        if (block.isAir(par1World, new BlockPos(new Vec3(myX, myY + k1, myZ))) || block.isLeaves(par1World,new BlockPos(new Vec3(myX, myY + k1, myZ))))
+                        if (block.isAir(par1World.getBlockState(new BlockPos(new Vec3d(myX, myY + k1, myZ))), par1World, new BlockPos(new Vec3d(myX, myY + k1, myZ))) || block.isLeaves(par1World.getBlockState(new BlockPos(new Vec3d(myX, myY + k1, myZ))), par1World,new BlockPos(new Vec3d(myX, myY + k1, myZ))))
                         {
-                            this.func_175905_a(par1World, new BlockPos(new Vec3(myX, myY + k1, myZ)), this.wood, this.metaWood);
+                            this.setBlockAndNotifyAdequately(par1World, new BlockPos(new Vec3d(myX, myY + k1, myZ)), this.wood.getDefaultState());
                             if(myY + k1 > minTreeHeight){
                             	Count++;
                             	if(GenLeaves(par1World, myX, myY + k1, myZ, par2Random, Count)){
@@ -181,23 +181,23 @@ public class CookingPlusGenBambooTree extends WorldGenAbstractTree
     }
 
 	private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta, int notify){
-		myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+		myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 	}
 	
 	private void SetWorldBlock(World myWorld, int x, int y, int z, Block newBlock, int meta){
-		myWorld.setBlockState(new BlockPos(new Vec3(x, y, z)), newBlock.getDefaultState()); 
+		myWorld.setBlockState(new BlockPos(new Vec3d(x, y, z)), newBlock.getDefaultState()); 
 	}
 	
 	private Block GetWorldBlock(World myWorld, int x, int y, int z){
-		return myWorld.getBlockState(new BlockPos(new Vec3(x, y, z))).getBlock();
+		return myWorld.getBlockState(new BlockPos(new Vec3d(x, y, z))).getBlock();
 	}
 	
 	private boolean GenLeaves(World myWorld, int x, int y, int z, Random myRand, int count){
 		if(myRand.nextInt(5) + count > 5){
-			this.func_175905_a(myWorld, new BlockPos(new Vec3(x + 1, y, z )), this.leaves, 0);
-			this.func_175905_a(myWorld, new BlockPos(new Vec3(x - 1, y, z)), this.leaves, 0);
-			this.func_175905_a(myWorld, new BlockPos(new Vec3(x, y, z - 1)), this.leaves, 0);
-			this.func_175905_a(myWorld, new BlockPos(new Vec3(x, y, z + 1)), this.leaves, 0);
+			this.setBlockAndNotifyAdequately(myWorld, new BlockPos(new Vec3d(x + 1, y, z )), this.leaves.getDefaultState());
+			this.setBlockAndNotifyAdequately(myWorld, new BlockPos(new Vec3d(x - 1, y, z)), this.leaves.getDefaultState());
+			this.setBlockAndNotifyAdequately(myWorld, new BlockPos(new Vec3d(x, y, z - 1)), this.leaves.getDefaultState());
+			this.setBlockAndNotifyAdequately(myWorld, new BlockPos(new Vec3d(x, y, z + 1)), this.leaves.getDefaultState());
 			return true;
 		}
 		return false;

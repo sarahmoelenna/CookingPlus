@@ -1,6 +1,5 @@
 package CookingPlus.items;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -11,7 +10,7 @@ public class CookingPlusVegetableOil extends CookingPlusCustomItem {
 	public CookingPlusVegetableOil(){
 		GameRegistry.registerItem(this, name);
 		setUnlocalizedName("vegetableoil");
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(CreativeTabs.MISC);
 		//setTextureName(CookingPlusMain.MODID + ":vegetableoil");
 		setMaxStackSize(16);
 	}

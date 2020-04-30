@@ -2,30 +2,22 @@ package CookingPlus.blocks.tileentity;
 
 import java.util.Random;
 
-import CookingPlus.CookingPlusConfig;
-import CookingPlus.CookingPlusMain;
-import CookingPlus.tiles.CookingPlusGathererTileEntity;
-import CookingPlus.tiles.GrabberTileEntity;
-import CookingPlus.tiles.SpongeTileEntity;
-import CookingPlus.tiles.VanillaTileEntity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.tiles.CookingPlusGathererTileEntity;
 
 public class CookingPlusGathererBlock extends CookingPlusCustomTileEntityBlock {
 
 	private final String name = "gathererblock";
 	
 	public CookingPlusGathererBlock() {
-		super(Material.iron);
+		super(Material.IRON);
 		this.setUnlocalizedName(name);
 		this.setTickRandomly(false);
 		GameRegistry.registerBlock(this, name);
@@ -45,14 +37,14 @@ public class CookingPlusGathererBlock extends CookingPlusCustomTileEntityBlock {
 	{	
 		if(!canPlaceBlockAt(myWorld, myPos)){
 			this.dropBlockAsItem(myWorld, myPos, myState, 0);
-			myWorld.setBlockState(myPos, Blocks.air.getDefaultState());
+			myWorld.setBlockState(myPos, Blocks.AIR.getDefaultState());
 		}
 	}
 	
 	 @Override
 	 	public boolean canPlaceBlockAt(World parWorld, BlockPos myPos)
 	    {
-			if(parWorld.getBlockState(myPos.up()).getBlock() == CookingPlusMain.blockBot){
+			if(parWorld.getBlockState(myPos.up()).getBlock() instanceof CookingPlusBotBlock){
 				return true;
 			}
 			return false;

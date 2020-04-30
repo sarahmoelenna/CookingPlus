@@ -1,23 +1,21 @@
 package CookingPlus.items.Seeds;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.items.CookingPlusCustomEdibleSeed;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.items.CookingPlusCustomEdibleSeed;
 
 public class CookingPlusRiceSeed extends CookingPlusCustomEdibleSeed 
 {
@@ -25,7 +23,7 @@ public class CookingPlusRiceSeed extends CookingPlusCustomEdibleSeed
 
     public CookingPlusRiceSeed() 
     {
-        super(1, 0.3F, CookingPlusMain.blockRiceCrop, Blocks.water);
+        super(1, 0.3F, CookingPlusMain.blockRiceCrop, Blocks.WATER);
         GameRegistry.registerItem(this, name);
         setUnlocalizedName(name);
     }
@@ -42,34 +40,34 @@ public class CookingPlusRiceSeed extends CookingPlusCustomEdibleSeed
     
    
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
     {
-        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+        RayTraceResult movingobjectposition = this.rayTrace(worldIn, playerIn, true);
 
         if (movingobjectposition == null)
         {
-            return itemStackIn;
+            return new ActionResult(EnumActionResult.PASS, itemStackIn);
         }
         else
         {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+            if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
             {
                 BlockPos blockpos = movingobjectposition.getBlockPos();
 
                 if (!worldIn.isBlockModifiable(playerIn, blockpos))
                 {
-                    return itemStackIn;
+                    return new ActionResult(EnumActionResult.PASS, itemStackIn);
                 }
 
                 if (!playerIn.canPlayerEdit(blockpos.offset(movingobjectposition.sideHit), movingobjectposition.sideHit, itemStackIn))
                 {
-                    return itemStackIn;
+                    return new ActionResult(EnumActionResult.PASS, itemStackIn);
                 }
 
                 BlockPos blockpos1 = blockpos.up();
                 IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                if (iblockstate.getBlock().getMaterial() == Material.water && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0 && worldIn.isAirBlock(blockpos1))
+                if (iblockstate.getBlock().getMaterial(iblockstate) == Material.WATER && ((Integer)iblockstate.getValue(BlockLiquid.LEVEL)).intValue() == 0 && worldIn.isAirBlock(blockpos1))
                 {
                     // special case for handling block placement with water lilies
                     net.minecraftforge.common.util.BlockSnapshot blocksnapshot = net.minecraftforge.common.util.BlockSnapshot.getBlockSnapshot(worldIn, blockpos1);
@@ -83,7 +81,7 @@ public class CookingPlusRiceSeed extends CookingPlusCustomEdibleSeed
                 }
             }
 
-            return itemStackIn;
+            return new ActionResult(EnumActionResult.PASS, itemStackIn);
         }
     }
 

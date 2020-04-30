@@ -2,25 +2,19 @@ package CookingPlus.blocks.tileentity;
 
 import java.util.Random;
 
-import CookingPlus.CookingPlusMain;
-import CookingPlus.tiles.FisherTileEntity;
-import CookingPlus.tiles.GrabberTileEntity;
-import CookingPlus.tiles.SpongeTileEntity;
-import CookingPlus.tiles.VanillaTileEntity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.CookingPlusMain;
+import CookingPlus.tiles.FisherTileEntity;
 
 public class CookingPlusFisherBlock extends CookingPlusCustomTileEntityBlock {
 
@@ -29,7 +23,7 @@ public class CookingPlusFisherBlock extends CookingPlusCustomTileEntityBlock {
 	public static final PropertyInteger LEVEL = PropertyInteger.create("level",0, 15);
 	
 	public CookingPlusFisherBlock() {
-		super(Material.water);
+		super(Material.WATER);
 		this.setUnlocalizedName(name);
 		this.setTickRandomly(false);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(LEVEL,Integer.valueOf(0)));
@@ -42,9 +36,10 @@ public class CookingPlusFisherBlock extends CookingPlusCustomTileEntityBlock {
 	}
 
 	@Override
-	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { LEVEL });
-	}
+	protected BlockStateContainer createBlockState()
+    {
+        return new BlockStateContainer(this, new IProperty[] {LEVEL});
+    }
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta)
@@ -79,10 +74,10 @@ public class CookingPlusFisherBlock extends CookingPlusCustomTileEntityBlock {
     }
     
     @Override
-	public boolean isReplaceable(World world, BlockPos pos)
-	{
-	   return false;
-	}
+    public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos)
+    {
+        return false;
+    }
     
     @Override
     public void updateTick(World myWorld, BlockPos myPos, IBlockState myState, Random rand)
@@ -90,19 +85,19 @@ public class CookingPlusFisherBlock extends CookingPlusCustomTileEntityBlock {
     	System.out.println("hmm");
 		if(!canPlaceBlockAt(myWorld, myPos)){
 			this.dropBlockAsItem(myWorld, myPos, myState, 0);
-			myWorld.setBlockState(myPos, Blocks.water.getDefaultState());
+			myWorld.setBlockState(myPos, Blocks.WATER.getDefaultState());
 		}
 	}
     
     @Override
 	public boolean canPlaceBlockAt(World parWorld, BlockPos myPos)
     {
-		if(parWorld.getBlockState(myPos.up()).getBlock() == CookingPlusMain.blockBot){
-			if(parWorld.getBlockState(myPos.east()).getBlock().getMaterial() == Material.water){
-				if(parWorld.getBlockState(myPos.west()).getBlock().getMaterial() == Material.water){
-					if(parWorld.getBlockState(myPos.north()).getBlock().getMaterial() == Material.water){
-						if(parWorld.getBlockState(myPos.south()).getBlock().getMaterial() == Material.water){
-							if(parWorld.getBlockState(myPos.down()).getBlock().getMaterial() == Material.water){
+		if(parWorld.getBlockState(myPos.up()).getBlock() instanceof CookingPlusBotBlock){
+			if(parWorld.getBlockState(myPos.east()).getBlock().getMaterial(parWorld.getBlockState(myPos.east())) == Material.WATER){
+				if(parWorld.getBlockState(myPos.west()).getBlock().getMaterial(parWorld.getBlockState(myPos.west())) == Material.WATER){
+					if(parWorld.getBlockState(myPos.north()).getBlock().getMaterial(parWorld.getBlockState(myPos.north())) == Material.WATER){
+						if(parWorld.getBlockState(myPos.south()).getBlock().getMaterial(parWorld.getBlockState(myPos.south())) == Material.WATER){
+							if(parWorld.getBlockState(myPos.down()).getBlock().getMaterial(parWorld.getBlockState(myPos.up())) == Material.WATER){
 								return true;
 							}
 						}

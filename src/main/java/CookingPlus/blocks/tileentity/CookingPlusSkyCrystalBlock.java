@@ -1,8 +1,8 @@
 package CookingPlus.blocks.tileentity;
 
-import CookingPlus.tiles.CookingPlusSkyCrystalTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import CookingPlus.tiles.CookingPlusSkyCrystalTileEntity;
 public class CookingPlusSkyCrystalBlock extends CookingPlusCyrtsalBaseTileEntityBlock {
 
 	public CookingPlusSkyCrystalBlock() {

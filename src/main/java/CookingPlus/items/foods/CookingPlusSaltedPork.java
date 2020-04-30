@@ -1,8 +1,8 @@
 package CookingPlus.items.foods;
 
-import CookingPlus.items.CookingPlusCustomEdibleFood;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import CookingPlus.items.CookingPlusCustomEdibleFood;
 
 public class CookingPlusSaltedPork extends CookingPlusCustomEdibleFood {
 	
@@ -13,7 +13,7 @@ public class CookingPlusSaltedPork extends CookingPlusCustomEdibleFood {
         super(6, 4);	//change this
         GameRegistry.registerItem(this, name);
         setUnlocalizedName("saltedpork");
-        setCreativeTab(CreativeTabs.tabFood);
+        setCreativeTab(CreativeTabs.FOOD);
         setPotionEffect(32, 100, 10, 100);
     }
 

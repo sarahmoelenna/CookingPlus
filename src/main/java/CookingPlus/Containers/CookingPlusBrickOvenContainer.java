@@ -5,8 +5,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -66,12 +66,12 @@ public class CookingPlusBrickOvenContainer extends Container {
 		}
 	}
 
-	@Override
-	public void addCraftingToCrafters(ICrafting listener) {
-		super.addCraftingToCrafters(listener);
-		listener.sendContainerAndContentsToPlayer(this,
-				this.inventoryItemStacks);
-	}
+	//@Override
+	//public void addCraftingToCrafters(ICrafting listener) {
+	//	super.addCraftingToCrafters(listener);
+	//	listener.sendContainerAndContentsToPlayer(this,
+	//			this.inventoryItemStacks);
+	//}
 
 	/**
 	 * Looks for changes made in the container, sends them to every listener.
@@ -80,8 +80,8 @@ public class CookingPlusBrickOvenContainer extends Container {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 
-		for (int i = 0; i < crafters.size(); ++i) {
-			ICrafting icrafting = (ICrafting) crafters.get(i);
+		//for (int i = 0; i < crafters.size(); ++i) {
+		//	InventoryCrafting icrafting = (InventoryCrafting) crafters.get(i);
 
 			/*
 			 * if (ticksGrindingItemSoFar != tileGrinder.getField(2)) {
@@ -96,7 +96,7 @@ public class CookingPlusBrickOvenContainer extends Container {
 			 * icrafting.sendProgressBarUpdate(this, 3,
 			 * tileGrinder.getField(3)); }
 			 */
-		}
+		//}
 
 		// ticksGrindingItemSoFar = tileGrinder.getField(2);
 		// timeCanGrind = tileGrinder.getField(0);
@@ -164,19 +164,19 @@ public class CookingPlusBrickOvenContainer extends Container {
 	}
 	
 	public boolean isitemStackFuel(ItemStack MyStack){
-		if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.log))){
+		if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.log2))){
+		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG2))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.planks))){
+		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.PLANKS))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Items.coal)){
+		else if(MyStack.getItem().equals(Items.COAL)){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Items.lava_bucket)){
+		else if(MyStack.getItem().equals(Items.LAVA_BUCKET)){
 			return true;
 		}
 		else return false;

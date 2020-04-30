@@ -5,7 +5,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
@@ -13,8 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import CookingPlus.Slots.CookingPlusFuelSlot;
-import CookingPlus.Slots.CookingPlusOutputSlot;
 import CookingPlus.Slots.CookingPlusSingleSlot;
 
 public class CookingPlusIceBoxContainer extends Container {
@@ -53,12 +50,12 @@ public class CookingPlusIceBoxContainer extends Container {
 		}
 	}
 
-	@Override
-	public void addCraftingToCrafters(ICrafting listener) {
-		super.addCraftingToCrafters(listener);
-		listener.sendContainerAndContentsToPlayer(this,
-				this.inventoryItemStacks);
-	}
+	//@Override
+		//public void addCraftingToCrafters(ICrafting listener) {
+		//	super.addCraftingToCrafters(listener);
+		//	listener.sendContainerAndContentsToPlayer(this,
+		//			this.inventoryItemStacks);
+		//}
 
 	/**
 	 * Looks for changes made in the container, sends them to every listener.
@@ -100,10 +97,7 @@ public class CookingPlusIceBoxContainer extends Container {
 			}
 			// itemstack is in player inventory, try to place in appropriate input slot
 			else if (slotIndex >= tileGrinder.getSizeInventory()) {
-				// try to place in either Input slot; add 1 to final input slot because mergeItemStack uses < index
-					if (!this.mergeItemStack(itemstack1, 0, 9, false)) {
-						return null;
-					}
+				return null;
 			}
 
 			if (itemstack1.stackSize == 0) {
@@ -123,19 +117,19 @@ public class CookingPlusIceBoxContainer extends Container {
 	}
 	
 	public boolean isitemStackFuel(ItemStack MyStack){
-		if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.log))){
+		if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.log2))){
+		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.LOG2))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.planks))){
+		else if(MyStack.getItem().equals(Item.getItemFromBlock(Blocks.PLANKS))){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Items.coal)){
+		else if(MyStack.getItem().equals(Items.COAL)){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Items.lava_bucket)){
+		else if(MyStack.getItem().equals(Items.LAVA_BUCKET)){
 			return true;
 		}
 		else return false;

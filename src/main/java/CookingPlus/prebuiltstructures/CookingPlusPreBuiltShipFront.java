@@ -2,13 +2,12 @@ package CookingPlus.prebuiltstructures;
 
 import java.util.Random;
 
-import CookingPlus.CookingPlusMain;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import CookingPlus.CookingPlusMain;
 
 public class CookingPlusPreBuiltShipFront extends CookingPlusPreBuiltStructure {
 
@@ -127,7 +126,7 @@ public class CookingPlusPreBuiltShipFront extends CookingPlusPreBuiltStructure {
 	
 	public void GenChest(World worldIn, Random random, BlockPos myPos){
 		
-		worldIn.setBlockState(myPos, Blocks.chest.getDefaultState());
+		worldIn.setBlockState(myPos, Blocks.CHEST.getDefaultState());
 		TileEntityChest MyChest = (TileEntityChest)worldIn.getTileEntity(myPos);
 		
 		int chance = 90;
@@ -169,7 +168,7 @@ public class CookingPlusPreBuiltShipFront extends CookingPlusPreBuiltStructure {
 	public void setBlock(World worldIn, Random randIn, BlockPos myPos, int i, int j, int k, int rotation){
 		
 		if(this.MyStructureArray[i][j][k] == 1){
-			worldIn.setBlockState(myPos, Blocks.planks.getDefaultState());
+			worldIn.setBlockState(myPos, Blocks.PLANKS.getDefaultState());
 		}
 		else if(this.MyStructureArray[i][j][k] == 2){
 			GenChest(worldIn, randIn, myPos);

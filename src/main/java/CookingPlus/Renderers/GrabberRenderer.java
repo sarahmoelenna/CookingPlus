@@ -1,18 +1,17 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.models.CookingPlusGrabber;
-import CookingPlus.models.CookingPlusVanilla;
-import CookingPlus.tiles.GrabberTileEntity;
-import CookingPlus.tiles.OilPressTileEntity;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.models.CookingPlusGrabber;
+import CookingPlus.tiles.GrabberTileEntity;
+
 public class GrabberRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/grabberarmmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/grabberarmmap.png");
 	
 	private CookingPlusGrabber model;
 	
@@ -31,7 +30,9 @@ public class GrabberRenderer extends TileEntitySpecialRenderer {
 		GrabberTileEntity MyGrabber = (GrabberTileEntity) entity;
 		
 		GL11.glPushMatrix();
+		if(MyGrabber != null){
 		GL11.glRotatef((float) (MyGrabber.getMovement() * 180/Math.PI), 0f, 1f, 0f);
+		}
 		this.model.RenderModel(0.0625f);
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();

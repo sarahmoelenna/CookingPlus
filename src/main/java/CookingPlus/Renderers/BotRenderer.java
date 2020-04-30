@@ -1,22 +1,21 @@
 package CookingPlus.Renderers;
 
-import org.lwjgl.opengl.GL11;
-
-import CookingPlus.CookingPlusConfig;
-import CookingPlus.models.CookingPlusBot;
-import CookingPlus.models.CookingPlusBrickOven;
-import CookingPlus.models.CookingPlusFermenter;
-import CookingPlus.tiles.BotTileEntity;
-import CookingPlus.tiles.BrickOvenTileEntity;
-import CookingPlus.tiles.FermenterTileEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.opengl.GL11;
+
+import CookingPlus.CookingPlusConfig;
+import CookingPlus.models.CookingPlusBot;
+import CookingPlus.tiles.BotTileEntity;
+
 public class BotRenderer extends TileEntitySpecialRenderer {
 	
-	ResourceLocation texture = new ResourceLocation("cookingplus:textures/blocks/botmap.png");
-	ResourceLocation sjintexture = new ResourceLocation("cookingplus:textures/blocks/sjinbotmap.png");
+	ResourceLocation texture = new ResourceLocation("agriculturalrevolution:textures/blocks/botmap.png");
+	ResourceLocation sjintexture = new ResourceLocation("agriculturalrevolution:textures/blocks/sjinbotmap.png");
 	
 	private CookingPlusBot model;
 	
@@ -33,6 +32,7 @@ public class BotRenderer extends TileEntitySpecialRenderer {
 		
 		BotTileEntity MyOven = (BotTileEntity) entity;//change
 		GL11.glRotatef(90, 0, 1, 0);
+		if(MyOven!= null){
 		if(MyOven.getDirection() == 3){
 			GL11.glRotatef(270, 0, 1, 0);
 		}
@@ -45,6 +45,7 @@ public class BotRenderer extends TileEntitySpecialRenderer {
 		else if(MyOven.getDirection() == 5){
 			GL11.glRotatef(180, 0, 1, 0);
 		}
+		}
 		
 		if(CookingPlusConfig.SjinBot == false){
 			this.bindTexture(texture);
@@ -54,7 +55,12 @@ public class BotRenderer extends TileEntitySpecialRenderer {
 		}
 		
 		GL11.glPushMatrix();
-		this.model.RenderModel(0.0625f, MyOven.getFace());
+		if(MyOven != null){
+			this.model.RenderModel(0.0625f, MyOven.getFace());
+		}
+		else{
+			this.model.RenderModel(0.0625f, 1);
+		}
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}

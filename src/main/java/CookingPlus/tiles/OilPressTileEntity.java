@@ -2,21 +2,21 @@ package CookingPlus.tiles;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.items.CookingPlusCustomEdibleRopeCropSeed;
 import CookingPlus.items.CookingPlusCustomEdibleSeed;
 
-public class OilPressTileEntity extends TileEntity implements IUpdatePlayerListBox {
+public class OilPressTileEntity extends CookingPlusCustomTileEntity implements ITickable {
 
 	public int MoveState; //0 - none, 1 - up, 2 - down //4 - ready
 	public float MovementTimer;
@@ -31,39 +31,38 @@ public class OilPressTileEntity extends TileEntity implements IUpdatePlayerListB
 	public void processActivate(EntityPlayer Player) {
 		if(Player.isSneaking()){
 			if(MoveState == 0){
-				Player.addChatMessage(new ChatComponentTranslation("msg.pressempty.txt"));
+				Player.addChatMessage(new TextComponentTranslation("msg.pressempty.txt"));
 			}
 			else if(MoveState == 1){
-				Player.addChatMessage(new ChatComponentTranslation("msg.pressprocess.txt"));
+				Player.addChatMessage(new TextComponentTranslation("msg.pressprocess.txt"));
 			}
 			else{
-				Player.addChatMessage(new ChatComponentTranslation("msg.pressdone.txt"));
+				Player.addChatMessage(new TextComponentTranslation("msg.pressdone.txt"));
 			}
 		}
 		else{
 			if(MoveState == 2){
-				//Player.addChatMessage(new ChatComponentTranslation("msg.butterdone.txt"));
-				if(Player.getCurrentEquippedItem() != null){
-					if(Player.getCurrentEquippedItem().isItemEqual(new ItemStack(Items.glass_bottle))){
-						Player.dropPlayerItemWithRandomChoice(new ItemStack(CookingPlusMain.vegetableoil), false);
+				if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) != null){
+					if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isItemEqual(new ItemStack(Items.GLASS_BOTTLE))){
+						Player.dropItem(new ItemStack(CookingPlusMain.vegetableoil), false);
 						
-						if(Player.getCurrentEquippedItem().stackSize > 1){
-							ItemStack TempStack = Player.getCurrentEquippedItem().copy();
+						if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).stackSize > 1){
+							ItemStack TempStack = Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).copy();
 							TempStack.stackSize--;
-							Player.setCurrentItemOrArmor(0, TempStack);
+							Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, TempStack);
 						}
 						else{
-							Player.setCurrentItemOrArmor(0, null);
+							Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
 						}
 						MoveState = 0;
 						
 					}
 					else{
-						Player.addChatMessage(new ChatComponentTranslation("msg.pressdone.txt"));
+						Player.addChatMessage(new TextComponentTranslation("msg.pressdone.txt"));
 					}
 				}
 				else{
-					Player.addChatMessage(new ChatComponentTranslation("msg.pressdone.txt"));
+					Player.addChatMessage(new TextComponentTranslation("msg.pressdone.txt"));
 				}
 				
 			}
@@ -71,25 +70,25 @@ public class OilPressTileEntity extends TileEntity implements IUpdatePlayerListB
 				
 			}
 			else if(MoveState == 0){
-				if(Player.getCurrentEquippedItem() != null){
-					if(isSeed(Player.getCurrentEquippedItem())){
-						if(Player.getCurrentEquippedItem().stackSize > 1){
-							ItemStack TempStack = Player.getCurrentEquippedItem().copy();
+				if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) != null){
+					if(isSeed(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND))){
+						if(Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).stackSize > 1){
+							ItemStack TempStack = Player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).copy();
 							TempStack.stackSize--;
-							Player.setCurrentItemOrArmor(0, TempStack);
+							Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, TempStack);
 						}
 						else{
-							Player.setCurrentItemOrArmor(0, null);
+							Player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
 						}
 						ButterState = 1;
 						MoveState = 1;
 					}
 					else{
-						Player.addChatMessage(new ChatComponentTranslation("msg.pressempty.txt"));
+						Player.addChatMessage(new TextComponentTranslation("msg.pressempty.txt"));
 					}
 				}
 				else{
-					Player.addChatMessage(new ChatComponentTranslation("msg.pressempty.txt"));
+					Player.addChatMessage(new TextComponentTranslation("msg.pressempty.txt"));
 				}
 			}
 		}
@@ -100,7 +99,7 @@ public class OilPressTileEntity extends TileEntity implements IUpdatePlayerListB
 	@Override
     public void update(){
 		if(MoveState != 0){
-			this.worldObj.markBlockForUpdate(this.getPos());
+			UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 		}
 		
 		if(MoveState == 1){
@@ -130,37 +129,38 @@ public class OilPressTileEntity extends TileEntity implements IUpdatePlayerListB
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+	
 
 		nbt.setInteger("MyMoveState", MoveState);
 		nbt.setFloat("MyMovement", MovementTimer);
 		nbt.setInteger("MyButterState", ButterState);
 
-
+		return super.writeToNBT(nbt);
 
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 	
 	public boolean isSeed(ItemStack MyStack){
-		if(MyStack.getItem().equals(Items.wheat_seeds)){
+		if(MyStack.getItem().equals(Items.WHEAT_SEEDS)){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Items.melon_seeds)){
+		else if(MyStack.getItem().equals(Items.MELON_SEEDS)){
 			return true;
 		}
-		else if(MyStack.getItem().equals(Items.pumpkin_seeds)){
+		else if(MyStack.getItem().equals(Items.PUMPKIN_SEEDS)){
 			return true;
 		}
 		else if(MyStack.getItem() instanceof CookingPlusCustomEdibleSeed){

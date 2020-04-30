@@ -1,0 +1,14 @@
+{
+	"variants": {
+		"normal": { "model": "agriculturalrevolution:bush" },
+		"age=0": { "model": "agriculturalrevolution:bush" },
+		"age=1": { "model": "agriculturalrevolution:bush" },
+		"age=2": { "model": "agriculturalrevolution:bush" },
+		"age=3": { "model": "agriculturalrevolution:bush" },
+		"age=4": { "model": "agriculturalrevolution:bush" },
+		"age=5": { "model": "agriculturalrevolution:bush" },
+		"age=6": { "model": "agriculturalrevolution:bush" },
+		"age=7": { "model": "agriculturalrevolution:bush" },
+		"inventory": { "model": "agriculturalrevolution:bush" }
+	}
+}

@@ -2,7 +2,7 @@
 {
   "modid": "CookingPlus",
   "name": "The Agricultural Revolution",
-  "description": "Lots of extra cooking stuff.",
+  "description": "Lots of extra cooking, farming and gathering stuff.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

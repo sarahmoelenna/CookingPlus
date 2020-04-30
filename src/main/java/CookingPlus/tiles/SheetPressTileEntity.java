@@ -2,28 +2,25 @@ package CookingPlus.tiles;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import CookingPlus.CookingPlusMain;
 import CookingPlus.recipes.CookingPlusSheetPressRecipes;
 
-public class SheetPressTileEntity extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class SheetPressTileEntity extends CookingPlusCustomTileEntity implements IInventory, ITickable, ISidedInventory {
 
 	private int EntityDirection;
 	private ItemStack[] inv;
@@ -43,25 +40,21 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 	
 	public void setDirection(int Direction) {
 		EntityDirection = Direction;
-		//System.out.println(EntityDirection  + " set");
 	}
 
 	@SideOnly(Side.CLIENT)
 	public int getDirection() {
-		//System.out.println(EntityDirection + " get");
 		return EntityDirection;
 	}
 
 	@Override
     public void update(){
-		//if(this.getWorld().isRemote == false){
 
 		if(PressState == 0){
 			if(ShouldProcess()){
 				if(PressAmount < 101){
 					PressAmount++;
 				}
-				//this.worldObj.markBlockForUpdate(this.getPos());
 			}
 			else{
 				if(PressAmount > 0){
@@ -72,12 +65,10 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 		if(PressAmount > 100){
 			ProcessSlots();
 			SetPressState(1);
-			//this.worldObj.markBlockForUpdate(this.getPos());
 		}
 		if(PressState == 1){
 			if(PressAmount > 0){
 				PressAmount--;
-				//this.worldObj.markBlockForUpdate(this.getPos());
 			}
 		}
 		if(PressAmount <= 0){
@@ -85,10 +76,6 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 			SetPressState(0);
 		}
 		
-		//ProcessSlots();
-		
-		//this.worldObj.markBlockForUpdate(this.getPos());
-		//}
 	}
 	
 	@Override
@@ -127,8 +114,7 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 
 		//nbt.setInteger("MyMoveState", MoveState);
 		//nbt.setFloat("MyMovement", MovementTimer);
@@ -150,18 +136,19 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 
 		nbt.setTag("Items", nbttaglist);
 
-
+		return super.writeToNBT(nbt);
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(this.getPos(), 1, tag);
-	}
+		return new SPacketUpdateTileEntity(this.getPos(), 1, tag);
+    }
 
 	@Override
-	public void onDataPacket(NetworkManager net,S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
@@ -200,7 +187,7 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -221,7 +208,7 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -252,8 +239,13 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		// TODO Auto-generated method stub
-		return true;
+		boolean[] mySlot = CookingPlusSheetPressRecipes.instance().getAppropriateSlot(stack.getItem());
+		if(mySlot[index] == true && inv[index] == null){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	@Override
@@ -340,7 +332,7 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 		if(!this.getWorld().isRemote){
 			if(newamount != PressState){
 				PressState = newamount;
-				UpdateBlock();
+				UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 			}
 		}
 	}
@@ -348,19 +340,36 @@ public class SheetPressTileEntity extends TileEntity implements IInventory, IUpd
 	public void FillSlot(ItemStack myItem, int slot){
 		if(!this.getWorld().isRemote){
 		inv[slot] = myItem;
-		UpdateBlock();
+		UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 		}
 	}
 	
 	public void DecreaseSlot(int slot){
 		if(!this.getWorld().isRemote){
 		inv[slot].stackSize--;
-		UpdateBlock();
+		UpdateBlock(this.worldObj.getBlockState(this.getPos()), this.getPos(), this.worldObj);
 		}
 	}
- 
-	public void UpdateBlock(){
-		//System.out.println("update tile entity for client");
-		this.worldObj.markBlockForUpdate(this.getPos());
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
+		int[] mySlotForFace = new int[2];
+		mySlotForFace[0] = 0;
+		mySlotForFace[1] = 1;
+		return mySlotForFace;
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack itemStackIn,EnumFacing direction) {
+		return true;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+		boolean[] mySlot = CookingPlusSheetPressRecipes.instance().getAppropriateSlot(stack.getItem());
+		if(stack.getItem() == CookingPlusMain.chipmold && index == 1){
+			return false;
+		}
+		return mySlot[2];
 	}
 }

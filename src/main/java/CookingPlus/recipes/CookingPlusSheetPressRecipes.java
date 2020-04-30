@@ -1,10 +1,12 @@
 package CookingPlus.recipes;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Maps;
@@ -16,6 +18,10 @@ public class CookingPlusSheetPressRecipes
     private final Map sheetList = Maps.newHashMap();
     private final Map experienceList = Maps.newHashMap();
 
+    //public final ArrayList<ItemStack> input = new ArrayList();
+    //public final ArrayList<ItemStack> output = new ArrayList();
+    public final ArrayList<ItemStack> recipeList = new ArrayList();
+    
     public static CookingPlusSheetPressRecipes instance()
     {
         return pressBase;
@@ -28,6 +34,14 @@ public class CookingPlusSheetPressRecipes
 
     public void addSheetPressRecipe(ItemStack parItemStackIn, ItemStack parItemStackSheetIn, ItemStack parItemStackOut, float parExperience)
     {
+    	//input.add(parItemStackIn);
+    	//input.add(parItemStackSheetIn);
+    	//output.add(parItemStackOut);
+    	
+    	recipeList.add(parItemStackIn);
+    	recipeList.add(parItemStackSheetIn);
+    	recipeList.add(parItemStackOut);
+    	
         grindingList.put(parItemStackIn, parItemStackOut);
         sheetList.put(parItemStackOut, parItemStackSheetIn);
         experienceList.put(parItemStackOut, Float.valueOf(parExperience));
@@ -87,6 +101,26 @@ public class CookingPlusSheetPressRecipes
         return grindingList;
     }
 
+    public boolean[] getAppropriateSlot(Item myItem){
+    	boolean[] mySlotUseage = new boolean[3];
+    	mySlotUseage[0] = false;
+    	mySlotUseage[1] = false;
+    	mySlotUseage[2] = false;
+    	for (int i = 0; i < CookingPlusSheetPressRecipes.instance().recipeList.size(); i += 3) {
+    		if(myItem == CookingPlusSheetPressRecipes.instance().recipeList.get(i).getItem()){
+    			mySlotUseage[1] = true;
+    		}
+    		if(myItem == CookingPlusSheetPressRecipes.instance().recipeList.get(i + 1).getItem()){
+    			mySlotUseage[0] = true;
+    		}
+    		if(myItem == CookingPlusSheetPressRecipes.instance().recipeList.get(i + 2).getItem()){
+    			mySlotUseage[2] = true;
+    		}
+    	}
+    	
+    	return mySlotUseage;
+    }
+    
     public float getGrindingExperience(ItemStack parItemStack)
     {
         Iterator iterator = experienceList.entrySet().iterator();
